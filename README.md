@@ -1,1 +1,1 @@
-# Film-Puanlama-Ar-ivleme-Yorumlama-Listeleme-Sitesi
+# Film-Puanlama-Arsivleme-Yorumlama-Listeleme-Sitesi
