@@ -2,7 +2,7 @@ Film-Puanlama-Arsivleme-Yorumlama-Listeleme-Sitesi
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 -Team Members-
 
-Arda Burak Yiğit - 24100011019
+Arda Burak Yiğit - 24100011019\n
 Burak Turan - 24100011050
 Abdulkadir Kırmızı - 24100011018
 Halil Üstündağ - 24100011071
