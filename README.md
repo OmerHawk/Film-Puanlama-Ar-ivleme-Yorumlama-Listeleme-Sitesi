@@ -2,12 +2,12 @@ Film-Puanlama-Arsivleme-Yorumlama-Listeleme-Sitesi
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 -Team Members-
 
-Arda Burak Yiğit
-Burak Turan
-Abdulkadir Kırmızı
-Halil Üstündağ
-Mustafa Alper Ataş
-Ömer Şahin
+Arda Burak Yiğit - 24100011019
+Burak Turan - 24100011050
+Abdulkadir Kırmızı - 24100011018
+Halil Üstündağ - 24100011071
+Mustafa Alper Ataş - 24100011073
+Ömer Şahin - 24100011068
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 -Motivation-
