@@ -1,19 +1,18 @@
 Film-Puanlama-Arsivleme-Yorumlama-Listeleme-Sitesi
------------------------------------------------------------------------------------------------------------------------------------------------------------------
--Team Members-
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Arda Burak Yiğit - 24100011019
+## 👥 Team Members
 
-Burak Turan - 24100011050
+| Ad Soyad | Öğrenci Numarası | Görev |
+| :--- | :--- | :--- |
+| **Abdulkadir Kırmızı** | 24100011018 | Sistem Analisti & Geliştirici |
+| **Arda Burak Yiğit** | 24100011019 | Sistem Analisti & Geliştirici |
+| **Burak Turan** | 24100011050 | Sistem Analisti & Geliştirici |
+| **Halil Üstündağ** | 24100011071 | Sistem Analisti & Geliştirici |
+| **Mustafa Alper Ataş** | 24100011073 | Sistem Analisti & Geliştirici |
+| **Ömer Şahin** | 24100011068 | Sistem Analisti & Geliştirici |
 
-Abdulkadir Kırmızı - 24100011018
-
-Halil Üstündağ - 24100011071
-
-Mustafa Alper Ataş - 24100011073
-
-Ömer Şahin - 24100011068
- 
+---
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 -Motivation-
 
