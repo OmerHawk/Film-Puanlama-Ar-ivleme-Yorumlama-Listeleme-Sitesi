@@ -1,93 +1,76 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
 import os
 import requests
 from dotenv import load_dotenv
 import json
 
-# .env dosyasını yükle
 load_dotenv()
 
-API_KEY = os.getenv("TMDB_API_KEY")
-BASE_URL = "https://api.themoviedb.org/3"
+api_anahtari = os.getenv("TMDB_API_KEY")
+temel_adres = "https://api.themoviedb.org/3"
 
-# Data klasörü
-os.makedirs("data", exist_ok=True)
+os.makedirs("veri", exist_ok=True)
 
-
-def get_movies(page=1):
-    """TMDB'den populer filmleri ceker"""
-    url = f"{BASE_URL}/movie/popular"
-
-    params = {
-        "api_key": API_KEY,
+def filmleri_getir(sayfa_no=1):
+    adres = f"{temel_adres}/movie/popular"
+    
+    parametreler = {
+        "api_key": api_anahtari,
         "language": "tr-TR",
-        "page": page
+        "page": sayfa_no
     }
+    
+    cevap = requests.get(adres, params=parametreler)
+    cevap.raise_for_status()
+    
+    return cevap.json()
 
-    response = requests.get(url, params=params)
-    response.raise_for_status()
+def tum_filmleri_topla(maks_sayfa=5):
+    toplam_liste = []
+    
+    for sayfa in range(1, maks_sayfa + 1):
+        print(f"{sayfa}. sayfa çekiliyor...")
+        
+        gelen_veri = filmleri_getir(sayfa)
+        toplam_liste.extend(gelen_veri["results"])
+        
+    return toplam_liste
 
-    return response.json()
-
-
-def fetch_all_movies(max_pages=5):
-    """Birden fazla sayfa cekip tek liste yapar"""
-    all_movies = []
-
-    for page in range(1, max_pages + 1):
-        print(f"{page}. sayfa çekiliyor...")
-
-        data = get_movies(page)
-
-        all_movies.extend(data["results"])
-
-    return all_movies
-
-
-def clean_movies(movies):
-    """Veriyi temizler kullanılabilir hale getirir"""
-    cleaned = []
-
-    for m in movies:
-        cleaned.append({
-            "title": m.get("title"),
-            "overview": m.get("overview"),
-            "poster": f"https://image.tmdb.org/t/p/w500{m.get('poster_path')}" if m.get("poster_path") else None,
-            "rating": m.get("vote_average")
+def veriyi_ayikla(ham_filmler):
+    temiz_liste = []
+    
+    for film in ham_filmler:
+        afis = f"https://image.tmdb.org/t/p/w500{film.get('poster_path')}" if film.get("poster_path") else None
+        
+        temiz_liste.append({
+            "film_adi": film.get("title"),
+            "ozet": film.get("overview"),
+            "afis_yolu": afis,
+            "puan": film.get("vote_average")
         })
+        
+    return temiz_liste
 
-    return cleaned
+def dosyaya_yaz(veri, dosya_adi="veri/filmler.json"):
+    with open(dosya_adi, "w", encoding="utf-8") as dosya:
+        json.dump(veri, dosya, ensure_ascii=False, indent=2)
+        
+    print(f"Kayıt tamamlandı -> {dosya_adi}")
 
-
-def save_to_json(data, filename="data/movies.json"):
-    """JSON dosyasini kaydeder"""
-    with open(filename, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-
-    print(f"Veri kaydedildi → {filename}")
-
-
-def main():
+def calistir():
     try:
-        print("Veri çekiliyor...")
-
-        movies = fetch_all_movies(max_pages=5)
-        cleaned = clean_movies(movies)
-        save_to_json(cleaned)
-
-        print(f"Toplam film: {len(cleaned)}")
-
-    except requests.exceptions.RequestException as e:
-        print("API hatası:", e)
-
-    except Exception as e:
-        print("Genel hata:", e)
-
+        print("İşlem başlıyor...")
+        
+        ham_veri = tum_filmleri_topla(5)
+        son_veri = veriyi_ayikla(ham_veri)
+        dosyaya_yaz(son_veri)
+        
+        print(f"Toplam alınan film sayısı: {len(son_veri)}")
+        
+    except requests.exceptions.RequestException as hata:
+        print("Bağlantı sorunu:", hata)
+        
+    except Exception as hata:
+        print("Beklenmeyen hata:", hata)
 
 if __name__ == "__main__":
-    main()
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    calistir()
