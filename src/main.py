@@ -1,4 +1,7 @@
-from services.tmdb_service import main
+from api.tmdb_client import calistir
 
 if __name__ == "__main__":
-    main()
+    print("Test aşaması başlatılıyor...")
+
+    calistir()
+    print("Test bitti. Lütfen oluşan JSON dosyasını kontrol et.")
