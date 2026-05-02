@@ -1,10 +1,13 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 
 views = Blueprint('views', __name__)
 
+# 1. ANA SAYFA (Artık direkt Login'e yönlendiriyor)
 @views.route('/')
 def home():
-    return "<h1>Film Oneri Sitemize Hosgeldiniz! - Arda</h1>"
+    # url_for('views.login') -> "views içindeki login fonksiyonunun adresini (URL'sini) bul" demek
+    # redirect(...) -> "Kullanıcıyı o adrese anında fırlat" demek
+    return redirect(url_for('views.login'))
 
 # methods=['GET', 'POST'] diyerek hem sayfayı açmayı hem de butona basmayı kabul ediyoruz
 @views.route('/login', methods=['GET', 'POST'])
