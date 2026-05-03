@@ -1,7 +1,7 @@
 from app import db
 from app.models import User, Movie, Review
 
-# KULLANICI (USER) İŞLEMLERİ 
+# KULLANICI (USER) İŞLEMLERİ
 
 def kullanici_olustur(username, email, password_hash, is_admin=False):
     """Yeni bir kullanıcı oluşturur ve veritabanına kaydeder."""
