@@ -1,9 +1,7 @@
 from app import db
 from app.models import User, Movie, Review
 
-# ==========================================
-# KULLANICI (USER) İŞLEMLERİ (Arda Kullanacak)
-# ==========================================
+# KULLANICI (USER) İŞLEMLERİ 
 
 def kullanici_olustur(username, email, password_hash, is_admin=False):
     """Yeni bir kullanıcı oluşturur ve veritabanına kaydeder."""
@@ -25,10 +23,7 @@ def kullanici_getir_email(email):
     """E-posta adresine göre kullanıcıyı bulur (Kayıt olurken 'Bu mail var mı?' kontrolü için)."""
     return User.query.filter_by(email=email).first()
 
-
-# ==========================================
-# FİLM (MOVIE) İŞLEMLERİ (Ömer ve Halil Kullanacak)
-# ==========================================
+# FİLM (MOVIE) İŞLEMLERİ 
 
 def film_getir_veya_olustur(tmdb_id, title, year, genre="Belirtilmedi", description="Özet TMDB'den anlık çekilecek", poster_url=""):
     """
@@ -53,9 +48,7 @@ def film_getir_veya_olustur(tmdb_id, title, year, genre="Belirtilmedi", descript
     return film
 
 
-# ==========================================
-# YORUM VE PUAN (REVIEW) İŞLEMLERİ (Halil Kullanacak)
-# ==========================================
+# YORUM VE PUAN (REVIEW) İŞLEMLERİ 
 
 def filme_yorum_yap(user_id, movie_id, rating, comment):
     """Bir filme yeni bir yorum ve puan ekler (Float puanları destekler)."""
@@ -74,9 +67,7 @@ def film_yorumlari_getir(movie_id):
     return Review.query.filter_by(movie_id=movie_id).order_by(Review.date_posted.desc()).all()
 
 
-# ==========================================
-# İZLEME LİSTESİ (WATCHLIST) İŞLEMLERİ (Mustafa Alper Kullanacak)
-# ==========================================
+# İZLEME LİSTESİ (WATCHLIST) İŞLEMLERİ 
 
 def izleme_listesine_ekle(user_id, movie_id):
     """Bir filmi kullanıcının izleme listesine ekler."""
