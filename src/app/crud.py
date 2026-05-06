@@ -1,5 +1,5 @@
-from app import db
-from app.models import User, Movie, Review
+from src.app import db
+from src.app.models import User, Movie, Review
 
 # KULLANICI (USER) İŞLEMLERİ
 
@@ -90,3 +90,6 @@ def izleme_listesinden_cikar(user_id, movie_id):
         db.session.commit()
         return True
     return False
+def tum_kullanicilari_getir():
+    """Veritabanındaki tüm kullanıcıları liste halinde getirir."""
+    return User.query.all()
