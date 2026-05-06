@@ -2,39 +2,43 @@ import os
 import json
 import random
 from flask import Blueprint, render_template, request, redirect, url_for, session
+
+from werkzeug.security import generate_password_hash, check_password_hash
+from src.app.crud import kullanici_getir_username, kullanici_getir_email, kullanici_olustur, tum_kullanicilari_getir
 from src.api.tmdb_client import filmleri_getir, veriyi_ayikla
 
 views = Blueprint('views', __name__)
 
-# 1. ANA SAYFA KONTROLÜ
 @views.route('/')
 def home():
-    # Eğer kullanıcının bilekliği varsa direkt içeri (dashboard) al
     if 'kullanici' in session:
         return redirect(url_for('views.dashboard'))
-    # Bilekliği yoksa kapıya (login) yönlendir
     return redirect(url_for('views.login'))
 
-# 2. GİRİŞ YAP SAYFASI
 @views.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        kullanici_adi = request.form.get('username')
+        email = request.form.get('email')
         sifre = request.form.get('password')
         
-        # İleride burada Burak'ın veritabanına "Bu şifre doğru mu?" diye soracağız.
-        # Şimdilik herkesi doğru kabul edip bilekliği takıyoruz:
-        session['kullanici'] = kullanici_adi
+        user = kullanici_getir_email(email)
         
-        # Giriş başarılı, onu direkt içerideki sayfaya fırlat:
-        return redirect(url_for('views.dashboard'))
+        if user:
+            db_sifre = getattr(user, 'password_hash', getattr(user, 'password', ''))
+            
+            if check_password_hash(db_sifre, sifre):
+                session['kullanici'] = user.username
+                session['email'] = user.email
+                return redirect(url_for('views.dashboard'))
+            else:
+                return "<h1>Hata: Şifre yanlış! <a href='/login'>Geri Dön</a></h1>"
+        else:
+            return "<h1>Hata: Böyle bir e-posta bulunamadı! <a href='/login'>Geri Dön</a></h1>"
     
-    return render_template("login.html")
+    return render_template("LoginScreen.html")
 
-# 3. YENİ: İÇERİDEKİ ÖZEL SAYFA (DASHBOARD)
 @views.route('/dashboard')
 def dashboard():
-    # Güvenlik Kontrolü: Bu adamın bilekliği var mı?
     if 'kullanici' in session:
         aktif_isim = session['kullanici']
 
@@ -45,83 +49,75 @@ def dashboard():
         json_yolu_1 = os.path.join(ana_dizin, "data", "movies.json")
         json_yolu_2 = os.path.join(ana_dizin, "veri", "filmler.json")
         
-        rastgele_film_html = ""
+        secilen_film = None
         
         try:
             if os.path.exists(json_yolu_1):
                 with open(json_yolu_1, 'r', encoding='utf-8') as dosya:
-                    filmler = json.load(dosya)
+                    json_filmler = json.load(dosya)
             elif os.path.exists(json_yolu_2):
                 with open(json_yolu_2, 'r', encoding='utf-8') as dosya:
-                    filmler = json.load(dosya)
+                    json_filmler = json.load(dosya)
             else:
                 raise FileNotFoundError
 
-            secilen_film = random.choice(filmler)
+            secilen_film = random.choice(json_filmler)
             
-            film_adi = secilen_film.get("title", secilen_film.get("film_adi", "Bilinmeyen Film"))
-            ozet = secilen_film.get("overview", secilen_film.get("ozet", "Özet yok."))
-            puan = secilen_film.get("rating", secilen_film.get("puan", "-"))
-            
-            rastgele_film_html = f"""
-            <div style='background-color: #f8f9fa; border-left: 5px solid #e50914; padding: 15px; margin-bottom: 20px;'>
-                <h3 style='margin-top: 0; color: #e50914;'>🎲 Günün Rastgele Filmi</h3>
-                <p><b>{film_adi}</b> (⭐ TMDB Puanı: {puan})</p>
-                <p><i>{ozet}</i></p>
-            </div>
-            """
         except FileNotFoundError:
-            rastgele_film_html = "<p><i>Rastgele film veritabanı şu an güncelleniyor...</i></p>"
+            secilen_film = {"film_adi": "Veritabanı Güncelleniyor...", "ozet": "Lütfen bekleyin.", "puan": "-"}
 
-        
         try:
-            # 1. Arkadaşının API koduyla 1. sayfa popüler filmleri çekiyoruz
             ham_veri = filmleri_getir(1)
+            populer_filmler = veriyi_ayikla(ham_veri["results"])
             
-            # 2. Gelen karmaşık veriyi yine arkadaşının koduyla temizliyoruz
-            filmler = veriyi_ayikla(ham_veri["results"])
-            
-            # 3. Ekrana basılacak basit HTML iskeletini oluşturuyoruz
-            html_cikti = f"<h1>Hosgeldin {aktif_isim}! Iste TMDB Populer Filmler:</h1>"
-            html_cikti += "<a href='/logout'>Cikis Yap</a><hr>"
-            
-         
-            html_cikti += rastgele_film_html
-            html_cikti += "<h2>🔥 TMDB Populer Filmler:</h2><ul>"
-            
-            
-            # 4. Gelen temiz filmleri tek tek listeye (<li>) ekliyoruz
-            for film in filmler:
-                html_cikti += f"<li><b>{film['film_adi']}</b> - TMDB Puanı: {film['puan']}</li>"
-                
-            html_cikti += "</ul>"
-            
-            return html_cikti
+            return render_template("Dashboard.html", aktif_isim=aktif_isim, filmler=populer_filmler, rastgele_film=secilen_film)
             
         except Exception as e:
-            # Eğer internet yoksa veya API bozuksa site çökmesin, hata mesajı versin
             return f"<h1>Hosgeldin {aktif_isim}!</h1><p>Filmler yuklenirken bir hata olustu: {e}</p><a href='/logout'>Cikis Yap</a>"
             
     else:
-        # Bilekliği yoksa login'e kışla
         return redirect(url_for('views.login'))
 
-# 4. YENİ: ÇIKIŞ YAPMA (LOGOUT)
 @views.route('/logout')
 def logout():
-    # session.pop ile bilekliği çöpe atıyoruz
     session.pop('kullanici', None)
+    session.pop('email', None)
     return redirect(url_for('views.login'))
 
-# 5. KAYIT OL SAYFASI (Eski haliyle kalabilir)
 @views.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        kullanici_adi = request.form.get('username')
+        kullanici_adi = request.form.get('name') or request.form.get('username')
+        email = request.form.get('email')
         sifre = request.form.get('password')
-        return f"<h1>KAYIT BASARILI -> Kullanici: {kullanici_adi}, Sifre: {sifre}</h1>"
+        
+        if kullanici_getir_email(email):
+            return "<h1>Hata: Bu e-posta adresi zaten kayıtlı! <a href='/register'>Geri Dön</a></h1>"
+            
+        if kullanici_getir_username(kullanici_adi):
+            return "<h1>Hata: Bu kullanıcı adı zaten alınmış! <a href='/register'>Geri Dön</a></h1>"
+
+        hashed_password = generate_password_hash(sifre, method='pbkdf2:sha256')
+        yeni_user = kullanici_olustur(kullanici_adi, email, hashed_password)
+        
+        if yeni_user:
+            return "<h1>Kayıt Başarılı! Şimdi <a href='/login'>Giriş Yapabilirsin</a>.</h1>"
+        return "<h1>Kayıt sırasında bir hata oluştu!</h1>"
+
     return render_template("register.html")
+
+@views.route('/admin')
+def admin_panel():
+    if session.get('kullanici') == 'arda' or session.get('kullanici') == 'Arda':
+        try:
+            kullanicilar = tum_kullanicilari_getir()
+        except:
+            kullanicilar = [] 
+            
+        return render_template("Adminscreen.html", users=kullanicilar)
+    else:
+        return "<h1>Dur orda! Bu sayfaya girmek için yetkiniz yok. Sadece Proje Lideri girebilir.</h1>", 403
 
 @views.route('/film/<int:id>')
 def film_detay(id):
-    return f"<h1>Burasi {id} numarali filmin sayfasi. Detaylar gelecek.</h1>"
+    return render_template("MovieDetails.html", film_id=id)

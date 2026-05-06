@@ -1,4 +1,4 @@
-from app import db
+from src.app import db
 from datetime import datetime
 
 watchlist = db.Table('watchlist',
