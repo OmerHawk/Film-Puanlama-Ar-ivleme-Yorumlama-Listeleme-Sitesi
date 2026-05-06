@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cinerate - Create Account</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-fixed": "#cbe6ff",
+                        "surface-container-low": "#1a1c1f",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "secondary": "#e6c183",
+                        "on-tertiary-container": "#00486c",
+                        "surface-bright": "#37393d",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-container": "#d7b376",
+                        "primary-container": "#e5a50a",
+                        "outline-variant": "#504533",
+                        "surface": "#111316",
+                        "surface-tint": "#febb2b",
+                        "primary": "#ffc24a",
+                        "inverse-surface": "#e2e2e6",
+                        "secondary-container": "#5e4512",
+                        "on-tertiary-fixed-variant": "#004b71",
+                        "secondary-fixed-dim": "#e6c183",
+                        "outline": "#9d8f79",
+                        "primary-fixed": "#ffdea8",
+                        "on-background": "#e2e2e6",
+                        "secondary-fixed": "#ffdea8",
+                        "on-primary-fixed": "#271900",
+                        "background": "#111316",
+                        "surface-variant": "#333538",
+                        "tertiary-container": "#51b9ff",
+                        "surface-dim": "#111316",
+                        "on-tertiary": "#003450",
+                        "on-secondary": "#422d00",
+                        "surface-container-highest": "#333538",
+                        "tertiary": "#9cd2ff",
+                        "on-primary": "#422d00",
+                        "on-surface": "#e2e2e6",
+                        "inverse-on-surface": "#2f3034",
+                        "error": "#ffb4ab",
+                        "primary-fixed-dim": "#febb2b",
+                        "surface-container": "#1e2023",
+                        "on-secondary-fixed": "#271900",
+                        "on-primary-fixed-variant": "#5e4200",
+                        "inverse-primary": "#7c5800",
+                        "surface-container-lowest": "#0c0e11",
+                        "on-surface-variant": "#d5c4ad",
+                        "on-secondary-fixed-variant": "#5b4210",
+                        "surface-container-high": "#282a2d",
+                        "on-tertiary-fixed": "#001e30",
+                        "tertiary-fixed-dim": "#8fcdff",
+                        "on-primary-container": "#5a3e00"
+                    },
+                    fontFamily: {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .cinematic-gradient {
+            background: linear-gradient(135deg, #ffc24a 0%, #e5a50a 100%);
+        }
+        .glass-panel {
+            background: rgba(26, 28, 31, 0.6);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<main class="min-h-screen flex flex-col md:flex-row overflow-hidden">
+<!-- Left Side: Cinematic Collage -->
+<section class="hidden md:flex md:w-1/2 lg:w-3/5 relative bg-surface-container-low overflow-hidden items-center justify-center p-12">
+<!-- Background Texture/Gradient Overlay -->
+<div class="absolute inset-0 bg-gradient-to-tr from-surface via-transparent to-surface-container-high opacity-60 z-10"></div>
+<!-- Asymmetrical Grid -->
+<div class="grid grid-cols-12 grid-rows-6 gap-6 w-full h-full max-w-4xl max-h-[800px] relative z-0">
+<!-- Large Feature Image -->
+<div class="col-span-8 row-span-4 rounded-xl overflow-hidden shadow-2xl">
+<img alt="Classic cinematic black and white film scene" class="w-full h-full object-cover grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-700" data-alt="Dramatic black and white film production scene" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8yCSpSB5kylBZb-3Pw-VJY-DaOGW2rqetnvlAx4et0r09izthD9oBQQGm0n1FFTLb5Yc4fWSQfc_koABWM7O1sHl3VU0dVA3I3iA51PKvSB-3rYWzmPBq9YhM_RT4kMt86mb-SpBT74aP0fo2MQHKdldZj272boKbiUY5kR51Ul2OrdYB4JKmB0-xd5GjMeNGDWh2MFmH6b1q-B6mVNqfN1QRhDNzSEN8LPWFIdUi0snh5reVUxiFgl1bCUqIqaSmDoYxoWCixKsM"/>
+</div>
+<!-- Vertical Poster Image -->
+<div class="col-span-4 row-span-3 col-start-9 row-start-1 rounded-xl overflow-hidden shadow-2xl translate-y-12">
+<img alt="Close up of a vintage movie camera" class="w-full h-full object-cover grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-700" data-alt="Vintage 35mm movie camera lens detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBprzIjWkberDXok4l0LtFVMh-FYrvGCwiCBkN27efMM9OPqUT9_0f5hO57s6MUW7vVDm6ufLWvx5A9QDiSEPH7JJZvkb11AsRsqwMvA11V505IxqjCB260yrEpxhfiCapvKIFRu4jIY60PWBI4bmEtu4cm-d_g1uaZGtTAxlQrav1IWm07JI2Jx4WsmoZSFLsNZayVQ12WV0lAHgelrit81uQ3O-G_A91SG7Z4LXLtheW6qavqp8QD_JV-CimjaJ5XKI5Rgdw16sGb"/>
+</div>
+<!-- Secondary Square Image -->
+<div class="col-span-3 row-span-2 col-start-2 row-start-5 rounded-xl overflow-hidden shadow-2xl -translate-y-8">
+<img alt="Neon lit cinema sign in the dark" class="w-full h-full object-cover grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-700" data-alt="Atmospheric neon cinema marquee at night" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlrc3LEtYeik5ugjoA17Zo_ow29p-7fO2uImw9vbeGNuBx4JZdn_YtHOH0xEz7SzYWAKyzw0YjLz6bYSju_D0ZDMwv0DrDpYplqX7Py0ijz8i0n4wdTrMOiS7DQuz5OrEZ_Hx5dAABv5BDFJMqJv919cc8Qm5lnqYiofTcfVe04B6qE1h1gVSXVczjb6gNDxKR8LxrH6I2jSDH_r8Nd9zplRIfkjhx2ZuhDKSVsgWxq1V5fajtiaAmE5JAqFdAkG-b9pQSp_yIgwk0"/>
+</div>
+<!-- Small Narrative Detail -->
+<div class="col-span-5 row-span-2 col-start-6 row-start-5 rounded-xl overflow-hidden shadow-2xl">
+<img alt="Dark screening room with empty red seats" class="w-full h-full object-cover grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-700" data-alt="Moody empty cinema theater seats" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCftaRPzbKceeFvDhCAMP-lKLwM2rJ46iIN71V165kyt2KmB5xjPxMH3Jpl_Ni9AB3iqHEQmvDmZECMJioEEYSa8w8kjVRtDx-N8s101DlvWtBIbd8Eo9JMg4fPEzoK1YRRCZvttvHErp0pwVFDHx97yqRKiOWSjycwsvVwO66v5sq7NiApAs1qmMVfztLpHUrNko2unULGZOGoLpWkUT4TCkt8vAoNPrWq3sZ8Bv00ca4jdLrbziTsmfZqRCtgI4-mx0MbcHA5I3Ww"/>
+</div>
+</div>
+<!-- Floating Brand Identity -->
+<div class="absolute bottom-12 left-12 z-20">
+<h2 class="text-6xl font-headline italic font-bold tracking-tighter text-primary">Cinerate</h2>
+<p class="text-on-surface-variant font-body tracking-[0.2em] uppercase text-xs mt-2">Curating the Seventh Art</p>
+</div>
+</section>
+<!-- Right Side: Registration Form -->
+<section class="w-full md:w-1/2 lg:w-2/5 min-h-screen bg-surface flex flex-col items-center justify-center p-8 md:p-16 lg:p-24 relative">
+<!-- Minimal Mobile Header -->
+<div class="md:hidden absolute top-8 left-8">
+<h1 class="text-3xl font-headline italic font-bold tracking-tighter text-primary">Cinerate</h1>
+</div>
+<div class="w-full max-w-sm space-y-12">
+<!-- Heading Block -->
+<header class="space-y-4">
+<h2 class="text-4xl md:text-5xl font-headline font-bold text-on-surface leading-tight tracking-tight">
+                        Begin your <br/><span class="text-primary italic">collection.</span>
+</h2>
+<p class="text-on-surface-variant font-body text-sm leading-relaxed">
+                        Join the community of dedicated cinephiles and track your journey through the history of film.
+                    </p>
+</header>
+<!-- Form Block -->
+<form class="space-y-6" onsubmit="return false;">
+<!-- Name Input -->
+<div class="space-y-2">
+<label class="block text-[10px] font-label uppercase tracking-[0.15em] text-outline" for="name">Full Name</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-lowest border-none rounded-xl py-4 px-5 text-on-surface placeholder:text-surface-variant focus:ring-1 focus:ring-primary/40 transition-all font-body text-sm" id="name" name="name" placeholder="John Doe" type="text"/>
+</div>
+</div>
+<!-- Email Input -->
+<div class="space-y-2">
+<label class="block text-[10px] font-label uppercase tracking-[0.15em] text-outline" for="email">Email Address</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-lowest border-none rounded-xl py-4 px-5 text-on-surface placeholder:text-surface-variant focus:ring-1 focus:ring-primary/40 transition-all font-body text-sm" id="email" name="email" placeholder="cinephile@cinerate.com" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="space-y-2">
+<label class="block text-[10px] font-label uppercase tracking-[0.15em] text-outline" for="password">Create Password</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-lowest border-none rounded-xl py-4 px-5 text-on-surface placeholder:text-surface-variant focus:ring-1 focus:ring-primary/40 transition-all font-body text-sm" id="password" name="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Agreement metadata (Editorial Detail) -->
+<div class="flex items-start space-x-3 pt-2">
+<div class="flex items-center h-5">
+<input class="h-4 w-4 rounded-sm border-outline-variant bg-surface-container text-primary focus:ring-primary/20" id="terms" name="terms" type="checkbox"/>
+</div>
+<div class="text-xs text-on-surface-variant leading-relaxed">
+                            I agree to the <a class="text-secondary hover:text-primary underline underline-offset-4 decoration-secondary/30 transition-colors" href="#">Terms of Service</a> and <a class="text-secondary hover:text-primary underline underline-offset-4 decoration-secondary/30 transition-colors" href="#">Privacy Policy</a>.
+                        </div>
+</div>
+<!-- Action Buttons -->
+<div class="pt-4 space-y-6">
+<button class="cinematic-gradient w-full py-4 rounded-full text-on-primary font-body font-bold text-sm tracking-widest uppercase shadow-lg shadow-primary/10 hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all" type="submit">
+                            Create Account
+                        </button>
+<div class="flex items-center justify-center space-x-2">
+<span class="text-xs text-on-surface-variant">Already a member?</span>
+<a class="text-xs font-bold text-primary tracking-wide hover:text-primary-fixed-dim transition-colors uppercase" href="#">
+                                Back to Login
+                            </a>
+</div>
+</div>
+</form>
+<!-- Technical Footer (Editorial Detail) -->
+<footer class="pt-12 flex items-center justify-between border-t border-outline-variant/10">
+<div class="flex items-center space-x-4 opacity-40">
+<span class="text-[10px] font-label tracking-tighter">EST. 2024</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="text-[10px] font-label tracking-tighter">V. 1.0.4</span>
+</div>
+<div class="flex space-x-4">
+<span class="material-symbols-outlined text-outline text-lg hover:text-primary cursor-pointer transition-colors" data-icon="language">language</span>
+<span class="material-symbols-outlined text-outline text-lg hover:text-primary cursor-pointer transition-colors" data-icon="help_outline">help_outline</span>
+</div>
+</footer>
+</div>
+<!-- Background subtle light leak -->
+<div class="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="absolute -bottom-24 -left-24 w-64 h-64 bg-secondary/5 rounded-full blur-[100px] pointer-events-none"></div>
+</section>
+</main>
+</body></html>
