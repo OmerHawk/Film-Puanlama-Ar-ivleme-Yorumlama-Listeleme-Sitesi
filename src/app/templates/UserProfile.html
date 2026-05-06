@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed-dim": "#8fcdff",
+              "surface-container-high": "#282a2d",
+              "tertiary-fixed": "#cbe6ff",
+              "surface-variant": "#333538",
+              "tertiary-container": "#51b9ff",
+              "on-secondary": "#422d00",
+              "primary-fixed-dim": "#febb2b",
+              "on-primary-container": "#5a3e00",
+              "on-tertiary-fixed": "#001e30",
+              "inverse-on-surface": "#2f3034",
+              "surface-bright": "#37393d",
+              "outline": "#9d8f79",
+              "surface-container": "#1e2023",
+              "primary-fixed": "#ffdea8",
+              "on-secondary-fixed-variant": "#5b4210",
+              "primary-container": "#e5a50a",
+              "error": "#ffb4ab",
+              "on-primary-fixed-variant": "#5e4200",
+              "error-container": "#93000a",
+              "surface-tint": "#febb2b",
+              "inverse-surface": "#e2e2e6",
+              "on-tertiary-container": "#00486c",
+              "on-surface": "#e2e2e6",
+              "on-secondary-container": "#d7b376",
+              "on-error": "#690005",
+              "surface-container-low": "#1a1c1f",
+              "primary": "#ffc24a",
+              "on-surface-variant": "#d5c4ad",
+              "background": "#111316",
+              "surface": "#111316",
+              "surface-container-highest": "#333538",
+              "secondary-fixed-dim": "#e6c183",
+              "secondary": "#e6c183",
+              "on-tertiary": "#003450",
+              "outline-variant": "#504533",
+              "surface-dim": "#111316",
+              "on-tertiary-fixed-variant": "#004b71",
+              "on-secondary-fixed": "#271900",
+              "on-primary-fixed": "#271900",
+              "on-primary": "#422d00",
+              "on-error-container": "#ffdad6",
+              "secondary-fixed": "#ffdea8",
+              "surface-container-lowest": "#0c0e11",
+              "secondary-container": "#5e4512",
+              "inverse-primary": "#7c5800",
+              "tertiary": "#9cd2ff",
+              "on-background": "#e2e2e6"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .cinematic-gradient {
+            background: linear-gradient(135deg, #ffc24a 0%, #e5a50a 100%);
+        }
+        .glass-panel {
+            background: rgba(40, 42, 45, 0.6);
+            backdrop-filter: blur(20px);
+        }
+        body {
+            background-color: #111316;
+            color: #e2e2e6;
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-950/70 backdrop-blur-2xl shadow-2xl shadow-black/80 flex justify-between items-center px-12 py-6 w-full">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-serif italic tracking-tighter text-amber-500">Cinerate</span>
+<nav class="hidden md:flex gap-8">
+<a class="text-slate-400 font-medium hover:text-amber-200 transition-colors duration-300" href="#">Browse</a>
+<a class="text-amber-400 border-b-2 border-amber-500 pb-1 hover:text-amber-200 transition-colors duration-300" href="#">Watchlist</a>
+<a class="text-slate-400 font-medium hover:text-amber-200 transition-colors duration-300" href="#">Archive</a>
+<a class="text-slate-400 font-medium hover:text-amber-200 transition-colors duration-300" href="#">Journal</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-amber-500 cursor-pointer">notifications</span>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-amber-500 cursor-pointer">settings</span>
+</div>
+<img alt="Cinerate Profile Avatar" class="w-10 h-10 rounded-full border border-amber-500/30 object-cover" data-alt="Cinerate Profile Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDv11gqfM-D-T1Yspe_G73Mm8nfZ6d0xbkkkn-G-OjL2kS20oS2RinP-bcXJc7so8d-JIm5gvVLvAlPUbp8lEflC8flQRfeLeTqKVhBA-Tnk3L-b5ATz_be9OHvPsJcLJpxc6y2mZNS5BJ3LlsyjsEcS6f7rweogAIs3bQGHgdOxRnQvy1xEuZT1TXH8-dvNhQ_zTzlpNh5LbAtlNlcQlLHt5onsrV0-jrjxxveeWudkx9fyKjpy4bmragodlLSx-W59kXF-zWJyJXF"/>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="h-screen w-72 fixed left-0 top-0 z-40 bg-slate-950 flex flex-col pt-24 pb-12 h-full hidden lg:flex">
+<div class="px-8 mb-12">
+<h2 class="font-serif italic text-amber-500 text-xl">Cinerate</h2>
+<p class="text-slate-500 text-xs uppercase tracking-widest mt-1">Premium Member</p>
+</div>
+<nav class="flex-grow space-y-2">
+<a class="flex items-center gap-4 text-slate-500 hover:text-slate-200 py-3 px-8 hover:bg-slate-900/50 transition-all" href="#">
+<span class="material-symbols-outlined">movie</span>
+<span class="font-body text-sm">Cinema Feed</span>
+</a>
+<a class="flex items-center gap-4 text-slate-500 hover:text-slate-200 py-3 px-8 hover:bg-slate-900/50 transition-all" href="#">
+<span class="material-symbols-outlined">subscriptions</span>
+<span class="font-body text-sm">My Archive</span>
+</a>
+<a class="flex items-center gap-4 text-amber-500 bg-slate-900 font-bold rounded-r-full py-3 px-8" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">visibility</span>
+<span class="font-body text-sm">Watchlist</span>
+</a>
+<a class="flex items-center gap-4 text-slate-500 hover:text-slate-200 py-3 px-8 hover:bg-slate-900/50 transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-body text-sm">Curators</span>
+</a>
+<a class="flex items-center gap-4 text-slate-500 hover:text-slate-200 py-3 px-8 hover:bg-slate-900/50 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body text-sm">Settings</span>
+</a>
+</nav>
+<div class="px-8 mt-auto">
+<button class="w-full cinematic-gradient text-on-primary py-3 rounded-md font-bold text-sm tracking-tight flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined text-sm">add</span>
+                Add New Entry
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="lg:ml-72 pt-32 px-8 md:px-16 pb-24">
+<!-- Header Section -->
+<section class="flex flex-col md:flex-row items-center md:items-end gap-10 mb-20">
+<div class="relative">
+<div class="w-40 h-40 rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10">
+<img alt="Julian Vance" class="w-full h-full object-cover" data-alt="Julian Vance sophisticated profile portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALTbYjQNKKK3Y9mZUPqreS6TZHHaMZRFcaAbljd7R7wVSef-vdYgihA3uReBDSSxvCdvUVnaZRhqrGjfHUJVe5_8bBlAcNxjvx6N5HaW6Te5LSWOorAfSGGxyErSh_d5FyZPvpewstZpPetlmHHHrw4_bb_wRLNWWaUbSf1MaKz9aTBWySQ2gqlEBlk6weGILqnprShoXOyt-11YB8HNJzK1baFVjvuUauE_uF7REEhQKKtIhUXfwsas4mHM5ZTmK3DaiacMtc-8s-"/>
+</div>
+<div class="absolute -bottom-2 -right-2 w-10 h-10 cinematic-gradient rounded-full flex items-center justify-center border-4 border-surface shadow-lg">
+<span class="material-symbols-outlined text-on-primary text-xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="flex-grow text-center md:text-left">
+<div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
+<h1 class="text-5xl font-headline font-bold tracking-tight">Julian Vance</h1>
+<span class="inline-block px-3 py-1 bg-primary-container/20 text-primary border border-primary/20 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold">Gold Member | Cinephile</span>
+</div>
+<div class="flex flex-wrap justify-center md:justify-start gap-x-12 gap-y-4">
+<div class="flex flex-col">
+<span class="text-primary font-headline text-2xl font-bold">128</span>
+<span class="text-slate-500 text-[10px] uppercase tracking-widest font-bold">Movies Watched</span>
+</div>
+<div class="flex flex-col">
+<span class="text-primary font-headline text-2xl font-bold">42</span>
+<span class="text-slate-500 text-[10px] uppercase tracking-widest font-bold">Collections</span>
+</div>
+<div class="flex flex-col">
+<span class="text-primary font-headline text-2xl font-bold italic">Noir &amp; Drama</span>
+<span class="text-slate-500 text-[10px] uppercase tracking-widest font-bold">Favorite Genres</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Toggle & Filter -->
+<section class="flex flex-col sm:flex-row justify-between items-center mb-12 gap-8">
+<div class="flex bg-surface-container-low p-1 rounded-lg ring-1 ring-white/5 shadow-inner">
+<button class="px-8 py-2 text-sm font-bold tracking-tight rounded-md bg-surface-container-highest text-primary shadow-sm">Plan to Watch</button>
+<button class="px-8 py-2 text-sm font-medium tracking-tight text-slate-500 hover:text-slate-200 transition-colors">Watched</button>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-4 py-2 bg-surface-container-low rounded-lg ring-1 ring-white/5 cursor-pointer hover:bg-surface-container transition-colors">
+<span class="text-xs text-slate-500 uppercase tracking-widest font-bold">Sort by:</span>
+<span class="text-sm font-medium text-slate-200">Date Added</span>
+<span class="material-symbols-outlined text-slate-400 text-lg">expand_more</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center bg-surface-container-low rounded-lg ring-1 ring-white/5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+</div>
+</section>
+<!-- Movie Grid -->
+<section class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-x-8 gap-y-12">
+<!-- Movie Card 1 -->
+<article class="group cursor-pointer">
+<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 shadow-xl ring-1 ring-white/10 group-hover:ring-amber-500/50 group-hover:scale-[1.03] transition-all duration-500">
+<img alt="The Last Auteur" class="w-full h-full object-cover" data-alt=" moody silhouette in urban landscape film poster" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuMYOKtO6qOPrcaiLOWLDhvkKt_xvlBYOzTOWWsL0qSEbdTuWQvAm6zPxKu3ucoVpPVE1rN312rMXXhioHul3X3UWXZ6uAxoCdWOibHJRTKvV7QYZqMjaeWWjL9Pnra2aGofx_bV8mFxI7y20TWL2cRTQuY3-HCfVpG_T-KcuF3sHJTnoFuCE21Oc8GWdllLg7XsEBH3kA4VbcT4w9zz3be3aZV1oFyKE7gB9ib3CfmW_YGuRrqDj1YTqia92gip3ExjBzuoME4_wG"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
+<div class="absolute top-3 right-3 flex flex-col gap-2">
+<div class="glass-panel px-2 py-1 rounded text-[10px] font-bold text-amber-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                            8.4
+                        </div>
+</div>
+</div>
+<h3 class="font-headline text-lg font-bold tracking-tight mb-1 group-hover:text-amber-500 transition-colors">The Last Auteur</h3>
+<div class="flex items-center gap-3 text-slate-500 text-[10px] uppercase tracking-widest font-bold">
+<span>2023</span>
+<span class="w-1 h-1 rounded-full bg-slate-700"></span>
+<span>Neo-Noir</span>
+</div>
+</article>
+<!-- Movie Card 2 -->
+<article class="group cursor-pointer">
+<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 shadow-xl ring-1 ring-white/10 group-hover:ring-amber-500/50 group-hover:scale-[1.03] transition-all duration-500">
+<img alt="Midnight Protocol" class="w-full h-full object-cover" data-alt="Blue neon lit architectural film poster" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLuxnTk3wLQHFJWe0FlrT8IS8pgWo_acinCG6TpIvQBMdVa7mhJ9Mv9B63SE3dn8xn08FZ5ZrWCMyj5Nne3vpvZYX7bnaLZJaslIsnEaz-YidoqRxg9SUV7YgXc17xOpDbxrY0a0ghDn0YdPwfYwQOWIJj_u1eGXcEShfbtIRw3V3wX-bx8dviYTP3Ht82ck7GXtLWE0ES4DI_SU4rirPQEiZKQEBxluwFnJTVoMkwgpy60s1H5IS0UtzLnALNEU5nXlP5R20061d0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
+<div class="absolute top-3 right-3">
+<div class="glass-panel px-2 py-1 rounded text-[10px] font-bold text-amber-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                            7.9
+                        </div>
+</div>
+</div>
+<h3 class="font-headline text-lg font-bold tracking-tight mb-1 group-hover:text-amber-500 transition-colors">Midnight Protocol</h3>
+<div class="flex items-center gap-3 text-slate-500 text-[10px] uppercase tracking-widest font-bold">
+<span>2022</span>
+<span class="w-1 h-1 rounded-full bg-slate-700"></span>
+<span>Thriller</span>
+</div>
+</article>
+<!-- Movie Card 3 -->
+<article class="group cursor-pointer">
+<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 shadow-xl ring-1 ring-white/10 group-hover:ring-amber-500/50 group-hover:scale-[1.03] transition-all duration-500">
+<img alt="Spectral Motion" class="w-full h-full object-cover" data-alt="Abstract blurry motion lights film poster" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCKQ3ExDAjlkdmilzxLAU8jiJSElq5XWM17hUzk_U7M7AmIFY2STISXpPAMi9tZY8A1Qc28QDjbvzxWIa1afEy9xN-K9yI_xXOMePPXY-NF67mDoNnDisLWJcK3iJsvClAK9M0YTIn514_NnIRgEcw1uOdG1YAjXJhSxKaAL1sE788UXT9A9wZAHtcNJnvU3xbsfcu6RwWiQd3BLSMfSqxVKrrsrLKsz1eusVTRr4SjunnnUfTLwx5HW2vwoV3kmdXOkOVunOuDPth"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
+<div class="absolute top-3 right-3">
+<div class="glass-panel px-2 py-1 rounded text-[10px] font-bold text-amber-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                            9.1
+                        </div>
+</div>
+</div>
+<h3 class="font-headline text-lg font-bold tracking-tight mb-1 group-hover:text-amber-500 transition-colors">Spectral Motion</h3>
+<div class="flex items-center gap-3 text-slate-500 text-[10px] uppercase tracking-widest font-bold">
+<span>2024</span>
+<span class="w-1 h-1 rounded-full bg-slate-700"></span>
+<span>Sci-Fi</span>
+</div>
+</article>
+<!-- Movie Card 4 -->
+<article class="group cursor-pointer">
+<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 shadow-xl ring-1 ring-white/10 group-hover:ring-amber-500/50 group-hover:scale-[1.03] transition-all duration-500">
+<img alt="The Observer" class="w-full h-full object-cover" data-alt="Cinematic eye close up film poster" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYjLwlMbj3BcNUblpl7a2N7Bm4fZLC8WqvtKO3ZqQd98tbkABHP4zzzVHlI3t6kgRPo4ck-lHai6S7hQAUehFitLsZMO2Eb4b2-gsi3KLkE2j2zMY-DgdG8h3vPcwoiq5BkkU-TWQX_0rOddw1LSnvj081fOWkAp3AC5I-Pdf84sSAUo_6NmLm8ZfQ0ers0uMkAJLbuHGOc1EtM-VZWVezXC47wtJI9D88ywbuGGZZ7ymODYrCr1dIGjaEJWWCjofumW2KReudL4h_"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
+<div class="absolute top-3 right-3">
+<div class="glass-panel px-2 py-1 rounded text-[10px] font-bold text-amber-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                            8.2
+                        </div>
+</div>
+</div>
+<h3 class="font-headline text-lg font-bold tracking-tight mb-1 group-hover:text-amber-500 transition-colors">The Observer</h3>
+<div class="flex items-center gap-3 text-slate-500 text-[10px] uppercase tracking-widest font-bold">
+<span>2021</span>
+<span class="w-1 h-1 rounded-full bg-slate-700"></span>
+<span>Drama</span>
+</div>
+</article>
+<!-- Movie Card 5 -->
+<article class="group cursor-pointer">
+<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 shadow-xl ring-1 ring-white/10 group-hover:ring-amber-500/50 group-hover:scale-[1.03] transition-all duration-500">
+<img alt="Frequency" class="w-full h-full object-cover" data-alt="Vintage sound wave graphic film poster" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoT4rWuyDYAQkol6cxeoc3yhnqS7x2wMF1SCuldWZnJjc-sjY6XNYtit8oU4vpNMaJyyhYW8YgrunVleBnKxtpoGACKvxkoF_s_iOov3eqfM6idLCrDEl14pkLmSusdITpNe2fJO91Lu-u1YrQPqMnJ0LucEM6E8jBOy1563q_uU6g77bsTTykLYrTx_6tKzq45osvtQ38-5bUWEIcSJVH1DTspmxnCXrPcp-hHSmUblyTYrBaqXDy4_sowuTp1Kt_0y1sRBkheMQD"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
+<div class="absolute top-3 right-3">
+<div class="glass-panel px-2 py-1 rounded text-[10px] font-bold text-amber-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                            7.5
+                        </div>
+</div>
+</div>
+<h3 class="font-headline text-lg font-bold tracking-tight mb-1 group-hover:text-amber-500 transition-colors">Frequency</h3>
+<div class="flex items-center gap-3 text-slate-500 text-[10px] uppercase tracking-widest font-bold">
+<span>2020</span>
+<span class="w-1 h-1 rounded-full bg-slate-700"></span>
+<span>Mystery</span>
+</div>
+</article>
+<!-- Movie Card 6 -->
+<article class="group cursor-pointer">
+<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 shadow-xl ring-1 ring-white/10 group-hover:ring-amber-500/50 group-hover:scale-[1.03] transition-all duration-500">
+<img alt="The Clearing" class="w-full h-full object-cover" data-alt="Ethereal forest sun rays film poster" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyfJo6zqPWuFKUEgPuxulqf5H0eNoZzcRXquUvX8sN_Upxj3hFX_9zzDHkT0rnk9LPmG35_JT9qc1v52DsBlWQIwN7an_3B_nUnuBoYXioJZjHbBt8zjzha1iGYi8Gky_DGW_tpwddjgYza1AVgtGqXpWqe6DoDOkltvvh2H88li8oE6WyFA_feQnwBGya8dD7N2bUUE0U1H9rayG5ssnekWQIh5_WU1--fWkKTKWQzmVrkkZ6qz5a4vJk-MhqetS932RH2I0WAHOv"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
+<div class="absolute top-3 right-3">
+<div class="glass-panel px-2 py-1 rounded text-[10px] font-bold text-amber-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                            8.8
+                        </div>
+</div>
+</div>
+<h3 class="font-headline text-lg font-bold tracking-tight mb-1 group-hover:text-amber-500 transition-colors">The Clearing</h3>
+<div class="flex items-center gap-3 text-slate-500 text-[10px] uppercase tracking-widest font-bold">
+<span>2024</span>
+<span class="w-1 h-1 rounded-full bg-slate-700"></span>
+<span>Experimental</span>
+</div>
+</article>
+</section>
+<!-- Pagination / Load More -->
+<div class="mt-20 flex justify-center">
+<button class="px-12 py-4 border border-white/10 rounded-lg text-xs uppercase tracking-[0.2em] font-bold hover:bg-white/5 transition-colors">
+                Load Full Archive
+            </button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-12 border-t border-white/5 bg-slate-950">
+<div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-8">
+<div class="flex flex-col items-center md:items-start">
+<span class="font-serif text-slate-100 text-lg mb-2">Cinerate</span>
+<p class="font-sans uppercase tracking-widest text-[10px] text-slate-600">© 2024 Cinerate. CINEMATIC EXCELLENCE ARCHIVED.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="font-sans uppercase tracking-widest text-[10px] text-slate-600 hover:text-slate-300 transition-all" href="#">Manifesto</a>
+<a class="font-sans uppercase tracking-widest text-[10px] text-slate-600 hover:text-slate-300 transition-all" href="#">Privacy Policy</a>
+<a class="font-sans uppercase tracking-widest text-[10px] text-slate-600 hover:text-slate-300 transition-all" href="#">Technical Support</a>
+<a class="font-sans uppercase tracking-widest text-[10px] text-slate-600 hover:text-slate-300 transition-all" href="#">API Access</a>
+</div>
+</div>
+</footer>
+</body></html>
