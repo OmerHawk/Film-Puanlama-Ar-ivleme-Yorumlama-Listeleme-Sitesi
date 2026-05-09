@@ -40,41 +40,23 @@ def login():
 @views.route('/dashboard')
 def dashboard():
     if 'kullanici' in session:
-        aktif_isim = session['kullanici']
-
-        mevcut_klasor = os.path.dirname(os.path.abspath(__file__)) 
-        src_klasoru = os.path.dirname(mevcut_klasor)               
-        ana_dizin = os.path.dirname(src_klasoru)                   
-        
-        json_yolu_1 = os.path.join(ana_dizin, "data", "movies.json")
-        json_yolu_2 = os.path.join(ana_dizin, "veri", "filmler.json")
-        
-        secilen_film = None
-        
         try:
-            if os.path.exists(json_yolu_1):
-                with open(json_yolu_1, 'r', encoding='utf-8') as dosya:
-                    json_filmler = json.load(dosya)
-            elif os.path.exists(json_yolu_2):
-                with open(json_yolu_2, 'r', encoding='utf-8') as dosya:
-                    json_filmler = json.load(dosya)
-            else:
-                raise FileNotFoundError
-
-            secilen_film = random.choice(json_filmler)
+            # API'den güncel popüler filmleri çekiyoruz
+            populer_filmler = populer_filmleri_cek(1) 
             
-        except FileNotFoundError:
-            secilen_film = {"film_adi": "Veritabanı Güncelleniyor...", "ozet": "Lütfen bekleyin.", "puan": "-"}
-
-        try:
-            populer_filmler = populer_filmleri_cek(1)
+            # Veritabanından giriş yapan kullanıcının bilgilerini alıyoruz
             user = kullanici_getir_email(session.get('email'))
+            aktif_isim = user.username if user else session['kullanici']
             admin_yetkisi = user.is_admin if user else False
-            return render_template("Dashboard.html", aktif_isim=aktif_isim, filmler=populer_filmler, rastgele_film=secilen_film, is_admin=admin_yetkisi)
+            
+            # Verileri Dashboard.html tasarımına gönderiyoruz
+            return render_template("Dashboard.html", 
+                                 aktif_isim=aktif_isim, 
+                                 filmler=populer_filmler, 
+                                 is_admin=admin_yetkisi)
             
         except Exception as e:
-            return f"<h1>Hosgeldin {aktif_isim}!</h1><p>Filmler yuklenirken bir hata olustu: {e}</p><a href='/logout'>Cikis Yap</a>"
-            
+            return f"<h1>Sistemsel bir hata olustu: {e}</h1>"
     else:
         return redirect(url_for('views.login'))
 
