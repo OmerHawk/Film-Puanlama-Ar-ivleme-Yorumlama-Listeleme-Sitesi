@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#5b4210",
+              "on-secondary-fixed": "#271900",
+              "outline": "#9d8f79",
+              "on-tertiary-fixed": "#001e30",
+              "on-primary-fixed-variant": "#5e4200",
+              "inverse-surface": "#e2e2e6",
+              "on-error": "#690005",
+              "primary-fixed": "#ffdea8",
+              "inverse-on-surface": "#2f3034",
+              "on-tertiary-fixed-variant": "#004b71",
+              "surface-dim": "#111316",
+              "on-tertiary-container": "#00486c",
+              "on-tertiary": "#003450",
+              "surface-bright": "#37393d",
+              "surface": "#111316",
+              "tertiary-fixed": "#cbe6ff",
+              "primary-container": "#e5a50a",
+              "outline-variant": "#504533",
+              "secondary-fixed": "#ffdea8",
+              "on-primary": "#422d00",
+              "on-error-container": "#ffdad6",
+              "on-secondary": "#422d00",
+              "tertiary": "#9cd2ff",
+              "surface-tint": "#febb2b",
+              "primary": "#ffc24a",
+              "surface-container-highest": "#333538",
+              "primary-fixed-dim": "#febb2b",
+              "secondary": "#e6c183",
+              "surface-container-high": "#282a2d",
+              "on-primary-fixed": "#271900",
+              "tertiary-fixed-dim": "#8fcdff",
+              "surface-container-lowest": "#0c0e11",
+              "error": "#ffb4ab",
+              "inverse-primary": "#7c5800",
+              "secondary-container": "#5e4512",
+              "on-surface": "#e2e2e6",
+              "surface-container-low": "#1a1c1f",
+              "on-primary-container": "#5a3e00",
+              "on-secondary-container": "#d7b376",
+              "error-container": "#93000a",
+              "surface-variant": "#333538",
+              "on-background": "#e2e2e6",
+              "on-surface-variant": "#d5c4ad",
+              "secondary-fixed-dim": "#e6c183",
+              "background": "#111316",
+              "tertiary-container": "#51b9ff",
+              "surface-container": "#1e2023"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        .font-serif { font-family: 'Noto Serif', serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopNavBar Shell -->
+<nav class="fixed top-0 w-full z-50 px-10 py-5 bg-[#111316]/80 backdrop-blur-2xl transition-all duration-300">
+<div class="flex justify-between items-center w-full max-w-[1920px] mx-auto">
+<div class="flex items-center gap-12">
+<span class="text-2xl font-serif italic font-bold tracking-tighter text-[#ffc24a]">The Curator</span>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-serif text-lg tracking-tight antialiased text-[#ffc24a] border-b-2 border-[#ffc24a] pb-1" href="#">Home</a>
+<a class="font-serif text-lg tracking-tight antialiased text-slate-300 hover:text-white transition-all duration-300" href="#">Discover</a>
+<a class="font-serif text-lg tracking-tight antialiased text-slate-300 hover:text-white transition-all duration-300" href="#">Library</a>
+<a class="font-serif text-lg tracking-tight antialiased text-slate-300 hover:text-white transition-all duration-300" href="#">Collections</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative flex items-center bg-surface-container-highest rounded-full px-4 py-2 w-64">
+<span class="material-symbols-outlined text-outline-variant text-sm mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder-outline-variant" placeholder="Search archives..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-300 hover:text-[#ffc24a] transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-300 hover:text-[#ffc24a] transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<a href="/logout" class="text-slate-300 hover:text-red-500 transition-colors ml-4" title="Çıkış Yap">
+    <span class="material-symbols-outlined">logout</span>
+</a>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="User Profile Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5FZeCvoCF4nnYGnGiA0J3hFAEBlOPyVUEHXjqBMaaOZcbhL5pWtM9VwgoYATML89MoW8Fz3xhT64qUCv_mJp3oqrY7PYroxK0ndiDd0RYlX1LpTkveUD3CM1_MH0rj3Fv0Gfnci-UOAurYk0him8InNz9Kqm63-rHHcNE6YW-fDUbz7dnRvl0Gy844n5lLbqR1AR3ibchtwZhWCMWF4QXfxeyJ3yP5OIvL_XHBx25kohu0APbSBWYD-l71PrTHudLsyTIn-AbVE4_"/>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Hidden on Mobile) -->
+<aside class="fixed left-0 top-0 h-full w-20 hover:w-64 transition-all duration-500 z-40 bg-[#111316] shadow-[24px_0_48px_rgba(0,0,0,0.4)] flex flex-col py-8 overflow-hidden group border-r border-outline-variant/5">
+<div class="flex flex-col gap-8 h-full">
+<div class="px-6 flex items-center gap-4 mb-4">
+<div class="min-w-[32px] h-8 bg-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-xl" data-icon="movie" data-weight="fill">movie</span>
+</div>
+<div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+<p class="text-[#ffc24a] font-headline italic font-bold leading-tight">{{ aktif_isim }}</p>
+<p class="text-[10px] text-slate-500 font-label uppercase tracking-widest">Editorial Collection</p>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center px-6 py-4 bg-gradient-to-r from-[#ffc24a]/20 to-transparent text-[#ffc24a] border-l-4 border-[#ffc24a] group/item" href="#">
+<span class="material-symbols-outlined min-w-[32px]" data-icon="home">home</span>
+<span class="ml-4 opacity-0 group-hover:opacity-100 transition-opacity font-label uppercase tracking-[0.1rem] text-xs font-semibold whitespace-nowrap">Home</span>
+</a>
+{% if is_admin %}
+<a class="flex items-center px-6 py-4 text-slate-500 hover:text-slate-100 hover:bg-[#1a1c1f] transition-all group/item" href="/admin">
+    <span class="material-symbols-outlined min-w-[32px]">admin_panel_settings</span>
+    <span class="ml-4 opacity-0 group-hover:opacity-100 transition-opacity font-label uppercase tracking-[0.1rem] text-xs font-semibold whitespace-nowrap">Admin Paneli</span>
+</a>
+{% endif %}
+<a class="flex items-center px-6 py-4 text-slate-500 hover:text-slate-100 hover:bg-[#1a1c1f] transition-all group/item" href="#">
+<span class="material-symbols-outlined min-w-[32px]" data-icon="movie">movie</span>
+<span class="ml-4 opacity-0 group-hover:opacity-100 transition-opacity font-label uppercase tracking-[0.1rem] text-xs font-semibold whitespace-nowrap">Movies</span>
+</a>
+<a class="flex items-center px-6 py-4 text-slate-500 hover:text-slate-100 hover:bg-[#1a1c1f] transition-all group/item" href="#">
+<span class="material-symbols-outlined min-w-[32px]" data-icon="tv">tv</span>
+<span class="ml-4 opacity-0 group-hover:opacity-100 transition-opacity font-label uppercase tracking-[0.1rem] text-xs font-semibold whitespace-nowrap">TV Shows</span>
+</a>
+<a class="flex items-center px-6 py-4 text-slate-500 hover:text-slate-100 hover:bg-[#1a1c1f] transition-all group/item" href="#">
+<span class="material-symbols-outlined min-w-[32px]" data-icon="add_circle">add_circle</span>
+<span class="ml-4 opacity-0 group-hover:opacity-100 transition-opacity font-label uppercase tracking-[0.1rem] text-xs font-semibold whitespace-nowrap">My List</span>
+</a>
+<a class="flex items-center px-6 py-4 text-slate-500 hover:text-slate-100 hover:bg-[#1a1c1f] transition-all group/item" href="#">
+<span class="material-symbols-outlined min-w-[32px]" data-icon="inventory_2">inventory_2</span>
+<span class="ml-4 opacity-0 group-hover:opacity-100 transition-opacity font-label uppercase tracking-[0.1rem] text-xs font-semibold whitespace-nowrap">Archive</span>
+</a>
+</div>
+</div>
+</aside>
+<main class="ml-0 md:ml-20">
+<!-- Hero Section -->
+<section class="relative h-[921px] w-full flex items-end pb-32 overflow-hidden">
+<!-- Background Image -->
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="Dramatic wide shot of a classic cinema interior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADnq41d652N3gK6qRvFtFYz7XteYYLY5AyCyS4DBJk3am3PPjn7pPNa1Z_Y39kb0UjuL9DpxrjHbvSqZMZdGrb-wBvRqWDzpac5eIhJCjRiaaMjzKN0fttSy_K_dn9j5gIqyOo68WEtBknMIwpg-SDuM9nDgs0u4zAwlHPMxCgddAuMzVUc8SxEA7GfUPOlaFgwTXsZiaCpp-iD4ESr-JruDGV82SUdsvS1VdJfHuH335eX7RDu-qehFlolWSk3omY_W7uT3jLPhQm"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-surface via-transparent to-transparent"></div>
+</div>
+<div class="relative z-10 px-12 md:px-24 max-w-5xl">
+<div class="flex items-center gap-3 mb-6">
+<span class="bg-primary/20 text-primary px-3 py-1 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase">Featured Selection</span>
+<span class="text-on-surface/60 text-sm font-label uppercase tracking-widest">• A Film by Julian Vane</span>
+</div>
+<h1 class="text-7xl md:text-9xl font-headline font-bold text-on-surface tracking-tighter leading-none mb-6">The Last <br/><span class="italic text-primary">Auteur</span></h1>
+<p class="text-lg md:text-xl text-on-surface/80 max-w-2xl mb-10 leading-relaxed font-body">
+                    A haunting visual odyssey through the crumbling remains of cinema's golden era. An intimate look at the legends who refused to let the light fade.
+                </p>
+<div class="flex items-center gap-6">
+<button class="group relative px-8 py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-xl font-bold transition-all hover:scale-105 flex items-center gap-2 overflow-hidden">
+<span class="material-symbols-outlined" data-icon="play_arrow" data-weight="fill">play_arrow</span>
+                        WATCH NOW
+                    </button>
+<button class="px-8 py-4 bg-surface-container-high/60 backdrop-blur-md text-on-surface rounded-xl font-bold hover:bg-surface-container-highest transition-all flex items-center gap-2 border border-outline-variant/20">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+                        DETAILS
+                    </button>
+<button class="w-14 h-14 rounded-full border border-outline-variant/40 flex items-center justify-center hover:bg-on-surface/10 transition-colors">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Content Rows -->
+<div class="space-y-24 px-12 md:px-24 -mt-20 relative z-20 pb-24">
+<!-- Trending Now -->
+<section>
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="text-3xl font-headline font-bold text-on-surface tracking-tight">Trending Now</h2>
+<div class="h-1 w-12 bg-primary mt-2 rounded-full"></div>
+</div>
+<a class="text-primary text-sm font-label uppercase tracking-widest hover:underline" href="#">Explore All</a>
+</div>
+<div class="flex gap-6 overflow-x-auto hide-scrollbar pb-8">
+{% for film in filmler %}
+<div class="min-w-[300px] group cursor-pointer">
+    <a href="/film/{{ film.id | default(1) }}">
+        <div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 bg-surface-container-low transition-transform duration-500 group-hover:scale-[1.02]">
+            <img class="w-full h-full object-cover" src="{{ film.afis_yolu | default('https://via.placeholder.com/300x450?text=Afis+Yok') }}" alt="{{ film.film_adi }}"/>
+            <div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </div>
+        <h3 class="text-lg font-headline font-semibold text-on-surface truncate">{{ film.film_adi }}</h3>
+        <p class="text-sm text-on-surface/50 font-label">TMDB PUANI: {{ film.puan }}</p>
+    </a>
+</div>
+{% endfor %}
+</div>
+</section>
+<!-- Recommended for You -->
+<section>
+<div class="flex items-center gap-4 mb-8">
+<h2 class="text-3xl font-headline font-bold text-on-surface tracking-tight">Recommended for You</h2>
+<div class="flex-grow h-px bg-outline-variant/20"></div>
+</div>
+<div class="flex gap-6 overflow-x-auto hide-scrollbar pb-8">
+<!-- Recommended Card 1 -->
+<div class="min-w-[400px] group cursor-pointer">
+<div class="relative aspect-video rounded-xl overflow-hidden mb-4 bg-surface-container-low border border-outline-variant/10">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Dramatic desert sunset with silhouetted figures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvWhtp_70NlinfdCq9zNrPF8T5K1J3nhIhhLuhltaKWAkXNp0fZ-0hNKRR52GzN8BliUc_xPia_IHWoyVheyxuaq6_oGlTByPg_08hVKbXKg5C0-JD-1Utr96ZykDand2NZN9__00Wb118EKrHbqppHkyJpPoTZQy7G36_5jAYoMrR96OoLqNCKiuQrVG0DRtM-yu-r3C5FNCPTCYzuy2oORSMKRKeAyII52eR0vSLGfWB9gPm64HLjYBrCWJzr8v40-dOcQwvUztF"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-6">
+<span class="bg-primary/90 text-on-primary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Top Match</span>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-headline font-bold text-on-surface">Dust &amp; Echoes</h3>
+<p class="text-sm text-on-surface/60 font-label">WESTERN • 98% MATCH</p>
+</div>
+<span class="material-symbols-outlined text-primary" data-icon="star" data-weight="fill">star</span>
+</div>
+</div>
+<!-- Recommended Card 2 -->
+<div class="min-w-[400px] group cursor-pointer">
+<div class="relative aspect-video rounded-xl overflow-hidden mb-4 bg-surface-container-low border border-outline-variant/10">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Atmospheric light hitting a grand marble staircase" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBG2YWUutsLEFf7fYlnAo8TP6RZjSLbhBP9ACq2x2nirAgG6zw-ZHv6zK3Jm161aPxg-Wv6PHgcbAL_giujlWX455YrNMc5xzNBcsDYHvejVf7iYWD1skYYcEJ5WRpAaH5tZ3AGYkOrs2TUMhBEl1meaUcpIRVxGaCizyzDn0_qROFsudqRiPNrtVoDm4ZouidaaTbSKhbiWnklJLcGI-VvWg-rXO2Z_xtbgpl2OTVR3vxB70GU4jnJPgSo-jOD8VvUjVGz50t_-Mjn"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+</div>
+<div>
+<h3 class="text-xl font-headline font-bold text-on-surface">The Grand Descent</h3>
+<p class="text-sm text-on-surface/60 font-label">DRAMA • 94% MATCH</p>
+</div>
+</div>
+<!-- Recommended Card 3 -->
+<div class="min-w-[400px] group cursor-pointer">
+<div class="relative aspect-video rounded-xl overflow-hidden mb-4 bg-surface-container-low border border-outline-variant/10">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Macro shot of an old camera lens" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvA_Z-N8HSRF4Rofqz78ssGvKv3rD8hy9A86264NFds1vFnbFLPm7fs2OlkwOL5JSAMgDxJC8Ejdd6RQNAK2cO-X6q-tqMLHrJMZ2l2gaMO6GyH6JcVmhyexk-eBat9sblEptWhzUK2NRofEUGa48aNQZi5n5XdDbvUpcR8xlRnG26I6g-hRAVWeIff9gCivEjyD48_ApHDP5mOdE1GuL_tFamqxE5XboBGZBEEMiSWThtLI1NPn7XkUUAenaM8Lct-H1JAzXVpHbZ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+</div>
+<div>
+<h3 class="text-xl font-headline font-bold text-on-surface">Focal Length</h3>
+<p class="text-sm text-on-surface/60 font-label">DOCUMENTARY • 91% MATCH</p>
+</div>
+</div>
+</div>
+</section>
+<!-- New Releases -->
+<section>
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="text-3xl font-headline font-bold text-on-surface tracking-tight">New Releases</h2>
+<div class="h-1 w-12 bg-primary mt-2 rounded-full"></div>
+</div>
+</div>
+<div class="flex gap-6 overflow-x-auto hide-scrollbar pb-8">
+<!-- Movie Card -->
+<div class="min-w-[240px] group cursor-pointer">
+<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_-15px_rgba(255,194,74,0.3)]">
+<img class="w-full h-full object-cover" data-alt="Abstract lens flare on black background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPIl3-4flq1_O8bTKo1ZFS2xl3UYEv2IAu02HNiiKtc8qtWZ9RHpGi6yWZM7TDL3586-L0WmqKayloLKx1wpsbE_RkBLmIRHRvtjQAK6DWiScOMl_leHwfmp6tpuKo0QeyqSdFjvynZPOBSyI9Ou6RUDpos_y1elZUr_vkfOhVwJ0dy4GQ5rwyrXEn6f9OeIWQ6Q9xIwIjx5Ej092iXtaAfE48ZiJU-TUvJ2Xe0eZ3t4ScYAw2ILg-xT69Cu1CsBx-AFsnL23urGU3"/>
+<div class="absolute top-2 right-2 bg-surface/80 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-primary">NEW</div>
+</div>
+<h3 class="text-base font-headline font-semibold text-on-surface">Spectral Motion</h3>
+</div>
+<!-- Movie Card -->
+<div class="min-w-[240px] group cursor-pointer">
+<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_-15px_rgba(255,194,74,0.3)]">
+<img class="w-full h-full object-cover" data-alt="Cinematic close-up of a person's eye" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHJz3lw22Hgxy9qqxsyCzDG06wsTCSxebcTPY12Q61xgXvIC77hOEsi8VBR8gVpfO-TTPFFoWCcVIkpBbVKi8ovp7ZiW6QBGemTuwRvV4sy8zrhK79yqw3qXKHP2y1YTNDOdOxvfIQ3z8_TFANV_agTAdbj7tVxiOsvjTWO_11HFJbUZtbopqa6lKq9YH3ZXPJQyEiP_Fka_jfjcc-OP-G52ZzK81wZtqt-xdLmZ3vUYKzbjFBc-cm2UXR8M6qD2dLOha5PlwM0G8P"/>
+<div class="absolute top-2 right-2 bg-surface/80 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-primary">NEW</div>
+</div>
+<h3 class="text-base font-headline font-semibold text-on-surface">The Observer</h3>
+</div>
+<!-- Movie Card -->
+<div class="min-w-[240px] group cursor-pointer">
+<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_-15px_rgba(255,194,74,0.3)]">
+<img class="w-full h-full object-cover" data-alt="Vintage microphone in a dim studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDACqPO8AX4JN4H8GpgE8R7bg3jJeraw4i7OL2tWjOkYKVw_jso0tvtEU-cDDVMTdC2J6X7INDJwSQ0a9MOYVdpUIPIfrbP4cwF87zXtFN61olBosFXTa3ggeG_BIR2aBexdwVJa1NlC-j8ydkqAE8C7pMN1y2lhmldEc1a-OEM4ihj0_zvpENJoILfTMecB0QIYUr-ARRi-UjpIykTsJMvqHdQ3N4bSaAvHh4c5MgRKvKWeFzC1OojNxiK75cNC-YzI-co4H7vbUS9"/>
+<div class="absolute top-2 right-2 bg-surface/80 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-primary">NEW</div>
+</div>
+<h3 class="text-base font-headline font-semibold text-on-surface">Frequency</h3>
+</div>
+<!-- Movie Card -->
+<div class="min-w-[240px] group cursor-pointer">
+<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_-15px_rgba(255,194,74,0.3)]">
+<img class="w-full h-full object-cover" data-alt="Foggy forest at dawn" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6kFucUPxabTXfsVy7KsHyRnR6Sh_pVIWS_2K6mz0sgzv2TatqxqJW9UAG6Vf6MxswlyjK1yIpPwEtSjGJoex96_jvfi0OIkKQPzHEdeUpefbDf4lsIU5M09bOtBJNskaMYlgJJQDdsdakDlvNT6VF_-VXHuOSxJXsqjO4g2R-j3rv4ZsNfCJIohme-ZK_i4PrMcfkHbm93SbyX1HlrNV2GNCvh0LyYb3hPNA9n2m9YSqSIpBqmHQvHx8gJMkDBC4Tl_h7171r5fD_"/>
+</div>
+<h3 class="text-base font-headline font-semibold text-on-surface">The Clearing</h3>
+</div>
+<!-- Movie Card -->
+<div class="min-w-[240px] group cursor-pointer">
+<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_-15px_rgba(255,194,74,0.3)]">
+<img class="w-full h-full object-cover" data-alt="Jazz musician with trumpet under spotlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeqhevHp2_hkENJQnHZ2llrNeSh_p08xqbPade9sYMX3WT5EkAHaPi_GbY-tgxY-HtFVvvnN6CKAZwWH3W69VlAHCMXAqiBbK5EUscx7bKn7P0uO1x9VQDHYV_UOvfeInS3gaxZL6YnfWMBMu5bxMRh5eypBJvJEHAyZ6RIaSaYXL3o96Qm78aVgZ3EpYuTH1166mqDmr-eqiLZT9bj9RBkSnIOWfKgSl3Q6xTlG5q5jZsZhYVi4Z9FGrvpwDp6x3QtzYHxnOeFS83"/>
+</div>
+<h3 class="text-base font-headline font-semibold text-on-surface">Blue Note</h3>
+</div>
+<!-- Movie Card -->
+<div class="min-w-[240px] group cursor-pointer">
+<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_-15px_rgba(255,194,74,0.3)]">
+<img class="w-full h-full object-cover" data-alt="Abstract art with splashes of deep red and black" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJhMtlzverPdTasbPSueoZo3qtn7hHqI5bv5k_hGk03MwCvU66RBOiqk2T3emKUxNpZqSXQ5luNycEZrOKy8WBRdQqH8rV1om4YFPqSUawvlqvX0-UilUIEBFaOYA7GvoNGro_jElIx0xrEx8XvPXqpQkdtYsGjfDGq9pw-5Ewd1scnOj4mr_V4736ZxSiQ7j9OVooCicIy_9LUARarZeEOxKCIQz91uaU6ldapKsIf0_e0KO6xqbqBoOBVgIoDcSlMGbatxr8-sfw"/>
+</div>
+<h3 class="text-base font-headline font-semibold text-on-surface">Velvet Red</h3>
+</div>
+</div>
+</section>
+</div>
+<!-- Editorial Section (Bento Style) -->
+<section class="px-12 md:px-24 pb-24">
+<h2 class="text-4xl font-headline font-bold text-on-surface mb-12 italic">Curator's Journal</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-6 h-[600px]">
+<div class="md:col-span-2 md:row-span-2 relative rounded-2xl overflow-hidden group cursor-pointer">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" data-alt="Black and white photo of a 1950s cinema marquee" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjANCtth7JS1RiNxPeK1TOPo7D8-6XdoYLWoKxwiMHZ1ecdocfFNV1HwC7jdCIQNzWOUDe_c-aGESinm3OLtEWThqdYy8OfsZW0OBxWO84T8QWuBVYKqs2GTC6MfXY7JodnoQIcayGX37uhQvJRzgVhWbOpDhkWQ-fColo2D9wjKscOuyOE0Y4kC2BQDsJXkQOQi0I376a8PtU5uqR06gndsDh7mYi_lSd7A-e4UciYWSiaUHAbFZ0oGjpIwzxK9zws31dNk0BU5A8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+<div class="absolute bottom-8 left-8 right-8">
+<p class="text-primary font-label text-xs uppercase tracking-[0.3em] mb-2">Essay</p>
+<h3 class="text-4xl font-headline font-bold text-on-surface mb-4">The Lost Language of Celluloid</h3>
+<p class="text-on-surface/70 font-body">Exploring the textures that digital can never truly replicate.</p>
+</div>
+</div>
+<div class="md:col-span-2 relative rounded-2xl overflow-hidden group cursor-pointer bg-surface-container">
+<div class="absolute inset-0 flex items-center p-8 gap-6">
+<div class="w-1/3 aspect-square rounded-xl overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up of a violin's scroll" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPA_EIi4XKVGXlBb83F5zrdKrPGRT1cF2-jw--uhSGSXGHJPs8Zb6xN_ZzaYr8g54Y-HxtYQ_cjI8q_sPmSDRZtNu8ION1eGw8Wl42OdAAf1cXkH1P1XactkaIKOqJX0KqmxYZrja8WZ3mSVDoqTaP3DtjLXb844wpVhRHoXzzhEB61lhtL6w_j31SkV_Hv8VnSOpsn6zkPJsMzitu7o9_5XKpGimSFwLWuLgr7qOWpp_j_2kznDO2htFIQ6vWybBCVBv12mOu1zkn"/>
+</div>
+<div class="w-2/3">
+<p class="text-tertiary font-label text-xs uppercase tracking-[0.3em] mb-2">Playlist</p>
+<h3 class="text-2xl font-headline font-bold text-on-surface mb-2">Neo-Classical Cinema Scores</h3>
+<button class="text-on-surface/50 text-sm flex items-center gap-2 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="play_circle">play_circle</span>
+                                Listen Now
+                            </button>
+</div>
+</div>
+</div>
+<div class="relative rounded-2xl overflow-hidden group cursor-pointer bg-surface-container-high">
+<div class="p-8">
+<p class="text-outline-variant font-label text-xs uppercase tracking-[0.3em] mb-4">Stat</p>
+<p class="text-5xl font-headline font-bold text-primary mb-2">4,208</p>
+<p class="text-on-surface/60 text-sm font-body">Titles meticulously archived in your private collection.</p>
+</div>
+</div>
+<div class="relative rounded-2xl overflow-hidden group cursor-pointer bg-gradient-to-br from-primary/10 to-transparent border border-primary/20">
+<div class="p-8 flex flex-col justify-between h-full">
+<h3 class="text-xl font-headline font-bold text-on-surface">Request a Digitization</h3>
+<div class="flex justify-end">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Space -->
+<footer class="ml-0 md:ml-20 py-12 px-12 md:px-24 bg-surface-container-lowest border-t border-outline-variant/5">
+<div class="flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="text-center md:text-left">
+<span class="text-xl font-serif italic font-bold tracking-tighter text-[#ffc24a]">The Curator</span>
+<p class="text-xs text-on-surface/40 font-label mt-2 uppercase tracking-widest">© 2024 The Digital Auteur Society • Limited Edition</p>
+</div>
+<div class="flex gap-8">
+<a class="text-on-surface/60 hover:text-primary transition-colors text-xs font-label uppercase tracking-widest" href="#">Privacy</a>
+<a class="text-on-surface/60 hover:text-primary transition-colors text-xs font-label uppercase tracking-widest" href="#">Terms</a>
+<a class="text-on-surface/60 hover:text-primary transition-colors text-xs font-label uppercase tracking-widest" href="#">Support</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ARCHIVE | The Last Auteur</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed": "#271900",
+              "on-secondary": "#422d00",
+              "primary-fixed": "#ffdea8",
+              "surface-tint": "#febb2b",
+              "tertiary-fixed-dim": "#8fcdff",
+              "inverse-on-surface": "#2f3034",
+              "surface": "#111316",
+              "outline-variant": "#504533",
+              "on-tertiary-fixed": "#001e30",
+              "on-surface-variant": "#d5c4ad",
+              "on-background": "#e2e2e6",
+              "error-container": "#93000a",
+              "error": "#ffb4ab",
+              "tertiary-fixed": "#cbe6ff",
+              "surface-container": "#1e2023",
+              "inverse-primary": "#7c5800",
+              "secondary": "#e6c183",
+              "primary-container": "#e5a50a",
+              "surface-container-low": "#1a1c1f",
+              "tertiary-container": "#51b9ff",
+              "on-primary-fixed-variant": "#5e4200",
+              "surface-container-highest": "#333538",
+              "primary-fixed-dim": "#febb2b",
+              "surface-container-high": "#282a2d",
+              "background": "#111316",
+              "on-primary-fixed": "#271900",
+              "surface-dim": "#111316",
+              "on-secondary-fixed-variant": "#5b4210",
+              "on-error": "#690005",
+              "secondary-fixed": "#ffdea8",
+              "outline": "#9d8f79",
+              "on-tertiary-fixed-variant": "#004b71",
+              "on-tertiary": "#003450",
+              "tertiary": "#9cd2ff",
+              "surface-container-lowest": "#0c0e11",
+              "secondary-fixed-dim": "#e6c183",
+              "on-primary": "#422d00",
+              "secondary-container": "#5e4512",
+              "on-error-container": "#ffdad6",
+              "on-tertiary-container": "#00486c",
+              "on-primary-container": "#5a3e00",
+              "surface-bright": "#37393d",
+              "on-surface": "#e2e2e6",
+              "inverse-surface": "#e2e2e6",
+              "primary": "#ffc24a",
+              "on-secondary-container": "#d7b376",
+              "surface-variant": "#333538"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-nav { background: rgba(17, 19, 22, 0.6); backdrop-filter: blur(20px); }
+        .hero-gradient { background: linear-gradient(to bottom, rgba(17,19,22,0.2) 0%, rgba(17,19,22,1) 100%); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-950/60 backdrop-blur-xl flex justify-between items-center px-8 h-20 w-full">
+<div class="flex items-center gap-12">
+<span class="font-serif italic tracking-tighter text-amber-500 text-2xl">ARCHIVE</span>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-serif text-slate-200 text-amber-500 font-bold border-b border-amber-500 pb-1" href="#">Curated</a>
+<a class="font-serif text-slate-200 text-slate-400 hover:text-slate-200 transition-colors" href="#">Library</a>
+<a class="font-serif text-slate-200 text-slate-400 hover:text-slate-200 transition-colors" href="#">Journal</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-slate-200 hover:bg-white/5 transition-all p-2 rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant/20">
+<img class="w-full h-full object-cover" data-alt="User profile portrait in soft light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoShsr_yNh1zocgSCt46aCuba-WjJHYf_z-xrTvfJDRr4WvqgsEr0DVq_AUzoRoKYTBA_hP_mgh-xwrLV19z4i5yvMbrglcFfUwjeKecDe9GkMcAIZoSC9CtfKQyvPOWlKg-FB5VBab3QFV0dudP4EmiTR7gazEa5BWGhhch9Vka8qaKHK7eawXobd0FZXBPRPPgyr5dYXnjHQ8vpjsA47xKJyNnwxFs9rNw4X7qLP7FrGjaBUaEF5cQ8Pe4Tzn-XsOAarCVuTZIG4"/>
+</div>
+</div>
+</header>
+<main class="pb-32">
+<!-- Hero Section -->
+<section class="relative h-[870px] w-full overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="Dramatic black and white cinematic landscape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq7EXSDHW9rL-p0fAYoS3EYmal16RUn8GUo_diEW707PeDUgEIz0HZvYA4A7L1Jr_xABnUGeu5VnzbG6T6kPT83FkHm1J5NAa8HzI-kTySY-2mRx7MD-R5WTkYoZNkZtyAwkKsCUHwt-KRUB4dUqUH7o3WUW2aCi7LjOTdeAUPN8tFPtAUDhcb_EoezsMg9g0JysEv4MqmhLRik8u4U-KgIIODD_vrlHYkOTcuAIJ61-1DuXDxBZnV00ZLEdybGorXUEa9YZmStfno"/>
+<div class="absolute inset-0 hero-gradient"></div>
+</div>
+<!-- Content Overlay -->
+<div class="relative z-10 container mx-auto px-6 h-full flex flex-col justify-end pb-24">
+<div class="flex flex-col md:flex-row items-end gap-12">
+<!-- Poster -->
+<div class="hidden md:block w-72 shrink-0 shadow-2xl rounded-xl overflow-hidden transform translate-y-12">
+<img class="w-full aspect-[2/3] object-cover" data-alt="Minimalist noir film poster of a lone figure" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHPXL9WS7tXUb3LpXG6CXl-N0XE8CHQ97v8rj_pVtEQc4rx9EK9eTXjWgdEAADz-bLdRHNqAfxtsNfljcv13OY2nwC0MVn7BVYKOPK_W0tQ94AyDAWpp067WxZna57V9xNMM1ZLmW17IGyU--NDucl1Hh5dhJeOpY6-ns9eNztsREXYATuvrv65D1_qi1-heS5r2x9dcjSDBpWLBmEmad-yG375KWYSg3jVhZCUTWV3KQBpzyB4faGZBhapVcx5X0fCJvc2oAeUKOL"/>
+</div>
+<!-- Details -->
+<div class="flex-1 space-y-6">
+<div class="flex flex-wrap gap-3">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-label uppercase tracking-widest text-on-surface-variant">Drama</span>
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-label uppercase tracking-widest text-on-surface-variant">Noir</span>
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-label uppercase tracking-widest text-on-surface-variant">154 MIN</span>
+</div>
+<h1 class="text-6xl md:text-8xl font-headline font-bold tracking-tight text-on-surface leading-none">
+                            The Last <br/><span class="italic text-primary">Auteur</span>
+</h1>
+<div class="flex items-center gap-4">
+<!-- Star Rating -->
+<div class="flex items-center bg-surface-container-lowest/40 backdrop-blur-md px-4 py-2 rounded-xl">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="ml-2 text-2xl font-headline font-bold text-on-surface">8.4</span>
+<span class="ml-1 text-sm text-on-surface-variant">/ 10</span>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-8 py-3 rounded-md font-bold text-sm tracking-wide shadow-lg flex items-center gap-2 hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined text-sm">bookmark_heart</span>
+                                Add to Watchlist
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Middle Section: Detailed Info -->
+<section class="container mx-auto px-6 mt-24">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-24">
+<div class="lg:col-span-8 space-y-12">
+<div class="space-y-4">
+<h2 class="text-sm font-label uppercase tracking-[0.2rem] text-primary">The Narrative</h2>
+<p class="text-xl font-body leading-relaxed text-on-surface/80 max-w-3xl">
+                            In a decaying metropolis where digital echoes replace human connection, a veteran film restorer discovers a mysterious reel that shouldn't exist. As he delves into the celluloid mystery, the lines between his reality and the film's haunting frames begin to blur into a visceral noir odyssey.
+                        </p>
+</div>
+<!-- Reviews -->
+<div class="space-y-8" id="reviews-section">
+<div class="flex justify-between items-end border-b border-outline-variant/10 pb-4">
+<h2 class="text-2xl font-headline font-bold">Audience Reflections</h2>
+<button id="write-review-btn" class="text-sm font-label text-tertiary hover:underline">Write a review</button>
+</div>
+
+<!-- Write a Review Form -->
+<div class="bg-surface-container-low p-6 rounded-xl space-y-4 mb-8 hidden" id="review-form-container">
+    <textarea id="review-text" class="w-full bg-surface text-on-surface border border-outline-variant/20 rounded-lg p-4 font-body outline-none focus:border-primary transition-colors min-h-[100px]" placeholder="Share your reflections..."></textarea>
+    <div class="flex justify-end gap-3">
+        <button id="cancel-review" class="px-4 py-2 text-sm font-label text-on-surface-variant hover:text-on-surface transition-colors">Cancel</button>
+        <button id="submit-review" class="px-6 py-2 bg-primary text-on-primary rounded-md font-bold text-sm shadow-lg hover:scale-[1.02] active:scale-95 transition-all">Post Review</button>
+    </div>
+</div>
+
+<div id="reviews-container" class="space-y-8">
+    <div class="flex justify-center p-8"><span class="material-symbols-outlined animate-spin text-primary" style="animation: spin 1s linear infinite;">sync</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 space-y-12">
+<div class="bg-surface-container-high p-8 rounded-xl space-y-8">
+<div class="space-y-4">
+<h3 class="text-xs font-label uppercase tracking-widest text-primary">The Architects</h3>
+<div class="space-y-6">
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Director</p>
+<p class="font-headline text-lg">Thomas Sterling</p>
+</div>
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Cinematography</p>
+<p class="font-headline text-lg">Claire Fontaine</p>
+</div>
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest mb-1">Original Score</p>
+<p class="font-headline text-lg">Hildur Guðnadóttir</p>
+</div>
+</div>
+</div>
+<div class="space-y-4 pt-6 border-t border-outline-variant/10">
+<h3 class="text-xs font-label uppercase tracking-widest text-primary">Leading Roles</h3>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Headshot of lead actor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLuvGjUMNuOkoGVG9aRojVMFdgc0MLfYyKUCUkIGkGnbIUZqitCiPOPxg3_iYTj7q-crosz1BySjHnEHtZNwEYkj-ulafmcwjMiyPTgJGYjnTGIUZYB6b4JZibTRb8rhlo42vvEoOQeA0jFSXctZtI49Ns4WSxRCkJz7U0LPHo03COuIUexcw7L7K8MeCUX22MCeG46efXHfU7oV-GI6a9mTD99EPdRlxMDMn1alu8CJbiLbRMZ7CIkei43YK7bDJLtqRV4jnz0MCM"/>
+</div>
+<span class="font-body text-sm">Vincent Cassel</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Headshot of lead actress" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2R0hEWd6D0ZbX7L2sCHXMkWK9f7ZoXjIsVyac8EnjdP3-KNSZ_-sZI0POwKi8YBDmPfq1UJie9kyHeOVGw7wCI3Z-0-seB6Lvj_WQo-V8dFFXSnDbwgKwb5zeyk2AighRYRLFOdYRpe-PmK-s8xiaMXQVMR3e6YyiqlY0KHNtRuZGHbFOoE-uuzmVBVjL-BKvFz8kWANppbirDPPWsHpVvQUF3OZGtqPMsmJgZ87IW1raYb3MioLaY5AWu2OPSxe9xYUPuI857ZJc"/>
+</div>
+<span class="font-body text-sm">Eva Green</span>
+</div>
+</div>
+</div>
+<!-- Quick Rating Interaction -->
+<div class="p-8 border border-outline-variant/10 rounded-xl">
+<p class="text-xs font-label uppercase tracking-widest text-on-surface-variant text-center mb-6">Rate this piece</p>
+<div class="flex justify-between px-2">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">star</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">star</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">star</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">star</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">star</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">star</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">star</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">star</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">star</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">star</span></button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center pt-3 pb-6 px-4 bg-slate-900/80 backdrop-blur-2xl rounded-t-3xl z-50 shadow-[0_-8px_30px_rgb(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-slate-500 px-6 py-2 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined">movie_filter</span>
+<span class="font-sans uppercase tracking-widest text-[10px] mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-amber-500/10 text-amber-500 rounded-xl px-6 py-2 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="font-sans uppercase tracking-widest text-[10px] mt-1">Discover</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 px-6 py-2 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined">bookmark_heart</span>
+<span class="font-sans uppercase tracking-widest text-[10px] mt-1">Watchlist</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 px-6 py-2 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-sans uppercase tracking-widest text-[10px] mt-1">Profile</span>
+</a>
+</nav>
+<script>
+const FILM_ID = {{ film_id }};
+const CURRENT_USER = "{{ current_user }}";
+const IS_ADMIN = {{ 'true' if is_admin else 'false' }};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const reviewsContainer = document.getElementById('reviews-container');
+    const writeReviewBtn = document.getElementById('write-review-btn');
+    const reviewFormContainer = document.getElementById('review-form-container');
+    const cancelReviewBtn = document.getElementById('cancel-review');
+    const submitReviewBtn = document.getElementById('submit-review');
+    const reviewText = document.getElementById('review-text');
+
+    let isEditing = null;
+
+    writeReviewBtn.addEventListener('click', () => {
+        if (!CURRENT_USER) {
+            alert('Lütfen yorum yapmak için giriş yapın.');
+            window.location.href = '/login';
+            return;
+        }
+        reviewFormContainer.classList.remove('hidden');
+        reviewText.focus();
+    });
+
+    cancelReviewBtn.addEventListener('click', () => {
+        reviewFormContainer.classList.add('hidden');
+        reviewText.value = '';
+        isEditing = null;
+    });
+
+    submitReviewBtn.addEventListener('click', async () => {
+        const text = reviewText.value.trim();
+        if (!text) return alert('Yorum boş olamaz');
+
+        submitReviewBtn.disabled = true;
+        try {
+            if (isEditing) {
+                await fetch(`/api/yorumlar/${isEditing}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ metin: text })
+                });
+            } else {
+                await fetch(`/api/filmler/${FILM_ID}/yorumlar`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ metin: text })
+                });
+            }
+            reviewFormContainer.classList.add('hidden');
+            reviewText.value = '';
+            isEditing = null;
+            loadReviews();
+        } catch (e) {
+            alert('Bir hata oluştu');
+        } finally {
+            submitReviewBtn.disabled = false;
+        }
+    });
+
+    async function loadReviews() {
+        try {
+            const res = await fetch(`/api/filmler/${FILM_ID}/yorumlar`);
+            const data = await res.json();
+            renderReviews(data.yorumlar);
+        } catch (e) {
+            reviewsContainer.innerHTML = '<p class="text-error">Yorumlar yüklenemedi.</p>';
+        }
+    }
+
+    window.deleteComment = async (id) => {
+        if(!confirm('Bu yorumu silmek istediğinize emin misiniz?')) return;
+        try {
+            await fetch(`/api/yorumlar/${id}`, { method: 'DELETE' });
+            loadReviews();
+        } catch (e) { alert('Hata oluştu'); }
+    };
+
+    window.editComment = (id, text) => {
+        isEditing = id;
+        reviewText.value = text;
+        reviewFormContainer.classList.remove('hidden');
+        reviewText.focus();
+        window.scrollTo({ top: reviewFormContainer.offsetTop - 100, behavior: 'smooth' });
+    };
+
+    window.voteComment = async (id, tip) => {
+        if (!CURRENT_USER) return alert('Oy vermek için giriş yapın.');
+        try {
+            const res = await fetch(`/api/yorumlar/${id}?action=vote`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tip })
+            });
+            const data = await res.json();
+            const scoreEl = document.getElementById(`score-${id}`);
+            if (scoreEl) scoreEl.innerText = (data.upvotes - data.downvotes);
+        } catch (e) { alert('Hata oluştu'); }
+    };
+
+    function renderReviews(reviews) {
+        if (reviews.length === 0) {
+            reviewsContainer.innerHTML = '<div class="text-center p-8 text-on-surface-variant italic">İlk yorumu siz yapın!</div>';
+            return;
+        }
+
+        reviewsContainer.innerHTML = reviews.map(r => {
+            const isMine = r.userId === CURRENT_USER;
+            const canEdit = isMine;
+            const canDelete = isMine || IS_ADMIN;
+            const score = (r.upvotes || 0) - (r.downvotes || 0);
+            const scoreColor = score > 0 ? 'text-green-500' : score < 0 ? 'text-red-500' : 'text-on-surface-variant';
+            
+            return `
+            <div class="bg-surface-container-low p-8 rounded-xl space-y-4">
+                <div class="flex justify-between items-start">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden flex items-center justify-center text-primary font-bold text-lg">
+                            ${r.userId.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <p class="font-bold text-sm flex items-center gap-2">
+                                ${r.userId}
+                                ${isMine ? '<span class="px-2 py-0.5 rounded text-[10px] bg-primary/20 text-primary uppercase tracking-widest">Sen</span>' : ''}
+                            </p>
+                            <p class="text-[10px] text-on-surface-variant uppercase tracking-widest">${new Date(r.tarih).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        ${canEdit ? `<button onclick="editComment(${r.id}, \`${r.metin.replace(/`/g, "'")}\`)" class="text-on-surface-variant hover:text-primary transition-colors" title="Edit"><span class="material-symbols-outlined text-sm">edit</span></button>` : ''}
+                        ${canDelete ? `<button onclick="deleteComment(${r.id})" class="text-on-surface-variant hover:text-error transition-colors" title="Delete"><span class="material-symbols-outlined text-sm">delete</span></button>` : ''}
+                    </div>
+                </div>
+                <p class="font-body text-on-surface-variant leading-relaxed whitespace-pre-wrap">${r.metin}</p>
+                <div class="flex items-center gap-4 pt-4 border-t border-outline-variant/10">
+                    <div class="flex items-center gap-2 bg-surface-container p-1 rounded-full border border-outline-variant/20">
+                        <button onclick="voteComment(${r.id}, 1)" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-green-500/20 hover:text-green-500 transition-colors"><span class="material-symbols-outlined text-sm">thumb_up</span></button>
+                        <span id="score-${r.id}" class="text-xs font-bold ${scoreColor} min-w-[20px] text-center">${score}</span>
+                        <button onclick="voteComment(${r.id}, -1)" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-red-500/20 hover:text-red-500 transition-colors"><span class="material-symbols-outlined text-sm">thumb_down</span></button>
+                    </div>
+                </div>
+            </div>
+            `;
+        }).join('');
+    }
+
+    loadReviews();
+});
+</script>
+</body></html>

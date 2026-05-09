@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CineRate — Film Yorum & Puanlama</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #080810;
+    --surface:  #0f0f1a;
+    --card:     #151525;
+    --border:   #1f1f38;
+    --accent:   #e8305a;
+    --accent2:  #ff6b35;
+    --gold:     #f5c518;
+    --text:     #dde1f0;
+    --muted:    #6b7194;
+    --success:  #2ecc71;
+    --danger:   #e74c3c;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(8,8,16,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px;
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; letter-spacing: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .user-bar {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .user-bar input {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    color: var(--text);
+    font-family: inherit; font-size: 14px;
+    outline: none; width: 180px;
+    transition: border-color .2s;
+  }
+  .user-bar input:focus { border-color: var(--accent); }
+  .user-chip {
+    background: rgba(232,48,90,.12);
+    border: 1px solid rgba(232,48,90,.4);
+    color: var(--accent);
+    border-radius: 20px; padding: 5px 12px;
+    font-size: 12px; font-weight: 600;
+    display: none;
+  }
+
+  /* MAIN LAYOUT */
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+  /* FILM GRID */
+  .film-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  @media(max-width:768px){ .film-grid { grid-template-columns: repeat(3,1fr); } }
+  @media(max-width:480px){ .film-grid { grid-template-columns: repeat(2,1fr); } }
+
+  .film-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 14px;
+    cursor: pointer;
+    text-align: center;
+    transition: all .22s cubic-bezier(.34,1.56,.64,1);
+    position: relative; overflow: hidden;
+  }
+  .film-card::before {
+    content:''; position:absolute; inset:0;
+    background: linear-gradient(135deg,rgba(232,48,90,.08),transparent);
+    opacity:0; transition: opacity .2s;
+  }
+  .film-card:hover { border-color: rgba(232,48,90,.5); transform: translateY(-4px); box-shadow: 0 10px 32px rgba(232,48,90,.15); }
+  .film-card:hover::before { opacity:1; }
+  .film-card.active {
+    background: linear-gradient(135deg,rgba(232,48,90,.18),rgba(255,107,53,.1));
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 32px rgba(232,48,90,.25);
+  }
+  .film-emoji { font-size: 36px; margin-bottom: 8px; }
+  .film-title { font-size: 12px; font-weight: 600; line-height: 1.4; color: var(--text); }
+  .film-year  { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .film-stats { font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .film-rating { color: var(--gold); font-weight: 700; font-size: 13px; }
+
+  /* DETAIL PANEL */
+  .detail-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    animation: fadeUp .3s ease;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+  .detail-header {
+    display: flex; align-items: flex-start; gap: 20px;
+    padding-bottom: 24px; border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
+  }
+  .detail-emoji { font-size: 52px; line-height: 1; }
+  .detail-title { font-family:'Bebas Neue',sans-serif; font-size: 32px; letter-spacing:1px; color: var(--text); }
+  .detail-year  { font-size: 14px; color: var(--muted); margin-top: 2px; }
+
+  /* SCORE BOX */
+  .score-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 24px;
+    display: flex; align-items: center; gap: 24px;
+    margin-bottom: 28px;
+  }
+  .score-big { font-family:'Bebas Neue',sans-serif; font-size: 60px; line-height:1; color: var(--accent); }
+  .score-stars { font-size: 22px; letter-spacing: 2px; }
+  .score-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* TWO-COLUMN */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 28px; }
+  @media(max-width:640px){ .two-col { grid-template-columns:1fr; } }
+
+  /* SECTIONS */
+  .section-title {
+    font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 14px;
+  }
+
+  /* STAR RATING INPUT */
+  .star-input { display:flex; gap:4px; margin-bottom:14px; }
+  .star-wrap {
+    position:relative; display:inline-block; width:36px; height:36px;
+    cursor:pointer; user-select:none;
+    transition: transform .12s cubic-bezier(.34,1.56,.64,1);
+    font-size:0;
+  }
+  .star-wrap:hover { transform: scale(1.28); }
+  /* boş yıldız (arka plan) */
+  .star-wrap .s-empty {
+    position:absolute; inset:0;
+    font-size:34px; line-height:36px; text-align:center;
+    color:#3a3a5c;
+  }
+  /* dolu yıldız (clip ile yarı ya da tam göster) */
+  .star-wrap .s-fill {
+    position:absolute; inset:0;
+    font-size:34px; line-height:36px; text-align:center;
+    color:#f5c518;
+    overflow:hidden;
+    width:100%; /* JS ile %50 veya %100 yapılır */
+  }
+  .star-half-left, .star-half-right {
+    position:absolute; top:0; height:100%; width:50%; z-index:2;
+  }
+  .star-half-left  { left:0; cursor:pointer; }
+  .star-half-right { right:0; cursor:pointer; }
+
+  /* BUTTONS */
+  .btn {
+    border: none; border-radius: 10px; padding: 10px 20px;
+    font-family:inherit; font-size:14px; font-weight:600;
+    cursor:pointer; transition: all .15s;
+  }
+  .btn-primary { background: var(--accent); color:#fff; }
+  .btn-primary:hover { background: #c9244a; transform: translateY(-1px); }
+  .btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--muted); }
+  .btn-ghost-blue { background:rgba(100,181,246,.1); border:none; border-radius:8px; padding:5px 10px; color:#64b5f6; cursor:pointer; font-size:11px; font-family:inherit; }
+  .btn-ghost-red  { background:rgba(229,115,115,.1); border:none; border-radius:8px; padding:5px 10px; color:#e57373; cursor:pointer; font-size:11px; font-family:inherit; }
+  .btn-like { background:transparent; border:1px solid var(--border); border-radius:20px; padding:4px 14px; color:var(--muted); cursor:pointer; font-size:12px; font-family:inherit; transition: all .15s; }
+  .btn-like:hover { border-color:var(--muted); color: var(--text); }
+
+  /* TEXTAREA */
+  textarea {
+    width:100%; background:var(--card); border:1px solid var(--border);
+    border-radius:12px; padding:14px; color:var(--text);
+    font-family:inherit; font-size:14px; resize:vertical; min-height:95px;
+    outline:none; transition: border-color .2s;
+  }
+  textarea:focus { border-color: var(--accent); }
+  .char-count { font-size:11px; color:var(--muted); text-align:right; margin-top:6px; }
+
+  /* SELECT */
+  select {
+    background:var(--card); border:1px solid var(--border); border-radius:8px;
+    padding:7px 12px; color:var(--text); font-family:inherit; font-size:13px; outline:none; cursor:pointer;
+  }
+
+  /* COMMENTS */
+  .comments-header {
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;
+  }
+  .comment-card {
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:18px; margin-bottom:12px;
+    animation: fadeUp .25s ease;
+  }
+  .comment-top {
+    display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;
+  }
+  .comment-user-row { display:flex; align-items:center; gap:10px; }
+  .avatar {
+    width:34px; height:34px; border-radius:50%;
+    background: linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:13px; color:#fff; flex-shrink:0;
+  }
+  .comment-username { font-weight:600; font-size:14px; }
+  .comment-date { font-size:11px; color:var(--muted); margin-top:2px; }
+  .mine-badge {
+    font-size:10px; font-weight:700; color:var(--accent);
+    background:rgba(232,48,90,.12); border:1px solid rgba(232,48,90,.3);
+    border-radius:5px; padding:2px 7px; margin-left:7px; vertical-align:middle;
+  }
+  .comment-text { font-size:14px; line-height:1.65; color:#bdc5d8; margin-bottom:12px; }
+  .comment-actions { display:flex; gap:8px; }
+
+  /* VOTE BUTONLARI */
+  .vote-row { display:flex; align-items:center; gap:10px; margin-top:10px; }
+  .vote-btn {
+    display:flex; align-items:center; gap:5px;
+    border:none; border-radius:20px; padding:5px 12px;
+    font-family:inherit; font-size:13px; font-weight:600;
+    cursor:pointer; transition:all .15s;
+  }
+  .vote-btn.up   { background:rgba(46,204,113,.1); color:#2ecc71; }
+  .vote-btn.down { background:rgba(231,76,60,.1);  color:#e74c3c; }
+  .vote-btn.up:hover   { background:rgba(46,204,113,.25); transform:scale(1.05); }
+  .vote-btn.down:hover { background:rgba(231,76,60,.25);  transform:scale(1.05); }
+  .vote-btn.active-up   { background:rgba(46,204,113,.3);  color:#27ae60; border:1px solid #2ecc71; }
+  .vote-btn.active-down { background:rgba(231,76,60,.3);   color:#c0392b; border:1px solid #e74c3c; }
+  .vote-score { font-size:14px; font-weight:700; min-width:20px; text-align:center; }
+  .vote-score.positive { color:#2ecc71; }
+  .vote-score.negative { color:#e74c3c; }
+  .vote-score.zero     { color:#8892b0; }
+
+  /* EMPTY STATE */
+  .empty { text-align:center; padding:40px 0; color:var(--muted); }
+  .empty-icon { font-size:44px; margin-bottom:12px; }
+  .empty-title { font-size:16px; font-weight:600; color: #8892b0; }
+  .empty-sub   { font-size:13px; margin-top:6px; }
+
+  /* LOADING */
+  .loading {
+    display:none; text-align:center; padding:60px 0;
+    color:var(--muted); font-size:15px;
+  }
+  .spinner {
+    width:36px; height:36px; border:3px solid var(--border);
+    border-top-color:var(--accent); border-radius:50%;
+    animation: spin .7s linear infinite; margin:0 auto 16px;
+  }
+  @keyframes spin { to{transform:rotate(360deg)} }
+
+  /* TOAST */
+  #toast {
+    position:fixed; top:20px; right:20px; z-index:999;
+    padding:14px 22px; border-radius:12px; font-weight:600; font-size:14px;
+    box-shadow:0 6px 24px rgba(0,0,0,.5);
+    animation: toastIn .3s cubic-bezier(.34,1.56,.64,1);
+    display:none;
+  }
+  @keyframes toastIn { from{opacity:0;transform:translateX(24px) scale(.9)} to{opacity:1;transform:translateX(0) scale(1)} }
+  #toast.ok  { background:var(--success); color:#fff; }
+  #toast.err { background:var(--danger);  color:#fff; }
+
+  /* WELCOME */
+  .welcome {
+    text-align:center; padding:70px 0;
+  }
+  .welcome-icon { font-size:64px; margin-bottom:18px; }
+  .welcome-title { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:2px; color: #ccd6f6; }
+  .welcome-sub   { font-size:14px; color:var(--muted); margin-top:8px; }
+
+  /* API MODE BADGE */
+  .mode-badge {
+    font-size:11px; background:rgba(46,204,113,.1); border:1px solid rgba(46,204,113,.3);
+    color:#2ecc71; border-radius:6px; padding:3px 9px; font-weight:600;
+  }
+  .mode-badge.offline { background:rgba(245,197,24,.1); border-color:rgba(245,197,24,.3); color:var(--gold); }
+
+  /* ADMIN */
+  .admin-badge {
+    font-size:10px; font-weight:800; color:#fff;
+    background: linear-gradient(90deg,#f5c518,#ff6b35);
+    border-radius:5px; padding:2px 8px; margin-left:7px;
+    letter-spacing:1px; vertical-align:middle;
+  }
+  .admin-name { color:#f5c518 !important; text-shadow: 0 0 8px rgba(245,197,24,.4); }
+
+  /* YANIT */
+  .reply-box {
+    background: rgba(255,255,255,.03);
+    border-left: 2px solid var(--border);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 14px;
+    margin: 10px 0 4px 20px;
+  }
+  .reply-box .comment-username { font-size:13px; }
+  .reply-box .comment-text { font-size:13px; }
+
+  /* ADMİN GİRİŞ MODAL */
+  .modal-overlay {
+    position:fixed; top:0; left:0; right:0; bottom:0;
+    background:rgba(0,0,0,.88);
+    display:flex; align-items:center; justify-content:center;
+    z-index:9999; backdrop-filter:blur(8px);
+  }
+  .modal-box {
+    background:var(--surface); border:1px solid rgba(232,48,90,.4);
+    border-radius:20px; padding:36px 32px; width:360px; max-width:92vw;
+    box-shadow: 0 24px 64px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.05);
+    animation: modalIn .28s cubic-bezier(.34,1.56,.64,1);
+    position:relative; z-index:10000;
+  }
+  @keyframes modalIn {
+    from { opacity:0; transform: scale(.85) translateY(24px); }
+    to   { opacity:1; transform: scale(1)   translateY(0); }
+  }
+  .modal-title { font-family:'Bebas Neue',sans-serif; font-size:22px; color:var(--accent); margin-bottom:20px; letter-spacing:2px; }
+  .modal-input {
+    width:100%; background:var(--card); border:1px solid var(--border);
+    border-radius:8px; padding:10px 14px; color:var(--text);
+    font-family:inherit; font-size:14px; outline:none; margin-bottom:12px;
+  }
+  .modal-input:focus { border-color:var(--accent); }
+</style>
+</head>
+<body onkeydown="if(event.key==='Escape')adminModalKapat()">
+
+<header>
+  <div class="logo">🎬 CineRate</div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <span id="modeBadge" class="mode-badge offline">⚡ Demo Modu</span>
+    <button id="adminBtn" onclick="adminGirisAc()" style="background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.3);color:#f5c518;border-radius:8px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit">👑 Admin</button>
+    <div class="user-bar">
+      <input id="usernameInput" type="text" placeholder="Kullanıcı adınız..." oninput="onUsernameChange(this.value)">
+      <span class="user-chip" id="userChip"></span>
+    </div>
+  </div>
+</header>
+
+<!-- Admin Giriş Modal — header DIŞINDA, body'e direkt bağlı -->
+<div class="modal-overlay" id="adminModal" style="display:none" onclick="if(event.target===this)adminModalKapat()">
+  <div class="modal-box">
+    <div class="modal-title">👑 Admin Girişi</div>
+    <input class="modal-input" id="adminUser" type="text" placeholder="Kullanıcı adı" onkeydown="if(event.key==='Enter')adminGirisYap()">
+    <input class="modal-input" id="adminPass" type="password" placeholder="Şifre" onkeydown="if(event.key==='Enter')adminGirisYap()">
+    <div id="adminErr" style="color:var(--danger);font-size:12px;margin-bottom:10px;display:none">Kullanıcı adı veya şifre hatalı!</div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" style="flex:1" onclick="adminGirisYap()">Giriş Yap</button>
+      <button class="btn btn-secondary" onclick="adminModalKapat()">İptal</button>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="film-grid" id="filmGrid"></div>
+
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    Yükleniyor...
+  </div>
+
+  <div id="welcome" class="welcome">
+    <div class="welcome-icon">🎬</div>
+    <div class="welcome-title">Film Seçin</div>
+    <div class="welcome-sub">Yorum yapmak veya puan vermek için yukarıdan bir film seçin</div>
+  </div>
+
+  <div id="detailPanel" class="detail-panel" style="display:none"></div>
+</main>
+
+<div id="toast"></div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────
+// Vercel: API ve frontend aynı domain — ekstra URL gerekmez
+const API = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+  ? "http://localhost:3001"
+  : ""; // Vercel production'da boş bırak, /api/... otomatik çalışır
+let USE_API = false;
+
+// ── IN-MEMORY (Demo Modu) ────────────────────────────────────
+const FILMLER = [
+  { id:101, baslik:"Esaretin Bedeli",                        yil:1994, emoji:"🏛️" },
+  { id:102, baslik:"Yüzüklerin Efendisi: Yüzük Kardeşliği", yil:2001, emoji:"💍" },
+  { id:103, baslik:"Kara Şövalye",                           yil:2008, emoji:"🦇" },
+  { id:104, baslik:"Pulp Fiction",                           yil:1994, emoji:"🎰" },
+  { id:105, baslik:"Forrest Gump",                           yil:1994, emoji:"🏃" },
+];
+
+let _yorumlar = [];   // { id, filmId, userId, metin, tarih, beg, gunc }
+let _puanlar  = [];   // { id, filmId, userId, puan }
+let _sayac = 1;
+
+// ── CONFIG ─────────────────────────────────────────
+const ADMIN_USER = "fienix";
+const ADMIN_PASS = "fienix1905gs";
+
+// ── STATE ────────────────────────────────────────────────────
+let aktifFilmId = null;
+let kullanici   = "";
+let isAdmin     = false;
+let seciliPuan  = 0;
+let hoverPuan   = 0;
+let siralama    = "yeni";
+let duzenlemeId = null;
+let yanitIdAcik = null;
+
+// ── TOAST ─────────────────────────────────────────────────────
+function toast(msg, tip="ok") {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.className = tip;
+  el.style.display = "block";
+  clearTimeout(el._t);
+  el._t = setTimeout(()=> el.style.display="none", 3000);
+}
+
+// ── API HELPERS ──────────────────────────────────────────────
+async function apiFetch(method, path, body) {
+  const headers = {"Content-Type":"application/json"};
+  if (isAdmin) headers["x-admin-token"] = "fienix1905gs";
+  const opts = { method, headers };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch(API + path, opts);
+  const d = await r.json();
+  if (!r.ok) throw new Error(d.hata || "Hata");
+  return d;
+}
+
+// ── DEMO HELPERS (API kapalıyken) ────────────────────────────
+function demoFilmData(filmId) {
+  const film  = FILMLER.find(f => f.id === filmId);
+  const yors  = _yorumlar.filter(y => y.filmId === filmId);
+  const pnlr  = _puanlar.filter(p => p.filmId === filmId);
+  const ort   = pnlr.length ? +(pnlr.reduce((t,p)=>t+p.puan,0)/pnlr.length).toFixed(1) : null;
+  return { film, yorumlar:yors, ortalamaPuan:ort, toplamOy:pnlr.length };
+}
+
+// ── USERNAME ─────────────────────────────────────────────────
+function onUsernameChange(v) {
+  // Admin adı normal input ile kullanılamaz
+  if (v.trim() === ADMIN_USER) {
+    document.getElementById("usernameInput").value = "";
+    toast("Bu kullanıcı adı ayrılmıştır. Admin girişi için 👑 Admin butonunu kullanın.", "err");
+    return;
+  }
+  kullanici = v.trim();
+  isAdmin = false;
+  const chip = document.getElementById("userChip");
+  if (kullanici) { chip.textContent = "● " + kullanici; chip.style.display="inline"; chip.style.background=""; chip.style.borderColor=""; chip.style.color=""; }
+  else chip.style.display = "none";
+  if (aktifFilmId) renderDetail();
+}
+
+// ── CHECK API ────────────────────────────────────────────────
+async function checkApi() {
+  try {
+    await fetch(API + "/api/filmler", { signal: AbortSignal.timeout(1500) });
+    USE_API = true;
+    const b = document.getElementById("modeBadge");
+    b.textContent = "✓ API Bağlı";
+    b.className = "mode-badge";
+  } catch { USE_API = false; }
+}
+
+// ── RENDER FILM GRID ─────────────────────────────────────────
+function renderGrid(filmsData) {
+  const grid = document.getElementById("filmGrid");
+  grid.innerHTML = filmsData.map(f => {
+    const emoji = FILMLER.find(x=>x.id===f.id)?.emoji || "🎬";
+    const aktif = f.id === aktifFilmId;
+    const starStr = f.ortalamaPuan ? "⭐".repeat(Math.round(f.ortalamaPuan)) : "";
+    return `
+      <div class="film-card ${aktif?"active":""}" onclick="selectFilm(${f.id})">
+        <div class="film-emoji">${emoji}</div>
+        <div class="film-title">${f.baslik}</div>
+        <div class="film-year">${f.yil}</div>
+        <div class="film-stats">
+          ${f.ortalamaPuan ? `<span class="film-rating">${f.ortalamaPuan} ${starStr}</span><br>` : ""}
+          ${f.toplamOy} oy · ${f.toplamYorum ?? _yorumlar.filter(y=>y.filmId===f.id).length} yorum
+        </div>
+      </div>`;
+  }).join("");
+}
+
+async function refreshGrid() {
+  let data;
+  if (USE_API) {
+    try { data = await apiFetch("GET","/api/filmler"); }
+    catch { data = FILMLER.map(f=>({...f,ortalamaPuan:null,toplamOy:0,toplamYorum:0})); }
+  } else {
+    data = FILMLER.map(f => {
+      const d = demoFilmData(f.id);
+      return { ...f, ortalamaPuan:d.ortalamaPuan, toplamOy:d.toplamOy, toplamYorum:d.yorumlar.length };
+    });
+  }
+  renderGrid(data);
+}
+
+// ── SELECT FILM ──────────────────────────────────────────────
+async function selectFilm(id) {
+  aktifFilmId = id;
+  seciliPuan  = 0;
+  document.getElementById("welcome").style.display = "none";
+  await refreshGrid();
+  await renderDetail();
+}
+
+// ── RENDER DETAIL ────────────────────────────────────────────
+async function renderDetail() {
+  const panel = document.getElementById("detailPanel");
+  panel.style.display = "block";
+  panel.style.opacity  = "0";
+
+  let data;
+  if (USE_API) {
+    try { data = await apiFetch("GET",`/api/filmler/${aktifFilmId}/yorumlar`); }
+    catch { data = demoFilmData(aktifFilmId); }
+  } else {
+    data = demoFilmData(aktifFilmId);
+  }
+
+  const { film, yorumlar, ortalamaPuan, toplamOy, filmPuanlari } = data;
+  const emoji = FILMLER.find(f=>f.id===aktifFilmId)?.emoji || "🎬";
+  const benimPuanim = _puanlar.find(p => p.filmId === aktifFilmId && p.userId === kullanici)
+                   || (USE_API ? null : null); // API modunda state tutmak gerekir
+
+  const yorumSirali = siralama === "yeni"
+    ? [...yorumlar].sort((a,b)=> new Date(b.tarih)-new Date(a.tarih))
+    : [...yorumlar].sort((a,b)=> (b.beg||0)-(a.beg||0));
+
+  const yildizStr = n => {
+    let s = "";
+    for(let i=1;i<=5;i++){
+      const w = n>=i ? "100%" : n>=i-0.5 ? "50%" : "0%";
+      s += `<span style="position:relative;display:inline-block;width:22px;height:22px;font-size:0">
+        <span style="position:absolute;inset:0;font-size:20px;line-height:22px;text-align:center;color:#3a3a5c">★</span>
+        <span style="position:absolute;inset:0;font-size:20px;line-height:22px;text-align:center;color:#f5c518;overflow:hidden;width:${w}">★</span>
+      </span>`;
+    }
+    return s;
+  };
+
+  // Puan yıldızları - gerçek yarım yıldız (CSS clip)
+  const puanHtml = [1,2,3,4,5].map(n=>{
+    const deger = seciliPuan;
+    const fillW = deger >= n ? "100%" : deger >= n-0.5 ? "50%" : "0%";
+    return `<span class="star-wrap" id="star_${n}">
+      <span class="s-empty">★</span>
+      <span class="s-fill" id="sfill_${n}" style="width:${fillW}">★</span>
+      <span class="star-half-left"
+        onmouseenter="starHover(${n}-0.5)"
+        onmouseleave="starHover(0)"
+        onclick="selectStar(${n-0.5})"></span>
+      <span class="star-half-right"
+        onmouseenter="starHover(${n})"
+        onmouseleave="starHover(0)"
+        onclick="selectStar(${n})"></span>
+    </span>`;
+  }).join("");
+
+  // Yorumlar
+  const yorumlarHtml = yorumSirali.length === 0
+    ? `<div class="empty"><div class="empty-icon">💬</div><div class="empty-title">Henüz yorum yok</div><div class="empty-sub">İlk yorumu siz yapın!</div></div>`
+    : yorumSirali.map(y => {
+        const mine = y.userId === kullanici;
+        const isAdminYorum = y.userId === ADMIN_USER;
+        const tarih = new Date(y.tarih).toLocaleDateString("tr-TR",{day:"numeric",month:"long",year:"numeric"});
+        const duzenleniyorMu = duzenlemeId === y.id;
+        const yanitAcikMi = yanitIdAcik === y.id;
+
+        // Yanıtlar
+        const yanitlarHtml = (y.yanitlar||[]).map(r => `
+          <div class="reply-box">
+            <div class="comment-user-row" style="margin-bottom:6px">
+              <div class="avatar" style="width:26px;height:26px;font-size:11px;background:linear-gradient(135deg,#f5c518,#ff6b35)">${r.userId[0].toUpperCase()}</div>
+              <div style="margin-left:8px">
+                <div class="comment-username admin-name">👑 ${r.userId}<span class="admin-badge">ADMİN</span></div>
+                <div class="comment-date">${new Date(r.tarih).toLocaleDateString("tr-TR",{day:"numeric",month:"long"})}</div>
+              </div>
+            </div>
+            <div class="comment-text">${r.metin}</div>
+          </div>`).join("");
+
+        return `
+          <div class="comment-card" id="comment_${y.id}">
+            <div class="comment-top">
+              <div class="comment-user-row">
+                <div class="avatar" style="${isAdminYorum?"background:linear-gradient(135deg,#f5c518,#ff6b35)":""}">${y.userId[0].toUpperCase()}</div>
+                <div>
+                  <div class="comment-username ${isAdminYorum?"admin-name":""}">
+                    ${y.userId}
+                    ${isAdminYorum ? `<span class="admin-badge">ADMİN</span>` : ""}
+                    ${mine && !isAdminYorum ? `<span class="mine-badge">Sen</span>` : ""}
+                  </div>
+                  <div class="comment-date">${tarih}${y.gunc?" · düzenlendi":""}${(()=>{const p=(filmPuanlari||[]).find(p=>p.userId===y.userId||p.user_id===y.userId);return p?` · ${[1,2,3,4,5].map(i=>p.puan>=i?"★":p.puan>=i-0.5?"½":"☆").join("")} ${p.puan}/5`:""})()}</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:7px">
+                ${isAdmin ? `<button class="btn-ghost-red" onclick="deleteComment(${y.id},'${y.userId}')">🗑️ Sil</button>` : ""}
+                ${isAdmin ? `<button class="btn-ghost-blue" onclick="yanitAc(${y.id})">↩️ Yanıtla</button>` : ""}
+              </div>
+            </div>
+            ${duzenleniyorMu
+              ? `<textarea id="editTA" style="margin-bottom:10px">${y.metin}</textarea>
+                 <div style="display:flex;gap:8px">
+                   <button class="btn btn-primary" onclick="saveEdit(${y.id})">✓ Kaydet</button>
+                   <button class="btn btn-secondary" onclick="cancelEdit()">İptal</button>
+                 </div>`
+              : `<div class="comment-text">${y.metin}</div>
+                 <div class="vote-row">
+                   <button class="vote-btn up ${(window._myVotes&&window._myVotes[y.id]===1)?'active-up':''}" onclick="vote(${y.id},1)">▲</button>
+                   <span class="vote-score ${(y.upvotes||0)-(y.downvotes||0)>0?'positive':(y.upvotes||0)-(y.downvotes||0)<0?'negative':'zero'}">${(y.upvotes||0)-(y.downvotes||0)>0?'+':''}${(y.upvotes||0)-(y.downvotes||0)}</span>
+                   <button class="vote-btn down ${(window._myVotes&&window._myVotes[y.id]===-1)?'active-down':''}" onclick="vote(${y.id},-1)">▼</button>
+                   <span style="font-size:11px;color:#8892b0">
+                     <span style="color:#2ecc71">▲${y.upvotes||0}</span>
+                     &nbsp;
+                     <span style="color:#e74c3c">▼${y.downvotes||0}</span>
+                   </span>
+                 </div>`
+            }
+            ${yanitlarHtml}
+            ${yanitAcikMi ? `
+              <div style="margin-top:12px">
+                <textarea id="yanitTA_${y.id}" placeholder="Yanıtınızı yazın..." style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px;color:var(--text);font-family:inherit;font-size:13px;resize:vertical;min-height:70px;outline:none;box-sizing:border-box"></textarea>
+                <div style="display:flex;gap:8px;margin-top:8px">
+                  <button class="btn btn-primary" onclick="yanitGonder(${y.id})">↩️ Yanıtı Gönder</button>
+                  <button class="btn btn-secondary" onclick="yanitKapat()">İptal</button>
+                </div>
+              </div>` : ""}
+          </div>`;
+      }).join("");
+
+  panel.innerHTML = `
+    <div class="detail-header">
+      <div class="detail-emoji">${emoji}</div>
+      <div>
+        <div class="detail-title">${film.baslik}</div>
+        <div class="detail-year">${film.yil}</div>
+      </div>
+    </div>
+
+    <!-- Ortalama -->
+    <div class="score-box">
+      <div class="score-big">${ortalamaPuan ?? "—"}</div>
+      <div>
+        <div class="score-stars">${ortalamaPuan ? yildizStr(Math.round(ortalamaPuan)) : "☆☆☆☆☆"}</div>
+        <div class="score-meta">${toplamOy} kullanıcı oy kullandı</div>
+      </div>
+    </div>
+
+    <!-- Birleşik Puan + Yorum Formu -->
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:28px">
+      <div class="section-title">✍️ ${benimPuanim ? "Puanını Güncelle & Yorum Yap" : "Puan Ver & Yorum Yap"}</div>
+
+      <!-- Yıldızlar -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase">Puanın</div>
+        <div class="star-input" id="starRow">${puanHtml}</div>
+        ${benimPuanim ? `<div style="font-size:12px;color:var(--accent);margin-top:6px">Mevcut puanın: ${"⭐".repeat(benimPuanim.puan)} (${benimPuanim.puan}/5)</div>` : ""}
+      </div>
+
+      <!-- Yorum -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase">Yorumun (opsiyonel)</div>
+        <textarea id="commentTA" placeholder="Filmi nasıl buldunuz? (max 1000 karakter)" maxlength="1000" oninput="document.getElementById('charCount').textContent=this.value.length+'/1000'"></textarea>
+        <div style="text-align:right;margin-top:4px"><span class="char-count" id="charCount">0/1000</span></div>
+      </div>
+
+      <!-- Tek Buton -->
+      <button class="btn btn-primary" style="width:100%;padding:14px;font-size:16px" onclick="submitHepsi()">
+        ${benimPuanim ? "🔄 Güncelle & Gönder" : "🎬 Puan & Yorumu Gönder"}
+      </button>
+    </div>
+
+    <!-- Yorumlar -->
+    <div>
+      <div class="comments-header">
+        <div class="section-title" style="margin:0">📋 Yorumlar (${yorumlar.length})</div>
+        <select onchange="siralama=this.value;renderDetail()">
+          <option value="yeni" ${siralama==="yeni"?"selected":""}>En Yeni</option>
+          <option value="beg"  ${siralama==="beg"?"selected":""}>En Beğenilen</option>
+        </select>
+      </div>
+      ${yorumlarHtml}
+    </div>
+  `;
+
+  requestAnimationFrame(()=>{panel.style.transition="opacity .3s";panel.style.opacity="1";});
+}
+
+// ── STAR HOVER ───────────────────────────────────────────────
+function starHover(n) {
+  hoverPuan = n;
+  const val = n || seciliPuan;
+  for (let i=1;i<=5;i++) {
+    const fill = document.getElementById("sfill_"+i);
+    const wrap = document.getElementById("star_"+i);
+    if (!fill || !wrap) continue;
+    if (val >= i)          fill.style.width = "100%";
+    else if (val >= i-0.5) fill.style.width = "50%";
+    else                   fill.style.width = "0%";
+    wrap.style.transform = val >= i-0.5 ? "scale(1.28)" : "scale(1)";
+  }
+}
+
+function selectStar(n) {
+  seciliPuan = Number(n);
+  starHover(0);
+}
+
+// ── SUBMIT RATING ────────────────────────────────────────────
+// ── SUBMIT HEPSİ (Puan + Yorum birlikte) ────────────────────
+async function submitHepsi() {
+  if (!kullanici) return toast("Kullanıcı adı girin!", "err");
+  if (!seciliPuan) return toast("En az bir puan seçmelisiniz!", "err");
+
+  const ta = document.getElementById("commentTA");
+  const metin = ta?.value.trim();
+  let puanOk = false, yorumOk = false;
+
+  // Puanı gönder
+  if (USE_API) {
+    try {
+      await apiFetch("POST", `/api/filmler/${aktifFilmId}/puanla`, {userId:kullanici, puan:seciliPuan});
+      puanOk = true;
+    } catch(e) { toast(e.message, "err"); return; }
+  } else {
+    const m = _puanlar.find(p=>p.filmId===aktifFilmId&&p.userId===kullanici);
+    if (m) m.puan = seciliPuan;
+    else _puanlar.push({id:_sayac++,filmId:aktifFilmId,userId:kullanici,puan:seciliPuan});
+    puanOk = true;
+  }
+
+  // Yorum varsa gönder (opsiyonel)
+  if (metin) {
+    if (USE_API) {
+      try {
+        await apiFetch("POST", `/api/filmler/${aktifFilmId}/yorumlar`, {userId:kullanici, metin});
+        yorumOk = true;
+      } catch(e) { toast(e.message, "err"); return; }
+    } else {
+      _yorumlar.push({id:_sayac++,filmId:aktifFilmId,userId:kullanici,metin,tarih:new Date().toISOString(),beg:0,gunc:false});
+      yorumOk = true;
+    }
+  }
+
+  // Sonuç bildirimi
+  if (puanOk && yorumOk) toast("Puan ve yorum gönderildi ✓");
+  else if (puanOk) toast("Puan gönderildi ✓");
+
+  seciliPuan = 0;
+  await refreshGrid();
+  await renderDetail();
+}
+
+// ── DELETE COMMENT (sadece admin) ───────────────────────────
+async function deleteComment(id, userId) {
+  if (!isAdmin) return toast("Bu işlem için admin yetkisi gerekli!", "err");
+
+  if (USE_API) {
+    try { await apiFetch("DELETE",`/api/yorumlar/${id}`,{userId:ADMIN_USER}); toast("Yorum silindi"); }
+    catch(e) { return toast(e.message,"err"); }
+  } else {
+    _yorumlar = _yorumlar.filter(y=>y.id!==id);
+    toast("Yorum silindi");
+  }
+
+  await refreshGrid();
+  await renderDetail();
+}
+
+// ── EDIT COMMENT ─────────────────────────────────────────────
+function startEdit(id) {
+  duzenlemeId = id;
+  renderDetail();
+}
+function cancelEdit() { duzenlemeId = null; renderDetail(); }
+
+async function saveEdit(id) {
+  const metin = document.getElementById("editTA")?.value;
+  if (!metin?.trim()) return toast("Yorum boş olamaz!", "err");
+
+  if (USE_API) {
+    try { await apiFetch("PUT",`/api/yorumlar/${id}`,{userId:kullanici,metin}); toast("Güncellendi ✓"); }
+    catch(e) { return toast(e.message,"err"); }
+  } else {
+    const y = _yorumlar.find(x=>x.id===id);
+    if (y) { y.metin=metin.trim(); y.gunc=true; }
+    toast("Güncellendi ✓");
+  }
+
+  duzenlemeId = null;
+  await refreshGrid();
+  await renderDetail();
+}
+
+// ── VOTE ─────────────────────────────────────────────────────
+async function vote(yorumId, tip) {
+  if (!kullanici) return toast("Oy vermek için kullanıcı adı girin!", "err");
+  if (!window._myVotes) window._myVotes = {};
+
+  // Aynı oya tekrar basınca geri al (toggle) — şimdilik sadece değiştir
+  if (USE_API) {
+    try {
+      const r = await apiFetch("POST", `/api/yorumlar/${yorumId}?action=vote`, { userId: kullanici, tip });
+      // Güncel sayıları yorum nesnesine yansıt
+      window._myVotes[yorumId] = tip;
+    } catch(e) { return toast(e.message, "err"); }
+  } else {
+    const y = _yorumlar.find(x=>x.id===yorumId);
+    if (y) {
+      if (!y.upvotes)   y.upvotes   = 0;
+      if (!y.downvotes) y.downvotes = 0;
+      const prev = window._myVotes[yorumId];
+      if (prev ===  1) y.upvotes--;
+      if (prev === -1) y.downvotes--;
+      if (prev !== tip) {
+        if (tip ===  1) y.upvotes++;
+        if (tip === -1) y.downvotes++;
+        window._myVotes[yorumId] = tip;
+      } else {
+        delete window._myVotes[yorumId];
+      }
+    }
+  }
+  await renderDetail();
+}
+
+// ── ADMİN FONKSİYONLARI ─────────────────────────────────────
+function adminGirisAc() {
+  document.getElementById("adminModal").style.display = "flex";
+  document.getElementById("adminErr").style.display = "none";
+  document.getElementById("adminUser").value = "";
+  document.getElementById("adminPass").value = "";
+}
+
+function adminModalKapat() {
+  document.getElementById("adminModal").style.display = "none";
+}
+
+function adminGirisYap() {
+  const u = document.getElementById("adminUser").value.trim();
+  const p = document.getElementById("adminPass").value;
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    isAdmin = true;
+    kullanici = ADMIN_USER;
+    document.getElementById("usernameInput").value = ADMIN_USER;
+    document.getElementById("usernameInput").disabled = true;
+    const chip = document.getElementById("userChip");
+    chip.textContent = "👑 " + ADMIN_USER;
+    chip.style.display = "inline";
+    chip.style.background = "rgba(245,197,24,.15)";
+    chip.style.borderColor = "rgba(245,197,24,.5)";
+    chip.style.color = "#f5c518";
+    document.getElementById("adminBtn").textContent = "👑 Admin ✓";
+    document.getElementById("adminBtn").style.opacity = "0.6";
+    document.getElementById("adminBtn").onclick = null;
+    adminModalKapat();
+    toast("Admin girişi başarılı 👑");
+    if (aktifFilmId) renderDetail();
+  } else {
+    document.getElementById("adminErr").style.display = "block";
+  }
+}
+
+// ── YANIT FONKSİYONLARI ──────────────────────────────────────
+function yanitAc(yorumId) {
+  yanitIdAcik = yanitIdAcik === yorumId ? null : yorumId;
+  renderDetail();
+}
+
+function yanitKapat() {
+  yanitIdAcik = null;
+  renderDetail();
+}
+
+async function yanitGonder(yorumId) {
+  const ta = document.getElementById("yanitTA_" + yorumId);
+  if (!ta?.value.trim()) return toast("Yanıt boş olamaz!", "err");
+
+  if (USE_API) {
+    try {
+      await apiFetch("POST", `/api/yorumlar/${yorumId}?action=yanit`, { metin: ta.value.trim() });
+      toast("Yanıt gönderildi ✓");
+    } catch(e) { return toast(e.message, "err"); }
+  } else {
+    const yorum = _yorumlar.find(y => y.id === yorumId);
+    if (yorum) {
+      if (!yorum.yanitlar) yorum.yanitlar = [];
+      yorum.yanitlar.push({ userId: ADMIN_USER, metin: ta.value.trim(), tarih: new Date().toISOString() });
+    }
+    toast("Yanıt gönderildi ✓");
+  }
+
+  yanitIdAcik = null;
+  await renderDetail();
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+(async () => {
+  await checkApi();
+  await refreshGrid();
+})();
+</script>
+</body>
+</html>

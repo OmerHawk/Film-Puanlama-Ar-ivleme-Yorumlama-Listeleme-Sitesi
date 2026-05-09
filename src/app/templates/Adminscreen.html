@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cinematic Curator - Review Moderation</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed-variant": "#5e4200",
+              "inverse-primary": "#febb2b",
+              "secondary-fixed-dim": "#e6c183",
+              "on-tertiary-fixed": "#001e30",
+              "on-error-container": "#93000a",
+              "on-surface-variant": "#504533",
+              "on-tertiary-fixed-variant": "#004b71",
+              "primary-fixed": "#ffdea8",
+              "primary-container": "#e5a50a",
+              "surface-bright": "#f8f9fa",
+              "surface": "#f8f9fa",
+              "on-secondary": "#ffffff",
+              "surface-tint": "#7c5800",
+              "on-secondary-container": "#785c28",
+              "on-secondary-fixed": "#271900",
+              "on-primary-fixed": "#271900",
+              "tertiary": "#006495",
+              "surface-container-high": "#e7e8e9",
+              "surface-container": "#edeeef",
+              "secondary": "#765a26",
+              "outline-variant": "#d5c4ad",
+              "tertiary-container": "#51b9ff",
+              "on-tertiary": "#ffffff",
+              "tertiary-fixed": "#cbe6ff",
+              "primary": "#7c5800",
+              "inverse-surface": "#2e3132",
+              "surface-container-highest": "#e1e3e4",
+              "on-primary": "#ffffff",
+              "on-tertiary-container": "#00486c",
+              "on-primary-container": "#5a3e00",
+              "outline": "#837561",
+              "error": "#ba1a1a",
+              "on-surface": "#191c1d",
+              "on-error": "#ffffff",
+              "primary-fixed-dim": "#febb2b",
+              "secondary-container": "#fed797",
+              "background": "#f8f9fa",
+              "surface-dim": "#d9dadb",
+              "tertiary-fixed-dim": "#8fcdff",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed-variant": "#5b4210",
+              "surface-container-low": "#f3f4f5",
+              "surface-variant": "#e1e3e4",
+              "secondary-fixed": "#ffdea8",
+              "inverse-on-surface": "#f0f1f2",
+              "error-container": "#ffdad6",
+              "on-background": "#191c1d"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Noto Serif', serif; }
+        .gold-gradient {
+            background: linear-gradient(135deg, #7c5800 0%, #e5a50a 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-slate-50 dark:bg-slate-900 font-['Noto_Serif'] antialiased flex flex-col py-6 z-50">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 gold-gradient rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">movie_filter</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Cinematic Curator</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-secondary font-bold">Admin Console</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-2 px-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors hover:bg-slate-200/50 dark:hover:bg-slate-800 rounded-lg" href="/dashboard">
+    <span class="material-symbols-outlined">arrow_back</span>
+    <span class="font-body font-medium">Dashboard'a Dön</span>
+</a>
+<!-- Active State: Reviews -->
+<a class="flex items-center gap-3 px-4 py-3 text-amber-700 dark:text-amber-400 font-semibold border-r-4 border-amber-600 dark:border-amber-500 bg-amber-50/50 dark:bg-amber-900/20" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">rate_review</span>
+<span class="font-body font-semibold">Reviews</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors hover:bg-slate-200/50 dark:hover:bg-slate-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body font-medium">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-6 border-t border-slate-200 pt-6">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border-2 border-primary-fixed" data-alt="Admin User Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbmEToY9fY5u41MawixuNvYbORhEY_zr7_4CKgRsR74d79Qh80IIfEjz7kY2dxaFlkG4pXtmC7D2GGYAg0XxE8ZUO_UuWuQyrnC0qqHdRlQ9xI2B3VttK4RpXfQyeOVaH7nzqHLBaRhBYAJJgwWb9-bQf_bZTAdo6x0RsuUvGmSIT3jqKafPzPECwXekPGyL_QJEYBZ6wdxTfmR0lQNhOHz3Vx2Sm2XLuW735j0N2ec7zlOMQAM2lJOOlOAAq4pVIOA8td89HxRWta"/>
+<div class="overflow-hidden">
+<p class="text-sm font-bold truncate">Julian Vane</p>
+<p class="text-xs text-secondary truncate">Lead Curator</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center px-8 h-full font-['Manrope'] text-sm font-medium">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-low border-none focus:ring-2 focus:ring-amber-500/20 rounded-lg pl-10 pr-4 py-2 text-on-surface" placeholder="Search reported entries..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant relative focus:ring-2 focus:ring-amber-500/20 outline-none">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant focus:ring-2 focus:ring-amber-500/20 outline-none">
+<span class="material-symbols-outlined">tune</span>
+</button>
+<div class="h-6 w-[1px] bg-outline-variant mx-2"></div>
+<img class="w-8 h-8 rounded-full" data-alt="Administrator Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBv60IdvoXl7bkztWzEvH8m2FcuYaa4Qw8tH0yGc1GQTsn_LkpoOzd-DdfYnWJtAWq4BbTFYVEDheJP3spX9HgqQ7NiyqTi1GY416OHkmBz0F9mrXDc3vGI4gKfA51sW7j1NAM1ekrXEBhAzCQSE9HbYrzcUrOVarOzrrvlgcuuWy7NWo9eQ11-sYCr-nSrI7gT3F7bzCtSti-U7eRNnEejRQgDBBOCd5vK5UTc3_LITymN2zFeMxI65qx96iAvTlrCz495AXeqJpJe"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 min-h-screen bg-surface">
+<div class="p-12 max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="mb-12">
+<h2 class="text-4xl font-bold text-on-surface tracking-tight mb-2">Review Moderation</h2>
+<p class="text-secondary font-body">Manage flagged audience critiques and maintain cinematic integrity.</p>
+</div>
+<!-- Stats Ribbon (Bento Lite) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
+<div class="bg-surface-container-lowest p-6 rounded-xl flex flex-col justify-between border-b-2 border-primary-container h-32">
+<p class="text-[10px] font-bold uppercase tracking-widest text-outline">Pending Flagged</p>
+<p class="text-3xl font-headline font-bold text-primary">124</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl flex flex-col justify-between h-32">
+<p class="text-[10px] font-bold uppercase tracking-widest text-outline">Avg. Response Time</p>
+<p class="text-3xl font-headline font-bold text-on-surface">4.2h</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl flex flex-col justify-between h-32">
+<p class="text-[10px] font-bold uppercase tracking-widest text-outline">Accuracy Rate</p>
+<p class="text-3xl font-headline font-bold text-on-surface">98.4%</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl flex flex-col justify-between h-32">
+<p class="text-[10px] font-bold uppercase tracking-widest text-outline">Resolved Today</p>
+<p class="text-3xl font-headline font-bold text-on-surface">512</p>
+</div>
+</div>
+<!-- Table Controls -->
+<div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+<div class="flex gap-4 self-start">
+<button class="px-5 py-2 rounded-lg bg-surface-container-high text-primary font-bold text-sm hover:bg-surface-container-highest transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                        All Reviews
+                    </button>
+<button class="px-5 py-2 rounded-lg bg-surface-container-lowest text-on-surface-variant font-medium text-sm border-b border-outline-variant/30 hover:bg-surface-container-low transition-all">Spam Only</button>
+<button class="px-5 py-2 rounded-lg bg-surface-container-lowest text-on-surface-variant font-medium text-sm border-b border-outline-variant/30 hover:bg-surface-container-low transition-all">High Priority</button>
+</div>
+<div class="flex items-center gap-4">
+<p class="text-xs text-outline font-medium uppercase tracking-tighter">Sorted by: <span class="text-on-surface font-bold italic">Newest Flag</span></p>
+<div class="flex bg-surface-container-low rounded-lg p-1">
+<button class="p-1.5 rounded-md bg-white shadow-sm text-primary">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+<button class="p-1.5 rounded-md text-outline">
+<span class="material-symbols-outlined">view_list</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Moderation Table -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-outline">User</th>
+<th class="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-outline">Review Text</th>
+<th class="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-outline">Report Reason</th>
+<th class="px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-outline text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+    {% for user in users %}
+    <tr class="hover:bg-surface-container-low transition-colors group">
+        <td class="px-8 py-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-secondary-container/30 flex items-center justify-center font-bold text-secondary text-xs">{{ user.username[:2] | upper }}</div>
+                <div>
+                    <p class="text-sm font-bold text-on-surface">{{ user.username }}</p>
+                    <p class="text-[10px] text-outline">{{ user.email }}</p>
+                </div>
+            </div>
+        </td>
+        <td class="px-8 py-6 max-w-md">
+            <p class="text-sm text-on-surface-variant leading-relaxed line-clamp-2">Sisteme kayıtlı aktif üye.</p>
+        </td>
+        <td class="px-8 py-6">
+            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter bg-tertiary-fixed text-on-tertiary-container">
+                Aktif Kullanıcı
+            </span>
+        </td>
+        <td class="px-8 py-6 text-right">
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+
+</table>
+<!-- Pagination / Footer -->
+<div class="px-8 py-6 border-t border-surface-container flex justify-between items-center bg-surface-container-low/20">
+<p class="text-xs text-outline font-medium italic">Showing 1-4 of 124 flagged reviews</p>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-outline hover:bg-white transition-all">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-white text-xs font-bold">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-outline hover:bg-white transition-all text-xs font-bold">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-outline hover:bg-white transition-all text-xs font-bold">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-outline hover:bg-white transition-all">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer Meta -->
+<div class="mt-16 flex justify-center">
+<div class="flex items-center gap-6 text-outline text-[10px] font-bold uppercase tracking-widest">
+<span>DUR: 0.8s PAGE LOAD</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>MODERATION QUEUE: LIVE</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>CURATED BY A.I. ASIST</span>
+</div>
+</div>
+</div>
+</main>
+</body></html>

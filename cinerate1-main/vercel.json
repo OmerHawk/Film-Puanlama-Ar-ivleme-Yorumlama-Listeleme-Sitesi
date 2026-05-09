@@ -1,0 +1,9 @@
+{
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/api/filmler/:filmId/yorumlar", "destination": "/api/filmler/[filmId]/yorumlar" },
+    { "source": "/api/filmler/:filmId/puanla",   "destination": "/api/filmler/[filmId]/puanla" },
+    { "source": "/api/yorumlar/:yorumId",         "destination": "/api/yorumlar/[yorumId]" },
+    { "source": "/api/filmler",                   "destination": "/api/filmler" }
+  ]
+}
