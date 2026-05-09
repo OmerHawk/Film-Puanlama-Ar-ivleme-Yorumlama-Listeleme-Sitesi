@@ -5,7 +5,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from src.app.crud import kullanici_getir_username, kullanici_getir_email, kullanici_olustur, tum_kullanicilari_getir
-from src.api.tmdb_client import filmleri_getir, veriyi_ayikla
+from src.api.tmdb_client import populer_filmleri_cek
 
 views = Blueprint('views', __name__)
 
