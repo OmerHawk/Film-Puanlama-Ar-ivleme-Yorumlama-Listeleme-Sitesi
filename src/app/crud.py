@@ -93,3 +93,29 @@ def izleme_listesinden_cikar(user_id, movie_id):
 def tum_kullanicilari_getir():
     """Veritabanındaki tüm kullanıcıları liste halinde getirir."""
     return User.query.all()
+
+# ==========================================
+# ADMİN İŞLEMLERİ
+# ==========================================
+
+def kullanici_sil(user_id):
+    """
+    Belirtilen ID'ye sahip kullanıcıyı ve o kullanıcının 
+    yaptığı tüm yorumları/izleme listesini veritabanından güvenle siler.
+    """
+    kullanici = User.query.get(user_id)
+    
+    if kullanici:
+        # 1. Önce kullanıcının yaptığı tüm yorumları siliyoruz (Foreign Key hatası almamak için)
+        for yorum in kullanici.reviews:
+            db.session.delete(yorum)
+            
+        # 2. İzleme listesi bağlarını koparıyoruz
+        kullanici.saved_movies = []
+        
+        # 3. Son olarak kullanıcının kendisini veritabanından siliyoruz
+        db.session.delete(kullanici)
+        db.session.commit()
+        return True # Silme başarılı
+        
+    return False # Kullanıcı bulunamadı
