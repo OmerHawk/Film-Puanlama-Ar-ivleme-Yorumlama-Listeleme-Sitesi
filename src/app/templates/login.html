@@ -4,16 +4,17 @@
     <title>Giriş Yap</title>
 </head>
 <body>
-    <h2>Giriş Yap</h2>
-    <!-- form method="POST" kısmı, bilgileri URL'de göstermeden gizlice sana yollamamızı sağlar -->
-    <form method="POST">
-        <label>Kullanıcı Adı:</label><br>
-        <input type="text" name="username"><br><br>
+    <h2>Giriş Yap (Tasarım Eklenene Kadar Geçici Sayfa)</h2>
+    <form method="POST" action="/login">
+        <label>E-posta Adresi:</label><br>
+        <input type="email" name="email" required><br><br>
         
         <label>Şifre:</label><br>
-        <input type="password" name="password"><br><br>
+        <input type="password" name="password" required><br><br>
         
-        <button type="submit">Giriş</button>
+        <button type="submit">Giriş Yap</button>
     </form>
+    <br>
+    <p>Hesabın yok mu? <a href="/register">Kayıt Ol</a></p>
 </body>
 </html>

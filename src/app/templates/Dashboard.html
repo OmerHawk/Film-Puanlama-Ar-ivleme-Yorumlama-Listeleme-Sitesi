@@ -108,6 +108,9 @@
 <button class="text-slate-300 hover:text-[#ffc24a] transition-colors">
 <span class="material-symbols-outlined" data-icon="settings">settings</span>
 </button>
+<a href="/logout" class="text-slate-300 hover:text-red-500 transition-colors ml-4" title="Çıkış Yap">
+    <span class="material-symbols-outlined">logout</span>
+</a>
 <div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant/30">
 <img class="w-full h-full object-cover" data-alt="User Profile Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5FZeCvoCF4nnYGnGiA0J3hFAEBlOPyVUEHXjqBMaaOZcbhL5pWtM9VwgoYATML89MoW8Fz3xhT64qUCv_mJp3oqrY7PYroxK0ndiDd0RYlX1LpTkveUD3CM1_MH0rj3Fv0Gfnci-UOAurYk0him8InNz9Kqm63-rHHcNE6YW-fDUbz7dnRvl0Gy844n5lLbqR1AR3ibchtwZhWCMWF4QXfxeyJ3yP5OIvL_XHBx25kohu0APbSBWYD-l71PrTHudLsyTIn-AbVE4_"/>
 </div>
@@ -123,7 +126,7 @@
 <span class="material-symbols-outlined text-on-primary text-xl" data-icon="movie" data-weight="fill">movie</span>
 </div>
 <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-<p class="text-[#ffc24a] font-headline italic font-bold leading-tight">The Curator</p>
+<p class="text-[#ffc24a] font-headline italic font-bold leading-tight">{{ aktif_isim }}</p>
 <p class="text-[10px] text-slate-500 font-label uppercase tracking-widest">Editorial Collection</p>
 </div>
 </div>
@@ -132,6 +135,12 @@
 <span class="material-symbols-outlined min-w-[32px]" data-icon="home">home</span>
 <span class="ml-4 opacity-0 group-hover:opacity-100 transition-opacity font-label uppercase tracking-[0.1rem] text-xs font-semibold whitespace-nowrap">Home</span>
 </a>
+{% if is_admin %}
+<a class="flex items-center px-6 py-4 text-slate-500 hover:text-slate-100 hover:bg-[#1a1c1f] transition-all group/item" href="/admin">
+    <span class="material-symbols-outlined min-w-[32px]">admin_panel_settings</span>
+    <span class="ml-4 opacity-0 group-hover:opacity-100 transition-opacity font-label uppercase tracking-[0.1rem] text-xs font-semibold whitespace-nowrap">Admin Paneli</span>
+</a>
+{% endif %}
 <a class="flex items-center px-6 py-4 text-slate-500 hover:text-slate-100 hover:bg-[#1a1c1f] transition-all group/item" href="#">
 <span class="material-symbols-outlined min-w-[32px]" data-icon="movie">movie</span>
 <span class="ml-4 opacity-0 group-hover:opacity-100 transition-opacity font-label uppercase tracking-[0.1rem] text-xs font-semibold whitespace-nowrap">Movies</span>
@@ -196,54 +205,18 @@
 <a class="text-primary text-sm font-label uppercase tracking-widest hover:underline" href="#">Explore All</a>
 </div>
 <div class="flex gap-6 overflow-x-auto hide-scrollbar pb-8">
-<!-- Movie Card 1 -->
+{% for film in filmler %}
 <div class="min-w-[300px] group cursor-pointer">
-<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 bg-surface-container-low transition-transform duration-500 group-hover:scale-[1.02]">
-<img class="w-full h-full object-cover" data-alt="Vintage film reel and projector" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGTWyD35PK_RdaocheRS_xup2v0ILDv2lmIOnWut6qMSpEXfI5e5a6vZc6-JeFFv63Y1TeLKvOtGCsRXoNmA2q-GLXvcPgVsxw0i0OiMkYkTm4WVUNgmlmv1R26zUwJ5LdFZ0n8hHLxc2nsmqWCBqadApB1kkrUH2Tp4EyKiYCUOawNlMGrFgxK7xzRYsYRHxJG8hKsjBWsznRzpYiqeli7hidU8z-JIf4HLFYCcqt63EnoXk9Xee8NxKMtTQI_GLf4DFqpNccuGqO"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-<div class="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0">
-<span class="bg-primary text-on-primary px-2 py-1 rounded text-[10px] font-bold">4K HDR</span>
+    <a href="/film/{{ film.id | default(1) }}">
+        <div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 bg-surface-container-low transition-transform duration-500 group-hover:scale-[1.02]">
+            <img class="w-full h-full object-cover" src="{{ film.poster_url | default('https://via.placeholder.com/300x450?text=Afis+Yok') }}" alt="{{ film.film_adi }}"/>
+            <div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </div>
+        <h3 class="text-lg font-headline font-semibold text-on-surface truncate">{{ film.film_adi }}</h3>
+        <p class="text-sm text-on-surface/50 font-label">TMDB PUANI: {{ film.puan }}</p>
+    </a>
 </div>
-</div>
-<h3 class="text-lg font-headline font-semibold text-on-surface">The Shadow Archive</h3>
-<p class="text-sm text-on-surface/50 font-label">THRILLER • 2024</p>
-</div>
-<!-- Movie Card 2 -->
-<div class="min-w-[300px] group cursor-pointer">
-<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 bg-surface-container-low transition-transform duration-500 group-hover:scale-[1.02]">
-<img class="w-full h-full object-cover" data-alt="Noir style silhouette of a man in fog" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXK-oG9_PwhI5c3KCsQ6-CObLyk-S6OK56DSRN_IJQmCuGVlJ15d7JIDeqq6XXLIwo0YTd0D6V7I8MJd0VdVgRHBK2K1nEOIDqOCI_Q90nf_kHUP6VghJx02_d5h9W7Bp_BQtprd1RNIZvZf-8yFVjtpJJEP6n4J4VucUDVBzqsAmjNbRydbL0R3Bys7rzf6EPKdV0E6BTxtl9plZGzz5-rBPYeZDcBiPFR2ZKS2TU_ENz-ZDw6PLBrGQ0lZJjYpC9ulqQHHkU0UQ4"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-</div>
-<h3 class="text-lg font-headline font-semibold text-on-surface">Midnight Protocol</h3>
-<p class="text-sm text-on-surface/50 font-label">DRAMA • 2023</p>
-</div>
-<!-- Movie Card 3 -->
-<div class="min-w-[300px] group cursor-pointer">
-<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 bg-surface-container-low transition-transform duration-500 group-hover:scale-[1.02]">
-<img class="w-full h-full object-cover" data-alt="Classic cinema seating in red velvet" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf33YrFO0Zg2TVG2z8Sq2MPSlhYJHmC6OBQOXiohAVINryMxjmGYJO30e2oBvMIKZncf31IEd3r2b6yHTfF4xC1nK4Zc23k6LoCcKh_QRsXhE7XuLEYAC4RjCDCqOIOx-UMr-E7FzOxa9pvPqIYR7yYr51o6vOoySvSHeT4h3b7Vd4dvyh0fLF2HeNlUJOd-A_fGmgp1Fu8M2CQ2qdJWD9oqz1rZFtlQBLDSZWykjodSbH8ScHXM-3_Bj-kwY0pPfivrbZSzuSyLFt"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-</div>
-<h3 class="text-lg font-headline font-semibold text-on-surface">Encore</h3>
-<p class="text-sm text-on-surface/50 font-label">MUSICAL • 2024</p>
-</div>
-<!-- Movie Card 4 -->
-<div class="min-w-[300px] group cursor-pointer">
-<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 bg-surface-container-low transition-transform duration-500 group-hover:scale-[1.02]">
-<img class="w-full h-full object-cover" data-alt="Futuristic glowing neon city streets" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR1xSgSAi2TULTgQDNc1xKqKXLphuAFEidGswMW-ERwFRK4NdDDN3HPpDKDnl7ezpxky4Y1mQ4L9PiHAKXdSzCsYouQbziLghlez8fysyBgzk-UEHc9RGr3nW5fiabm1Sd9YFVwfOkvVM2NxazRs_s7n_i4LXnayvpGcWujZ8dTvFOAk_X6DS3qfsBBNwZcKteazvfRheg2wHSML5GTRJ2Nmnp1Ns8eb0F2E2c3PabiqVaanncs9B3bfUFST1bAhEHA-Cy3Mg8sQd-"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-</div>
-<h3 class="text-lg font-headline font-semibold text-on-surface">Neo-Tokyo 2088</h3>
-<p class="text-sm text-on-surface/50 font-label">SCI-FI • 2024</p>
-</div>
-<!-- Movie Card 5 -->
-<div class="min-w-[300px] group cursor-pointer">
-<div class="relative aspect-[2/3] rounded-xl overflow-hidden mb-4 bg-surface-container-low transition-transform duration-500 group-hover:scale-[1.02]">
-<img class="w-full h-full object-cover" data-alt="Old library with dusty books and light beams" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjXcwB3JbZdzBFGjp6GTDJLMTlrl6u8DT2WMUEgG3MF1O0CEh4vUV3ou9QCHdGFcLdA5aJVS4MAG9zIwvDFU7YsRob9FDBvxa4afduVV5u3_ljP1AZCedL5EtHmbro9M0HV5cYaT_2ScUAlKXYyDFQIkT9sPQ_Wsh3XMVmDaYPA2USUlsRU4FjlrwyO-E2HrRusIATKIOhP7SXuEHPysuEA3GLrEnFm2OFI_r9QhjekoZByS2Po9bHM-CtqOskW-URtXvIZb4qY-XD"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-</div>
-<h3 class="text-lg font-headline font-semibold text-on-surface">The Librarian's Secret</h3>
-<p class="text-sm text-on-surface/50 font-label">MYSTERY • 2022</p>
-</div>
+{% endfor %}
 </div>
 </section>
 <!-- Recommended for You -->

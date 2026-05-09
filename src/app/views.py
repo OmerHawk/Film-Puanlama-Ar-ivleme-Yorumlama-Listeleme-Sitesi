@@ -35,7 +35,7 @@ def login():
         else:
             return "<h1>Hata: Böyle bir e-posta bulunamadı! <a href='/login'>Geri Dön</a></h1>"
     
-    return render_template("LoginScreen.html")
+    return render_template("login.html")
 
 @views.route('/dashboard')
 def dashboard():
@@ -69,8 +69,9 @@ def dashboard():
         try:
             ham_veri = filmleri_getir(1)
             populer_filmler = veriyi_ayikla(ham_veri["results"])
-            
-            return render_template("Dashboard.html", aktif_isim=aktif_isim, filmler=populer_filmler, rastgele_film=secilen_film)
+            user = kullanici_getir_email(session.get('email'))
+            admin_yetkisi = user.is_admin if user else False
+            return render_template("Dashboard.html", aktif_isim=aktif_isim, filmler=populer_filmler, rastgele_film=secilen_film, is_admin=admin_yetkisi)
             
         except Exception as e:
             return f"<h1>Hosgeldin {aktif_isim}!</h1><p>Filmler yuklenirken bir hata olustu: {e}</p><a href='/logout'>Cikis Yap</a>"
@@ -98,17 +99,22 @@ def register():
             return "<h1>Hata: Bu kullanıcı adı zaten alınmış! <a href='/register'>Geri Dön</a></h1>"
 
         hashed_password = generate_password_hash(sifre, method='pbkdf2:sha256')
-        yeni_user = kullanici_olustur(kullanici_adi, email, hashed_password)
+        
+        proje_ekibi = ["arda", "kadir", "ömer", "omer", "alper", "burak", "halil"]
+        kullanici_admin_mi = True if kullanici_adi.lower() in proje_ekibi else False
+
+        yeni_user = kullanici_olustur(kullanici_adi, email, hashed_password, is_admin=kullanici_admin_mi)
         
         if yeni_user:
             return "<h1>Kayıt Başarılı! Şimdi <a href='/login'>Giriş Yapabilirsin</a>.</h1>"
         return "<h1>Kayıt sırasında bir hata oluştu!</h1>"
 
-    return render_template("register.html")
+    return render_template("LoginScreen.html")
 
 @views.route('/admin')
 def admin_panel():
-    if session.get('kullanici') == 'arda' or session.get('kullanici') == 'Arda':
+    user = kullanici_getir_email(session.get('email'))
+    if user and user.is_admin:
         try:
             kullanicilar = tum_kullanicilari_getir()
         except:
@@ -116,7 +122,7 @@ def admin_panel():
             
         return render_template("Adminscreen.html", users=kullanicilar)
     else:
-        return "<h1>Dur orda! Bu sayfaya girmek için yetkiniz yok. Sadece Proje Lideri girebilir.</h1>", 403
+        return "<h1>Dur orda! Bu sayfaya girmek için yetkiniz yok. Sadece proje ekibi girebilir.</h1>", 403
 
 @views.route('/film/<int:id>')
 def film_detay(id):
