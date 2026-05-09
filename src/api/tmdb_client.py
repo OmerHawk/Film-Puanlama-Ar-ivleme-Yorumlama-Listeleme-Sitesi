@@ -11,7 +11,6 @@ if not API_ANAHTARI:
     raise ValueError("KRİTİK HATA: .env dosyası bulunamadı veya şifre okunamadı!")
 
 def _sayfa_getir(sayfa_no=1):
-    """(İç Fonksiyon) TMDB'den tek bir sayfalık ham veriyi çeker."""
     adres = f"{TEMEL_ADRES}/movie/popular"
     parametreler = {
         "api_key": API_ANAHTARI,
@@ -25,7 +24,6 @@ def _sayfa_getir(sayfa_no=1):
     return cevap.json().get("results", [])
 
 def _veriyi_ayikla(ham_filmler):
-    """(İç Fonksiyon) Gelen karmaşık veriden sadece lazım olanları temiz bir listeye dönüştürür."""
     temiz_liste = []
     for film in ham_filmler:
         afis = f"https://image.tmdb.org/t/p/w500{film.get('poster_path')}" if film.get("poster_path") else None
