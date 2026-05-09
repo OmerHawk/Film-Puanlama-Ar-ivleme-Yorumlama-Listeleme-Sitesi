@@ -67,8 +67,7 @@ def dashboard():
             secilen_film = {"film_adi": "Veritabanı Güncelleniyor...", "ozet": "Lütfen bekleyin.", "puan": "-"}
 
         try:
-            ham_veri = filmleri_getir(1)
-            populer_filmler = veriyi_ayikla(ham_veri["results"])
+            populer_filmler = populer_filmleri_cek(1)
             user = kullanici_getir_email(session.get('email'))
             admin_yetkisi = user.is_admin if user else False
             return render_template("Dashboard.html", aktif_isim=aktif_isim, filmler=populer_filmler, rastgele_film=secilen_film, is_admin=admin_yetkisi)
