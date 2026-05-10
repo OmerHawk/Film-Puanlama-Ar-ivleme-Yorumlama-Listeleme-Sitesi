@@ -194,6 +194,28 @@ def api_yorumlar(film_id):
         if not metin:
             return jsonify({"hata": "Metin boş olamaz"}), 400
         
+        # Veritabanında film kaydı yoksa (PostgreSQL foreign key hatasını önlemek için) oluştur
+        movie = Movie.query.get(film_id)
+        if not movie:
+            film_data = film_detay_cek(film_id)
+            if film_data:
+                try:
+                    yil = int(str(film_data.get('tarih', '2000'))[:4])
+                except ValueError:
+                    yil = 2000
+                
+                movie = Movie(
+                    id=film_id,
+                    tmdb_id=film_id,
+                    title=film_data.get('baslik', 'Bilinmeyen'),
+                    year=yil,
+                    genre=film_data.get('turler', 'Bilinmeyen'),
+                    description=film_data.get('ozet', ''),
+                    poster_url=film_data.get('poster')
+                )
+                db.session.add(movie)
+                db.session.commit()
+
         yeni_yorum = Review(rating=puan, comment=metin, user_id=user.id, movie_id=film_id)
         db.session.add(yeni_yorum)
         db.session.commit()
