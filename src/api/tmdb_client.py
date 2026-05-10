@@ -51,3 +51,38 @@ def populer_filmleri_cek(sayfa_sayisi=1):
     except requests.exceptions.RequestException as hata:
         print(f"Bağlantı Hatası: {hata}")
         return [] 
+
+
+def film_ara(kelime):
+    adres = f"{TEMEL_ADRES}/search/movie"
+    parametreler = {
+        "api_key": API_ANAHTARI,
+        "language": "tr-TR",
+        "query": kelime, # Aranacak kelime
+        "page": 1
+    }
+    try:
+        cevap = requests.get(adres, params=parametreler)
+        cevap.raise_for_status()
+        ham_filmler = cevap.json().get("results", [])
+        return _veriyi_ayikla(ham_filmler) 
+    except Exception as e:
+        print(f"Arama Hatası: {e}")
+        return []
+
+def ture_gore_filmleri_getir(tur_id):
+    adres = f"{TEMEL_ADRES}/discover/movie"
+    parametreler = {
+        "api_key": API_ANAHTARI,
+        "language": "tr-TR",
+        "with_genres": tur_id, 
+        "page": 1
+    }
+    try:
+        cevap = requests.get(adres, params=parametreler)
+        cevap.raise_for_status()
+        ham_filmler = cevap.json().get("results", [])
+        return _veriyi_ayikla(ham_filmler)
+    except Exception as e:
+        print(f"Tür Filtreleme Hatası: {e}")
+        return []
