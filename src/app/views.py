@@ -4,7 +4,7 @@ import random
 from flask import Blueprint, render_template, request, redirect, url_for, session
 
 from werkzeug.security import generate_password_hash, check_password_hash
-from src.app.crud import kullanici_getir_username, kullanici_getir_email, kullanici_olustur, tum_kullanicilari_getir
+from src.app.crud import kullanici_getir_username, kullanici_getir_email, kullanici_olustur, tum_kullanicilari_getir, kullanici_sil
 from src.api.tmdb_client import populer_filmleri_cek
 
 views = Blueprint('views', __name__)
@@ -108,3 +108,12 @@ def admin_panel():
 @views.route('/film/<int:id>')
 def film_detay(id):
     return render_template("MovieDetails.html", film_id=id)
+
+@views.route('/kullanici-sil/<int:id>', methods=['POST'])
+def kullaniciyi_sil(id):
+    user = kullanici_getir_email(session.get('email'))
+    if user and user.is_admin:
+        kullanici_sil(id)
+        return redirect(url_for('views.admin_panel'))
+    else:
+        return "<h1>Dur orda! Yetkiniz yok.</h1>", 403

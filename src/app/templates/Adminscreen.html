@@ -237,6 +237,12 @@
             </span>
         </td>
         <td class="px-8 py-6 text-right">
+            <form action="/kullanici-sil/{{ user.id }}" method="POST" onsubmit="return confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?');">
+                <button type="submit" class="px-4 py-2 bg-red-600/10 text-red-600 hover:bg-red-600 hover:text-white rounded-lg transition-colors font-bold text-xs uppercase tracking-wider flex items-center gap-2 ml-auto">
+                    <span class="material-symbols-outlined text-sm">delete</span>
+                    Sil
+                </button>
+            </form>
         </td>
     </tr>
     {% endfor %}
