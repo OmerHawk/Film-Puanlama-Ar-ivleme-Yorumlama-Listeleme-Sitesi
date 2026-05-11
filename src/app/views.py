@@ -193,25 +193,28 @@ def film_detay(id):
 @views.route('/api/filmler/<int:film_id>/yorumlar', methods=['GET', 'POST'])
 def api_yorumlar(film_id):
     if request.method == 'GET':
-        reviews = Review.query.filter_by(movie_id=film_id).order_by(Review.date_posted.desc()).all()
-        yorumlar_data = []
-        for r in reviews:
-            replies = [{"id": rep.id, "userId": rep.user.username, "metin": rep.comment, "tarih": str(rep.date_posted)} for rep in r.replies]
-            upvotes = Vote.query.filter_by(review_id=r.id, tip=1).count()
-            downvotes = Vote.query.filter_by(review_id=r.id, tip=-1).count()
-            yorumlar_data.append({
-                "id": r.id,
-                "filmId": r.movie_id,
-                "userId": r.author.username,
-                "metin": r.comment,
-                "tarih": str(r.date_posted),
-                "begeniler": r.likes,
-                "yanitlar": replies,
-                "upvotes": upvotes,
-                "downvotes": downvotes,
-                "rating": r.rating
-            })
-        return jsonify({"yorumlar": yorumlar_data})
+        try:
+            reviews = Review.query.filter_by(movie_id=film_id).order_by(Review.date_posted.desc()).all()
+            yorumlar_data = []
+            for r in reviews:
+                replies = [{"id": rep.id, "userId": rep.user.username, "metin": rep.comment, "tarih": str(rep.date_posted)} for rep in r.replies]
+                upvotes = Vote.query.filter_by(review_id=r.id, tip=1).count()
+                downvotes = Vote.query.filter_by(review_id=r.id, tip=-1).count()
+                yorumlar_data.append({
+                    "id": r.id,
+                    "filmId": r.movie_id,
+                    "userId": r.author.username,
+                    "metin": r.comment,
+                    "tarih": str(r.date_posted),
+                    "begeniler": r.likes,
+                    "yanitlar": replies,
+                    "upvotes": upvotes,
+                    "downvotes": downvotes,
+                    "rating": r.rating
+                })
+            return jsonify({"yorumlar": yorumlar_data})
+        except Exception as e:
+            return jsonify({"hata": str(e), "yorumlar": []}), 500
         
     elif request.method == 'POST':
         if 'kullanici' not in session:
