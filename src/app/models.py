@@ -40,3 +40,9 @@ class Review(db.Model):
     # Foreign Keys
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable=False)
+
+class Log(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    kullanici_adi = db.Column(db.String(100), nullable=False) 
+    islem_detayi = db.Column(db.String(255), nullable=False) 
+    tarih = db.Column(db.DateTime, default=datetime.utcnow)

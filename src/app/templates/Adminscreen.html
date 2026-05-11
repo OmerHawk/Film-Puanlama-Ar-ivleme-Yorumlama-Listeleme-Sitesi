@@ -265,6 +265,32 @@
 </div>
 </div>
 </div>
+</div>
+    </div>
+    
+    <div class="mt-8">
+        <h2 class="text-xl font-bold text-on-surface mb-4">Sistem Geçmişi (Loglar)</h2>
+        <div class="bg-surface border border-outline-variant/20 rounded-2xl overflow-hidden">
+            <ul class="divide-y divide-surface-container">
+                {% for log in logs %}
+                <li class="px-6 py-4 flex items-center justify-between hover:bg-surface-container-low transition-colors">
+                    <div class="flex items-center gap-4">
+                        <span class="material-symbols-outlined text-primary">history</span>
+                        <div>
+                            <p class="text-sm font-bold text-on-surface">{{ log.kullanici_adi }}</p>
+                            <p class="text-xs text-on-surface-variant">{{ log.islem_detayi }}</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] text-outline font-medium">{{ log.tarih.strftime('%Y-%m-%d %H:%M') }}</span>
+                </li>
+                {% else %}
+                <li class="px-6 py-8 text-center text-outline text-sm">Henüz sistemde bir işlem yapılmamış.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-16 flex justify-center">
 <!-- Footer Meta -->
 <div class="mt-16 flex justify-center">
 <div class="flex items-center gap-6 text-outline text-[10px] font-bold uppercase tracking-widest">

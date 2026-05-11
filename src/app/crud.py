@@ -1,5 +1,5 @@
 from src.app import db
-from src.app.models import User, Movie, Review
+from src.app.models import User, Movie, Review, Log
 
 # KULLANICI (USER) İŞLEMLERİ
 
@@ -119,3 +119,14 @@ def kullanici_sil(user_id):
         return True # Silme başarılı
         
     return False # Kullanıcı bulunamadı
+
+def log_ekle(kullanici_adi, islem_detayi):
+    
+    yeni_log = Log(kullanici_adi=kullanici_adi, islem_detayi=islem_detayi)
+    db.session.add(yeni_log)
+    db.session.commit()
+    return True
+
+def tum_loglari_getir():
+    
+    return Log.query.order_by(Log.tarih.desc()).all()
