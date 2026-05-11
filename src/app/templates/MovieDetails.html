@@ -103,35 +103,19 @@
 <!-- Hero Section -->
 <section class="relative h-[870px] w-full overflow-hidden">
 <div class="absolute inset-0 z-0">
-<img class="w-full h-full object-cover" data-alt="Dramatic black and white cinematic landscape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq7EXSDHW9rL-p0fAYoS3EYmal16RUn8GUo_diEW707PeDUgEIz0HZvYA4A7L1Jr_xABnUGeu5VnzbG6T6kPT83FkHm1J5NAa8HzI-kTySY-2mRx7MD-R5WTkYoZNkZtyAwkKsCUHwt-KRUB4dUqUH7o3WUW2aCi7LjOTdeAUPN8tFPtAUDhcb_EoezsMg9g0JysEv4MqmhLRik8u4U-KgIIODD_vrlHYkOTcuAIJ61-1DuXDxBZnV00ZLEdybGorXUEa9YZmStfno"/>
-<img class="w-full h-full object-cover" data-alt="Dramatic black and white cinematic landscape" src="{{ film.arka_plan | default('https://via.placeholder.com/1920x1080?text=Arkaplan+Yok') }}"/>
+<img class="w-full h-full object-cover" src="{{ film.arka_plan | default('https://via.placeholder.com/1920x1080?text=Arkaplan+Yok') }}"/>
 <div class="absolute inset-0 hero-gradient"></div>
 </div>
 <!-- Content Overlay -->
 <div class="relative z-10 container mx-auto px-6 h-full flex flex-col justify-end pb-24">
 <div class="flex flex-col md:flex-row items-end gap-12">
 <!-- Poster -->
-<div class="hidden md:block w-72 shrink-0 shadow-2xl rounded-xl overflow-hidden transform translate-y-12">
-<img class="w-full aspect-[2/3] object-cover" data-alt="Minimalist noir film poster of a lone figure" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHPXL9WS7tXUb3LpXG6CXl-N0XE8CHQ97v8rj_pVtEQc4rx9EK9eTXjWgdEAADz-bLdRHNqAfxtsNfljcv13OY2nwC0MVn7BVYKOPK_W0tQ94AyDAWpp067WxZna57V9xNMM1ZLmW17IGyU--NDucl1Hh5dhJeOpY6-ns9eNztsREXYATuvrv65D1_qi1-heS5r2x9dcjSDBpWLBmEmad-yG375KWYSg3jVhZCUTWV3KQBpzyB4faGZBhapVcx5X0fCJvc2oAeUKOL"/>
 <div class="hidden md:block w-72 shrink-0 shadow-2xl rounded-xl overflow-hidden transform translate-y-12 bg-surface-container-low">
-<img class="w-full aspect-[2/3] object-cover" data-alt="Film poster" src="{{ film.afis_yolu | default('https://via.placeholder.com/500x750?text=Afis+Yok') }}"/>
+<img class="w-full aspect-[2/3] object-cover" src="{{ film.afis_yolu | default('https://via.placeholder.com/500x750?text=Afis+Yok') }}"/>
 </div>
 <!-- Details -->
 <div class="flex-1 space-y-6">
 <div class="flex flex-wrap gap-3">
-<span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-label uppercase tracking-widest text-on-surface-variant">Drama</span>
-<span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-label uppercase tracking-widest text-on-surface-variant">Noir</span>
-<span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-label uppercase tracking-widest text-on-surface-variant">154 MIN</span>
-</div>
-<h1 class="text-6xl md:text-8xl font-headline font-bold tracking-tight text-on-surface leading-none">
-                            The Last <br/><span class="italic text-primary">Auteur</span>
-</h1>
-<div class="flex items-center gap-4">
-<!-- Star Rating -->
-<div class="flex items-center bg-surface-container-lowest/40 backdrop-blur-md px-4 py-2 rounded-xl">
-<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="ml-2 text-2xl font-headline font-bold text-on-surface">8.4</span>
-<span class="ml-1 text-sm text-on-surface-variant">/ 10</span>
 {% for tur in film.turler %}
 <span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-label uppercase tracking-widest text-on-surface-variant">{{ tur }}</span>
 {% endfor %}
@@ -139,7 +123,7 @@
 <span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-label uppercase tracking-widest text-on-surface-variant">{{ film.sure }} MIN</span>
 {% endif %}
 </div>
-<h1 class="text-5xl md:text-7xl font-headline font-bold tracking-tight text-on-surface leading-none mb-4">
+<h1 class="text-5xl md:text-7xl font-headline font-bold tracking-tight text-on-surface leading-none">
     {{ film.film_adi }}
 </h1>
 <div class="flex items-center gap-4 flex-wrap">
@@ -173,67 +157,11 @@
 <div class="space-y-4">
 <h2 class="text-sm font-label uppercase tracking-[0.2rem] text-primary">The Narrative</h2>
 <p class="text-xl font-body leading-relaxed text-on-surface/80 max-w-3xl">
-                            In a decaying metropolis where digital echoes replace human connection, a veteran film restorer discovers a mysterious reel that shouldn't exist. As he delves into the celluloid mystery, the lines between his reality and the film's haunting frames begin to blur into a visceral noir odyssey.
-                        </p>
-</div>
-<!-- Reviews -->
-<div class="space-y-8">
-<div class="flex justify-between items-end border-b border-outline-variant/10 pb-4">
-<h2 class="text-2xl font-headline font-bold">Audience Reflections</h2>
-<button class="text-sm font-label text-tertiary hover:underline">Write a review</button>
-</div>
-<div class="space-y-8">
-<!-- Review 1 -->
-<div class="bg-surface-container-low p-8 rounded-xl space-y-4">
-<div class="flex justify-between items-start">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
-<img class="w-full h-full object-cover" data-alt="Portrait of a male reviewer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlMNQJ5C5n5VldtihiFdGglOUKy75VRz3RhEO55-pWOQSRy5PpOtre_hTUvLDHkrv--TNzSCz8ISgOU4b5Lu8DBjX3k5h2LXv-0-AEBWFPtIgX9AD1yjDHcROf46HPguop-DAwKKzKG2QgNMI4TWZ6SB-2v0N0ioBxKOA5llZJHDpyAQ6sUkLYxfImL6oH1XCC2Gv_OH_XsxnCzZhoCzhBsTeeqFOdDo5rjbGETQZk1vBlhrAeB2rzqZEK1W46TQQr6c__QN5pM4n7"/>
-</div>
-<div>
-<p class="font-bold text-sm">Julian Vance</p>
-<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Metacritic Top Critic</p>
-</div>
-</div>
-<div class="flex text-primary gap-0.5">
-<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">star</span>
-</div>
-</div>
-<p class="font-body text-on-surface-variant leading-relaxed italic">
-                                    "A breathtaking visual poem that honors the tactile nature of cinema. The cinematography is nothing short of transcendent. A haunting look at what we lose in the digital age."
-                                </p>
-</div>
-<!-- Review 2 -->
-<div class="bg-surface-container-low p-8 rounded-xl space-y-4">
-<div class="flex justify-between items-start">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
-<img class="w-full h-full object-cover" data-alt="Portrait of a female cinephile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANgr75fGYAH-reX9vfzlksfwDRAaLHhCaC0TKT21PW61igCGEsKqu0r_EWaQ7GgUbuyAr9901csCnsvfwxrp9eXFaeGXgOBvDCiWFNeARg5dO8ch-WpDpt4sBD4nZOXILs26lOofSFHxxGo0DxP5T6Tw86fRJezuOrXT-yPA8PXfyI1qS0gsDVfZg1tTdBE0Z3gg9bB5vrkOQvM-cYgq-9slrdBvFqKZ-iIJ05tbOivNdIKLQxnBQKh8yq82dgi_BCs_M-fJtijuQ-"/>
-</div>
-<div>
-<p class="font-bold text-sm">Elena Ross</p>
-<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Gold Member</p>
-</div>
-</div>
-<div class="flex text-primary gap-0.5">
-<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined text-lg">star</span>
-</div>
-</div>
-<p class="font-body text-on-surface-variant leading-relaxed">
-                                    "Atmospheric and slow-burning. It demands your full attention and rewards it with a sensory experience that stays with you long after the credits roll. Highly recommended for fans of classic noir."
-                                </p>
     {{ film.ozet | default('Özet bulunmamaktadır.') }}
 </p>
 </div>
 <!-- Reviews -->
+
 <div class="space-y-8" id="reviews-section">
 <div class="flex justify-between items-end border-b border-outline-variant/10 pb-4">
 <h2 class="text-2xl font-headline font-bold">Audience Reflections</h2>
