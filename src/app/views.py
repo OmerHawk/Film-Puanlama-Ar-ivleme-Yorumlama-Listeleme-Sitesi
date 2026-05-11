@@ -9,6 +9,7 @@ from src.api.tmdb_client import populer_filmleri_cek, film_detay_cek
 from src.app.models import db, Review, Vote, Reply, User, Movie
 from sqlalchemy.sql import func
 from flask import jsonify
+from src.app.crud import kullanici_sil
 
 views = Blueprint('views', __name__)
 
@@ -294,3 +295,13 @@ def api_yorum_islem(yorum_id):
                 "tarih": yeni_yanit.date_posted
             })
     return jsonify({"hata": "Geçersiz işlem"}), 400
+    return render_template("MovieDetails.html", film_id=id)
+
+@views.route('/kullanici-sil/<int:id>', methods=['POST'])
+def kullaniciyi_sil(id):
+    user = kullanici_getir_email(session.get('email'))
+    if user and user.is_admin:
+        kullanici_sil(id)
+        return redirect(url_for('views.admin_panel'))
+    else:
+        return "<h1>Dur orda! Yetkiniz yok.</h1>", 403
