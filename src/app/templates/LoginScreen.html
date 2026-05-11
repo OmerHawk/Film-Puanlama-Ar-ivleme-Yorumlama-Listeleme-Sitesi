@@ -147,6 +147,34 @@
         </form>
     </div>
 
+{% elif login_mode %}
+<!-- Login Form -->
+<form class="space-y-6" method="POST" action="/login">
+<div class="space-y-2">
+<label class="block text-[10px] font-label uppercase tracking-[0.15em] text-outline" for="email">Email Address</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-lowest border-none rounded-xl py-4 px-5 text-on-surface placeholder:text-surface-variant focus:ring-1 focus:ring-primary/40 transition-all font-body text-sm" id="email" name="email" placeholder="cinephile@cinerate.com" type="email"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block text-[10px] font-label uppercase tracking-[0.15em] text-outline" for="password">Password</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-lowest border-none rounded-xl py-4 px-5 text-on-surface placeholder:text-surface-variant focus:ring-1 focus:ring-primary/40 transition-all font-body text-sm" id="password" name="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<div class="pt-4 space-y-6">
+<button class="cinematic-gradient w-full py-4 rounded-full text-on-primary font-body font-bold text-sm tracking-widest uppercase shadow-lg shadow-primary/10 hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all" type="submit">
+    Sign In
+</button>
+<div class="flex items-center justify-center space-x-2">
+<span class="text-xs text-on-surface-variant">Don't have an account?</span>
+<a class="text-xs font-bold text-primary tracking-wide hover:text-primary-fixed-dim transition-colors uppercase" href="/register">
+    Create Account
+</a>
+</div>
+</div>
+</form>
+
 {% else %}
 <!-- Form Block -->
 <form class="space-y-6" method="POST" action="/register">

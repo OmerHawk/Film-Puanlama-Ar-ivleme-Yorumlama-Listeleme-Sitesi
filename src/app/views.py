@@ -61,7 +61,7 @@ def login():
                 return "<h1>Hata: Şifre yanlış! <a href='/login'>Geri Dön</a></h1>"
         else:
             return "<h1>Hata: Böyle bir e-posta bulunamadı! <a href='/login'>Geri Dön</a></h1>"
-    return render_template("login.html")
+    return render_template("LoginScreen.html", kod_bekleniyor=False, login_mode=True)
 
 @views.route('/dashboard')
 def dashboard():

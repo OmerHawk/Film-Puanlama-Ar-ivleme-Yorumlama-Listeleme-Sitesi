@@ -14,4 +14,5 @@ certifi==2026.4.22
 charset-normalizer==3.4.7
 python-dotenv==1.2.2
 greenlet==3.5.0
-typing-extensions==4.15.0
+typing-extensions==4.15.0
+psycopg2-binary==2.9.9
