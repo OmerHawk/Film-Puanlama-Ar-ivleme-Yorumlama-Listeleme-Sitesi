@@ -57,6 +57,7 @@ class Reply(db.Model):
     review_id = db.Column(db.Integer, db.ForeignKey('review.id'), nullable=False)
 
     user = db.relationship('User', backref=db.backref('replies', lazy=True, cascade='all, delete-orphan'))
+    votes = db.relationship('ReplyVote', backref='reply', lazy=True, cascade='all, delete-orphan')
 
 class Vote(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -66,3 +67,12 @@ class Vote(db.Model):
     review_id = db.Column(db.Integer, db.ForeignKey('review.id'), nullable=False)
     
     user = db.relationship('User', backref=db.backref('votes', lazy=True, cascade='all, delete-orphan'))
+
+class ReplyVote(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    tip = db.Column(db.Integer, nullable=False) 
+    
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    reply_id = db.Column(db.Integer, db.ForeignKey('reply.id'), nullable=False)
+    
+    user = db.relationship('User', backref=db.backref('reply_votes', lazy=True, cascade='all, delete-orphan'))

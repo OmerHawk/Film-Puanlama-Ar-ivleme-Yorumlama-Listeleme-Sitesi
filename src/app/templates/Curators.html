@@ -2,28 +2,93 @@
 {% block title %}CineRate - Curators{% endblock %}
 
 {% block content %}
-<main class="pt-24 px-8 md:px-16 pb-24 max-w-5xl mx-auto min-h-screen w-full">
-    <div class="mb-12 mt-8 xl:mt-0 text-center xl:text-left">
-        <h1 class="text-4xl md:text-5xl font-headline font-bold text-primary mb-4 italic">Top Curators</h1>
-        <p class="text-slate-400 font-body">The most dedicated voices in the CineRate community.</p>
+<main class="pt-32 px-6 md:px-12 pb-24 max-w-7xl mx-auto min-h-screen w-full">
+    <div class="mb-20 text-center space-y-4">
+        <h1 class="text-5xl md:text-7xl font-headline font-black text-white tracking-tighter" data-translate="curators_title">Top Curators</h1>
+        <p class="text-slate-500 font-body text-lg max-w-2xl mx-auto" data-translate="curators_desc">The most influential voices in our cinematic community.</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {% for user in users %}
-        <div class="bg-surface-container/40 p-6 rounded-2xl border border-white/5 flex items-center gap-6 hover:bg-surface-container/60 transition-colors">
-            <div class="w-16 h-16 rounded-full border-2 border-primary/20 overflow-hidden shrink-0 relative">
-                <img src="https://ui-avatars.com/api/?name={{ user.username }}&background=111316&color=ffc24a&size=100" class="w-full h-full object-cover">
-            </div>
-            <div>
-                <h3 class="font-headline font-bold text-lg">{{ user.username|title }}</h3>
-                <p class="text-xs text-primary font-bold uppercase tracking-widest mt-1">{% if user.is_admin %}Admin{% else %}Member{% endif %}</p>
-                <div class="text-slate-400 text-sm mt-2 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[16px]">edit_document</span>
-                    {{ user.reviews|length }} Reviews
+    <!-- Podium (Top 3) -->
+    <div class="flex flex-col md:flex-row items-end justify-center gap-6 mb-24">
+        {% if curators|length >= 2 %}
+        <!-- 2nd Place -->
+                <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-slate-400 to-slate-100 p-1 mb-6 shadow-xl shadow-slate-400/10">
+                    <img src="https://ui-avatars.com/api/?name={{ users[1].username }}&background=111316&color=fff&size=200" class="w-full h-full rounded-full object-cover">
+                </div>
+                <h3 class="text-2xl font-headline font-bold text-white mb-1">{{ users[1].username|title }}</h3>
+                <p class="text-slate-400 text-sm uppercase tracking-widest font-bold mb-4">Elite Critic</p>
+                <div class="flex justify-center gap-4 border-t border-white/5 pt-4 mt-2">
+                    <div class="text-center">
+                        <p class="text-xs text-slate-500 uppercase tracking-tighter mb-1">Impact</p>
+                        <p class="text-lg font-bold text-primary">{{ users[1].reviews|sum(attribute='likes') or 0 }}</p>
+                    </div>
                 </div>
             </div>
         </div>
-        {% endfor %}
+
+        <!-- 1st Place (Center) -->
+        <div class="order-1 md:order-2">
+            <div class="bg-surface-container-high/60 backdrop-blur-2xl border-2 border-primary/20 p-10 rounded-[2.5rem] text-center transform hover:-translate-y-4 transition-all duration-500 shadow-2xl shadow-primary/5 relative scale-105 z-10">
+                <div class="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-slate-900 font-bold text-2xl border-4 border-surface shadow-xl">1</div>
+                <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-tr from-primary to-amber-300 p-1.5 mb-8 shadow-2xl shadow-primary/20">
+                    <img src="https://ui-avatars.com/api/?name={{ users[0].username }}&background=111316&color=ffc24a&size=256" class="w-full h-full rounded-full object-cover">
+                </div>
+                <h3 class="text-3xl font-headline font-bold text-white mb-2">{{ users[0].username|title }}</h3>
+                <p class="text-primary text-sm uppercase tracking-[0.3em] font-black mb-6">Grand Curator</p>
+                <div class="flex justify-center gap-8 border-t border-white/10 pt-6">
+                    <div class="text-center">
+                        <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Total Reviews</p>
+                        <p class="text-2xl font-bold text-white">{{ users[0].reviews|length }}</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Likes Given</p>
+                        <p class="text-2xl font-bold text-primary">{{ users[0].reviews|sum(attribute='likes') or 0 }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3rd Place -->
+        <div class="order-3 md:order-3">
+            <div class="bg-surface-container-high/40 backdrop-blur-xl border border-white/5 p-8 rounded-3xl text-center transform hover:-translate-y-2 transition-all duration-500 shadow-2xl relative">
+                <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-[#cd7f32] rounded-full flex items-center justify-center text-white font-bold text-xl border-4 border-surface shadow-lg">3</div>
+                <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-amber-700 to-amber-900 p-1 mb-6 shadow-xl shadow-amber-900/10">
+                    <img src="https://ui-avatars.com/api/?name={{ users[2].username if users|length > 2 else 'User' }}&background=111316&color=cd7f32&size=200" class="w-full h-full rounded-full object-cover">
+                </div>
+                <h3 class="text-2xl font-headline font-bold text-white mb-1">{{ (users[2].username|title) if users|length > 2 else 'Coming Soon' }}</h3>
+                <p class="text-slate-400 text-sm uppercase tracking-widest font-bold mb-4">Senior Reviewer</p>
+                <div class="flex justify-center gap-4 border-t border-white/5 pt-4 mt-2">
+                    <div class="text-center">
+                        <p class="text-xs text-slate-500 uppercase tracking-tighter mb-1">Impact</p>
+                        <p class="text-lg font-bold text-primary">{{ (users[2].reviews|sum(attribute='likes') or 0) if users|length > 2 else 0 }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Other Curators List -->
+    <div class="space-y-4">
+        <h2 class="text-xl font-headline font-bold text-slate-400 uppercase tracking-widest mb-8 border-l-4 border-primary pl-4">Rising Voices</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {% for user in users[3:] %}
+            <div class="bg-surface-container/20 hover:bg-surface-container-high/40 border border-white/5 p-4 rounded-2xl flex items-center gap-4 transition-all group">
+                <span class="text-slate-700 font-bold italic text-2xl min-w-[32px] group-hover:text-primary transition-colors">#{{ loop.index + 3 }}</span>
+                <div class="w-12 h-12 rounded-full bg-slate-800 overflow-hidden shrink-0 border border-white/5">
+                    <img src="https://ui-avatars.com/api/?name={{ user.username }}&background=111316&color=ffc24a&size=100" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                </div>
+                <div class="flex-grow">
+                    <h4 class="font-bold text-white group-hover:text-primary transition-colors">{{ user.username|title }}</h4>
+                    <p class="text-[10px] text-slate-500 uppercase tracking-[0.2em]">{{ user.reviews|length }} Reviews</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-lg font-black text-white/80">{{ user.reviews|sum(attribute='likes') or 0 }}</p>
+                    <p class="text-[9px] text-slate-600 uppercase font-bold">Community Likes</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </main>
 {% endblock %}

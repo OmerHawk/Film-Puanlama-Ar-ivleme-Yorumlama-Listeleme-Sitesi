@@ -2,25 +2,39 @@
 {% block title %}CineRate - Archive{% endblock %}
 
 {% block content %}
-<main class="pt-24 px-8 md:px-16 pb-24 max-w-7xl mx-auto min-h-screen w-full">
-    <div class="mb-12 mt-8 xl:mt-0">
-        <h1 class="text-4xl md:text-5xl font-headline font-bold text-primary mb-4 italic">Archive</h1>
-        <p class="text-slate-400 font-body">Every film you've reviewed and experienced.</p>
+<main class="pt-32 px-6 md:px-12 pb-24 max-w-7xl mx-auto min-h-screen w-full">
+    <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8">
+        <div>
+            <h1 class="text-5xl font-headline font-bold text-white tracking-tighter mb-2" data-translate="archive_title">The Archive</h1>
+            <p class="text-slate-500 font-body text-lg" data-translate="archive_subtitle">Your completed cinematic journey.</p>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="px-6 py-3 bg-surface-container-high/40 backdrop-blur-md rounded-2xl border border-white/5 text-center">
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Total</p>
+                <p class="text-2xl font-black text-primary">{{ watched_movies|length }}</p>
+            </div>
+        </div>
     </div>
 
-    {% if movies %}
-    <section class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-        {% for movie in movies %}
-        <article class="group relative aspect-[2/3] rounded-lg overflow-hidden shadow-lg ring-1 ring-white/10 hover:ring-primary/50 transition-all duration-300 hover:-translate-y-1">
-            <a href="/film/{{ movie.tmdb_id }}">
-                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_url }}" alt="{{ movie.title }}" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
-                    <h3 class="font-headline text-sm font-bold tracking-tight text-white truncate">{{ movie.title }}</h3>
+    {% if watched_movies %}
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+        {% for movie in watched_movies %}
+        <a href="/film/{{ movie.id }}" class="group relative aspect-[2/3] rounded-2xl overflow-hidden border border-white/5 bg-surface-container hover:border-primary/50 transition-all duration-500 shadow-2xl">
+            <img src="{{ movie.poster_path }}" alt="{{ movie.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale-[0.5] group-hover:grayscale-0">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-4">
+                <h3 class="text-white font-bold text-xs truncate mb-1">{{ movie.title }}</h3>
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-[12px]" style="font-variation-settings:'FILL' 1;">star</span>
+                    <span class="text-[10px] font-bold text-slate-300">{{ movie.vote_average }}</span>
                 </div>
-            </a>
-        </article>
+            </div>
+            <div class="absolute top-3 right-3 w-8 h-8 rounded-full bg-primary/90 flex items-center justify-center text-slate-900 shadow-lg scale-0 group-hover:scale-100 transition-transform duration-300">
+                <span class="material-symbols-outlined text-[18px]">visibility</span>
+            </div>
+        </a>
         {% endfor %}
-    </section>
+    </div>
     {% else %}
     <div class="flex flex-col items-center justify-center py-20 text-center bg-surface-container/30 rounded-2xl border border-white/5">
         <span class="material-symbols-outlined text-6xl text-slate-600 mb-4">video_library</span>

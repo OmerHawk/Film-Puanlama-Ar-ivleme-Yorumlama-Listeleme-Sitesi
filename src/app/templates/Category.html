@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}{{ tur_adi }} Filmleri | CineRate{% endblock %}
+{% block content %}
+<main class="w-full pt-28 pb-32 px-6 md:px-12">
+    <div class="max-w-6xl mx-auto">
+        <!-- Category Header -->
+        <div class="mb-12">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-1 h-6 cinematic-gradient rounded-full"></div>
+                <h2 class="text-xs font-label uppercase tracking-[0.25em] text-primary font-bold">Kategori</h2>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-headline font-bold text-white mb-2">{{ tur_adi }} Filmleri</h1>
+            <p class="text-slate-500 text-sm">Bu kategoride {{ filmler|length }} popüler film bulundu</p>
+        </div>
+
+        <!-- Results Grid -->
+        {% if filmler %}
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 md:gap-6">
+            {% for film in filmler %}
+            <a href="/film/{{ film.id }}" class="group block">
+                <div class="relative rounded-2xl overflow-hidden bg-[#1a1c1f] border border-white/5 hover:border-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1">
+                    {% if film.afis_yolu %}
+                    <img src="{{ film.afis_yolu }}" class="w-full aspect-[2/3] object-cover group-hover:scale-105 transition-transform duration-500" alt="{{ film.film_adi }}">
+                    {% else %}
+                    <div class="w-full aspect-[2/3] bg-surface-container-high flex items-center justify-center">
+                        <span class="material-symbols-outlined text-5xl text-slate-700">movie</span>
+                    </div>
+                    {% endif %}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    {% if film.puan %}
+                    <div class="absolute top-3 right-3 flex items-center gap-1 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+                        <span class="material-symbols-outlined text-primary text-[13px]" style="font-variation-settings:'FILL' 1;">star</span>
+                        <span class="text-[11px] font-bold text-white">{{ film.puan | round(1) }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="mt-3 px-1">
+                    <h3 class="text-sm md:text-base font-bold text-slate-200 group-hover:text-primary transition-colors truncate mt-1">{{ film.film_adi }}</h3>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-20">
+            <span class="material-symbols-outlined text-6xl text-slate-700 mb-4 block">movie_off</span>
+            <h3 class="text-xl font-headline font-bold text-slate-400 mb-2">Film Bulunamadı</h3>
+            <p class="text-sm text-slate-600">Bu kategoriye ait film bulunamadı.</p>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

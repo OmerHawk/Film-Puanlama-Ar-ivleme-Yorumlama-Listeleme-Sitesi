@@ -1,184 +1,185 @@
 {% extends 'base.html' %}
-{% block title %}CineRate - Dashboard{% endblock %}
+{% block title %}CineRate - Feed{% endblock %}
+
 {% block extra_head %}
 <style>
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    .hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease-in-out; }
+    
+    .hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
     .hero-slide.active { opacity: 1; }
-    .hero-info { transform: translateY(30px); opacity: 0; transition: transform 0.8s ease, opacity 0.8s ease; }
+    .hero-info { transform: translateY(40px); opacity: 0; transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
     .hero-slide.active .hero-info { transform: translateY(0); opacity: 1; transition-delay: 0.4s; }
-    .hero-dot { transition: all 0.3s; }
-    .hero-dot.active { width: 32px; background: #ffc24a; }
-    .scroll-row { scroll-behavior: smooth; }
-    .scroll-arrow { opacity: 0; transition: opacity 0.3s; }
-    .row-wrapper:hover .scroll-arrow { opacity: 1; }
+    
+    .category-row { scroll-behavior: smooth; }
+    .scroll-btn { opacity: 0; transform: scale(0.8); transition: all 0.3s; }
+    .row-container:hover .scroll-btn { opacity: 1; transform: scale(1); }
 </style>
 {% endblock %}
-{% block content %}
-<main class="w-full">
 
-<!-- Hero Slider -->
-<section class="relative h-[75vh] md:h-[85vh] w-full overflow-hidden" id="hero-slider">
-    {% for film in filmler[:5] %}
-    <div class="hero-slide {% if loop.first %}active{% endif %}" data-film-id="{{ film.id }}">
-        <img class="w-full h-full object-cover" src="{{ film.afis_yolu | default('https://via.placeholder.com/1920x1080') }}" alt="{{ film.film_adi }}"/>
-        <div class="absolute inset-0 bg-gradient-to-t from-[#111316] via-[#111316]/50 to-transparent"></div>
-        <div class="absolute inset-0 bg-gradient-to-r from-[#111316] via-transparent to-transparent"></div>
-        <div class="hero-info absolute bottom-0 left-0 right-0 px-8 md:px-16 pb-20 md:pb-28 z-10">
-            <div class="flex items-center gap-3 mb-5">
-                <span class="bg-primary/15 text-primary px-3 py-1 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase border border-primary/20">Öne Çıkan</span>
-                {% if film.puan %}
-                <span class="flex items-center gap-1 text-slate-400 text-xs">
-                    <span class="material-symbols-outlined text-primary text-[14px]" style="font-variation-settings:'FILL' 1;">star</span>
-                    {{ film.puan | round(1) }}
-                </span>
-                {% endif %}
+{% block content %}
+<main class="w-full min-h-screen pb-24">
+    <!-- Hero Section -->
+    <section class="relative h-[80vh] w-full overflow-hidden" id="hero-slider">
+        {% for film in filmler[:5] %}
+        <div class="hero-slide {% if loop.first %}active{% endif %}" data-index="{{ loop.index0 }}">
+            <img src="{{ film.arkaplan_yolu }}" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-surface via-transparent to-transparent"></div>
+            
+            <div class="absolute bottom-0 left-0 right-0 p-12 md:p-24 z-10 hero-info">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-[10px] font-bold uppercase tracking-widest border border-primary/20" data-translate="dash_featured">Featured</span>
+                    <div class="flex items-center gap-1.5 text-white/80 font-bold text-sm">
+                        <span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings:'FILL' 1;">star</span>
+                        {{ film.puan|round(1) if film.puan else '0' }}
+                    </div>
+                </div>
+                <h1 class="text-5xl md:text-8xl font-headline font-black text-white leading-[0.9] tracking-tighter mb-8 max-w-4xl">{{ film.film_adi }}</h1>
+                <div class="flex items-center gap-4">
+                    <a href="/film/{{ film.id }}" class="px-8 py-4 cinematic-gradient text-slate-900 rounded-2xl font-bold flex items-center gap-3 hover:scale-105 transition-all shadow-xl shadow-primary/20">
+                        <span class="material-symbols-outlined">info</span>
+                        <span data-translate="dash_details">View Details</span>
+                    </a>
+                </div>
             </div>
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-headline font-bold text-white tracking-tight leading-[0.95] mb-5 max-w-3xl">{{ film.film_adi }}</h1>
-            {% if film.ozet %}
-            <p class="text-base md:text-lg text-slate-400 max-w-2xl mb-8 leading-relaxed font-body line-clamp-2">{{ film.ozet[:150] }}{% if film.ozet|length > 150 %}...{% endif %}</p>
-            {% endif %}
-            <div class="flex items-center gap-4">
-                <a href="/film/{{ film.id }}" class="px-7 py-3.5 bg-white/10 backdrop-blur-md text-white rounded-2xl font-bold text-sm hover:bg-white/20 transition-all flex items-center gap-2 border border-white/10">
-                    <span class="material-symbols-outlined text-lg">info</span> Detaylar
-                </a>
-                <button onclick="addToWatchlist({{ film.id }})" class="px-7 py-3.5 cinematic-gradient text-slate-900 rounded-2xl font-bold text-sm hover:scale-105 active:scale-95 transition-all flex items-center gap-2 shadow-lg shadow-primary/20">
-                    <span class="material-symbols-outlined text-lg">bookmark_add</span> Listeye Ekle
+        </div>
+        {% endfor %}
+
+        <!-- Slider Dots -->
+        <div class="absolute bottom-12 right-12 flex gap-3 z-20">
+            {% for i in range(filmler[:5]|length) %}
+            <button class="w-2.5 h-2.5 rounded-full bg-white/20 transition-all hover:bg-white/50 hero-dot" data-dot="{{ i }}"></button>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="px-6 md:px-12 lg:px-16 -mt-20 relative z-20 space-y-24">
+        <!-- Popular Section -->
+        <section>
+            <div class="flex items-center justify-between mb-8 px-4">
+                <h2 class="text-2xl font-headline font-bold text-white flex items-center gap-4">
+                    <span class="w-1.5 h-8 cinematic-gradient rounded-full"></span>
+                    <span data-translate="dashboard_popular">Popular Movies</span>
+                </h2>
+            </div>
+            
+            <div class="row-container relative group">
+                <button onclick="scrollRow('popular-row', -1)" class="scroll-btn absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full glass-panel border border-white/10 flex items-center justify-center text-white z-30 hover:bg-primary hover:text-slate-900 shadow-2xl">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                
+                <div id="popular-row" class="category-row flex gap-6 overflow-x-auto hide-scrollbar pb-8 px-4">
+                    {% for film in filmler %}
+                    <a href="/film/{{ film.id }}" class="min-w-[180px] md:min-w-[220px] group/card">
+                        <div class="relative aspect-[2/3] rounded-[2rem] overflow-hidden border border-white/5 bg-surface-container hover:border-primary/40 transition-all duration-500 shadow-xl hover:-translate-y-2">
+                            <img src="{{ film.afis_yolu }}" class="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity p-6 flex flex-col justify-end">
+                                <p class="text-white font-bold text-sm mb-1 truncate">{{ film.film_adi }}</p>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-primary text-[14px]" style="font-variation-settings:'FILL' 1;">star</span>
+                                    <span class="text-[10px] font-bold text-white">{{ film.puan|round(1) if film.puan else '0' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <button onclick="scrollRow('popular-row', 1)" class="scroll-btn absolute -right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full glass-panel border border-white/10 flex items-center justify-center text-white z-30 hover:bg-primary hover:text-slate-900 shadow-2xl">
+                    <span class="material-symbols-outlined">chevron_right</span>
                 </button>
             </div>
-        </div>
-    </div>
-    {% endfor %}
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-        {% for film in filmler[:5] %}
-        <button class="hero-dot w-2.5 h-2.5 rounded-full bg-white/30 {% if loop.first %}active{% endif %}" data-slide="{{ loop.index0 }}"></button>
+        </section>
+
+        <!-- Dynamic Category Rows -->
+        {% for cat in kategoriler %}
+        {% if cat.filmler|length > 0 %}
+        <section>
+            <div class="flex items-center justify-between mb-8 px-4">
+                <h2 class="text-2xl font-headline font-bold text-white flex items-center gap-4">
+                    <span class="w-1.5 h-8 bg-white/10 rounded-full"></span>
+                    {{ cat.isim }}
+                </h2>
+            </div>
+            
+            <div class="row-container relative group">
+                <button onclick="scrollRow('row-{{ loop.index }}', -1)" class="scroll-btn absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full glass-panel border border-white/10 flex items-center justify-center text-white z-30 hover:bg-primary hover:text-slate-900 shadow-2xl">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </button>
+                
+                <div id="row-{{ loop.index }}" class="category-row flex gap-6 overflow-x-auto hide-scrollbar pb-8 px-4">
+                    {% for film in cat.filmler %}
+                    <a href="/film/{{ film.id }}" class="min-w-[160px] md:min-w-[200px] group/card">
+                        <div class="relative aspect-[2/3] rounded-[1.5rem] overflow-hidden border border-white/5 bg-surface-container hover:border-primary/40 transition-all duration-500 shadow-lg hover:-translate-y-1">
+                            <img src="{{ film.afis_yolu }}" class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity p-4 flex flex-col justify-end">
+                                <p class="text-white font-bold text-xs truncate">{{ film.film_adi }}</p>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <button onclick="scrollRow('row-{{ loop.index }}', 1)" class="scroll-btn absolute -right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full glass-panel border border-white/10 flex items-center justify-center text-white z-30 hover:bg-primary hover:text-slate-900 shadow-2xl">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+        </section>
+        {% endif %}
         {% endfor %}
     </div>
-</section>
-
-<!-- Content -->
-<div class="space-y-16 px-6 md:px-12 lg:px-16 -mt-12 relative z-20 pb-24">
-
-<!-- Popüler Filmler -->
-<section>
-    <div class="flex justify-between items-center mb-6">
-        <div class="flex items-center gap-3">
-            <div class="w-1 h-6 cinematic-gradient rounded-full"></div>
-            <h2 class="text-xl md:text-2xl font-headline font-bold text-white">Popüler Filmler</h2>
-        </div>
-    </div>
-    <div class="row-wrapper relative group">
-        <button onclick="scrollRow(this, -1)" class="scroll-arrow absolute -left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/70 backdrop-blur border border-white/10 flex items-center justify-center text-white hover:bg-primary hover:text-slate-900 transition-all shadow-xl">
-            <span class="material-symbols-outlined">chevron_left</span>
-        </button>
-        <div class="scroll-row flex gap-4 overflow-x-auto hide-scrollbar pb-4">
-            {% for film in filmler %}
-            <a href="/film/{{ film.id }}" class="min-w-[155px] md:min-w-[185px] group/card shrink-0">
-                <div class="relative aspect-[2/3] rounded-2xl overflow-hidden mb-2.5 bg-[#1a1c1f] border border-white/5 hover:border-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1">
-                    <img class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500" src="{{ film.afis_yolu | default('https://via.placeholder.com/300x450') }}" alt="{{ film.film_adi }}"/>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity"></div>
-                    {% if film.puan %}
-                    <div class="absolute top-2.5 right-2.5 flex items-center gap-1 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/10">
-                        <span class="material-symbols-outlined text-primary text-[11px]" style="font-variation-settings:'FILL' 1;">star</span>
-                        <span class="text-[10px] font-bold text-white">{{ film.puan | round(1) }}</span>
-                    </div>
-                    {% endif %}
-                </div>
-                <h3 class="text-xs font-bold text-slate-300 group-hover/card:text-primary transition-colors truncate px-1">{{ film.film_adi }}</h3>
-            </a>
-            {% endfor %}
-        </div>
-        <button onclick="scrollRow(this, 1)" class="scroll-arrow absolute -right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/70 backdrop-blur border border-white/10 flex items-center justify-center text-white hover:bg-primary hover:text-slate-900 transition-all shadow-xl">
-            <span class="material-symbols-outlined">chevron_right</span>
-        </button>
-    </div>
-</section>
-
-<!-- Category Sections -->
-{% for kategori in kategoriler %}
-{% if kategori.filmler|length > 0 %}
-<section>
-    <div class="flex justify-between items-center mb-6">
-        <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-primary text-xl">{{ kategori.icon }}</span>
-            <h2 class="text-xl md:text-2xl font-headline font-bold text-white">{{ kategori.isim }}</h2>
-        </div>
-    </div>
-    <div class="row-wrapper relative group">
-        <button onclick="scrollRow(this, -1)" class="scroll-arrow absolute -left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/70 backdrop-blur border border-white/10 flex items-center justify-center text-white hover:bg-primary hover:text-slate-900 transition-all shadow-xl">
-            <span class="material-symbols-outlined">chevron_left</span>
-        </button>
-        <div class="scroll-row flex gap-4 overflow-x-auto hide-scrollbar pb-4">
-            {% for film in kategori.filmler %}
-            <a href="/film/{{ film.id }}" class="min-w-[155px] md:min-w-[185px] group/card shrink-0">
-                <div class="relative aspect-[2/3] rounded-2xl overflow-hidden mb-2.5 bg-[#1a1c1f] border border-white/5 hover:border-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1">
-                    <img class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500" src="{{ film.afis_yolu | default('https://via.placeholder.com/300x450') }}" alt="{{ film.film_adi }}"/>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity"></div>
-                    {% if film.puan %}
-                    <div class="absolute top-2.5 right-2.5 flex items-center gap-1 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/10">
-                        <span class="material-symbols-outlined text-primary text-[11px]" style="font-variation-settings:'FILL' 1;">star</span>
-                        <span class="text-[10px] font-bold text-white">{{ film.puan | round(1) }}</span>
-                    </div>
-                    {% endif %}
-                </div>
-                <h3 class="text-xs font-bold text-slate-300 group-hover/card:text-primary transition-colors truncate px-1">{{ film.film_adi }}</h3>
-            </a>
-            {% endfor %}
-        </div>
-        <button onclick="scrollRow(this, 1)" class="scroll-arrow absolute -right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/70 backdrop-blur border border-white/10 flex items-center justify-center text-white hover:bg-primary hover:text-slate-900 transition-all shadow-xl">
-            <span class="material-symbols-outlined">chevron_right</span>
-        </button>
-    </div>
-</section>
-{% endif %}
-{% endfor %}
-
-</div>
-
-<!-- Footer -->
-<footer class="w-full py-10 px-8 md:px-16 bg-[#0c0e11] border-t border-white/5">
-    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-        <div class="text-center md:text-left">
-            <span class="text-xl font-serif italic font-bold tracking-tighter text-primary">CineRate</span>
-            <p class="text-[10px] text-slate-600 font-label mt-1 uppercase tracking-widest">© 2024 CineRate</p>
-        </div>
-        <div class="flex gap-6">
-            <a class="text-slate-600 hover:text-primary transition-colors text-[10px] font-label uppercase tracking-widest" href="#">Privacy</a>
-            <a class="text-slate-600 hover:text-primary transition-colors text-[10px] font-label uppercase tracking-widest" href="#">Terms</a>
-        </div>
-    </div>
-</footer>
 </main>
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-// Hero Slider
-(function() {
-    const slides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.hero-dot');
-    if (slides.length <= 1) return;
-    let current = 0, interval;
-    function goTo(i) { slides[current].classList.remove('active'); dots[current].classList.remove('active'); current = i; slides[current].classList.add('active'); dots[current].classList.add('active'); }
-    function next() { goTo((current + 1) % slides.length); }
-    function start() { interval = setInterval(next, 6000); }
-    function stop() { clearInterval(interval); }
-    dots.forEach(d => d.addEventListener('click', () => { stop(); goTo(+d.dataset.slide); start(); }));
-    start();
-})();
+    // Hero Slider
+    (function() {
+        const slides = document.querySelectorAll('.hero-slide');
+        const dots = document.querySelectorAll('.hero-dot');
+        if (!slides.length) return;
+        let current = 0;
 
-// Row Scroll
-function scrollRow(btn, dir) {
-    const row = btn.parentElement.querySelector('.scroll-row');
-    row.scrollBy({ left: dir * row.clientWidth * 0.75, behavior: 'smooth' });
-}
+        function showSlide(idx) {
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('bg-primary', 'w-8'));
+            dots.forEach(d => d.classList.add('bg-white/20', 'w-2.5'));
+            
+            slides[idx].classList.add('active');
+            dots[idx]?.classList.replace('bg-white/20', 'bg-primary');
+            dots[idx]?.classList.replace('w-2.5', 'w-8');
+            current = idx;
+        }
 
-// Watchlist
-window.addToWatchlist = async (id) => {
-    const loggedIn = {{ 'true' if current_user else 'false' }};
-    if (!loggedIn) { showLoginModal(); return; }
-    try { const r = await fetch(`/api/watchlist/add/${id}`, {method:'POST'}); const d = await r.json(); alert(d.mesaj); } catch(e) { alert('Hata'); }
-};
+        dots.forEach((dot, i) => dot.addEventListener('click', () => showSlide(i)));
+
+        setInterval(() => {
+            let next = (current + 1) % slides.length;
+            showSlide(next);
+        }, 6000);
+
+        showSlide(0);
+    })();
+
+    // Horizontal Scroll
+    function scrollRow(id, dir) {
+        const row = document.getElementById(id);
+        const amount = row.clientWidth * 0.8;
+        row.scrollBy({ left: amount * dir, behavior: 'smooth' });
+    }
+
+    async function addToWatchlist(id) {
+        if (!CURRENT_USER) return showLoginModal();
+        try {
+            const res = await fetch(`/api/watchlist/ekle/${id}`, { method: 'POST' });
+            if (res.ok) showToast('Added to Watchlist', 'success');
+            else {
+                const data = await res.json();
+                showToast(data.hata || 'Already in watchlist', 'info');
+            }
+        } catch (e) { showToast('Error adding to watchlist', 'error'); }
+    }
 </script>
 {% endblock %}

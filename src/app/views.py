@@ -11,7 +11,7 @@ from email.mime.multipart import MIMEMultipart
 from src.app.crud import (kullanici_getir_username, kullanici_getir_email, kullanici_olustur, 
                         tum_kullanicilari_getir, kullanici_sil, log_ekle, tum_loglari_getir)
 from src.api.tmdb_client import populer_filmleri_cek, film_detay_cek, film_ara, ture_gore_filmleri_getir
-from src.app.models import db, Review, Vote, Reply, User, Movie
+from src.app.models import db, Review, Vote, Reply, User, Movie, Log, ReplyVote
 
 views = Blueprint('views', __name__)
 
@@ -61,19 +61,18 @@ def login():
                 return "<h1>Hata: Şifre yanlış! <a href='/login'>Geri Dön</a></h1>"
         else:
             return "<h1>Hata: Böyle bir e-posta bulunamadı! <a href='/login'>Geri Dön</a></h1>"
-    return render_template("LoginScreen.html", kod_bekleniyor=False, login_mode=True)
+    return render_template("LoginScreen.html")
 
 @views.route('/dashboard')
 def dashboard():
     user = kullanici_getir_email(session.get('email')) if 'email' in session else None
     aktif_isim = user.username if user else "Misafir"
     admin_yetkisi = user.is_admin if user else False
-    is_logged_in = 'kullanici' in session
+    is_logged_in = 'email' in session
     
     try:
         populer_filmler = populer_filmleri_cek(2) # 40 film
         
-        # Kategoriler (Action=28, Comedy=35, Horror=27, Sci-Fi=878, Romance=10749, Animation=16)
         kategoriler = [
             {"isim": "Aksiyon", "icon": "local_fire_department", "filmler": ture_gore_filmleri_getir(28)},
             {"isim": "Komedi", "icon": "sentiment_very_satisfied", "filmler": ture_gore_filmleri_getir(35)},
@@ -92,6 +91,52 @@ def dashboard():
                              is_logged_in=is_logged_in)
     except Exception as e:
         return f"<h1>Sistemsel bir hata olustu: {e}</h1>"
+
+@views.route('/category/<int:genre_id>')
+def category_page(genre_id):
+    user = kullanici_getir_email(session.get('email')) if 'email' in session else None
+    
+    kategori_isimleri = {
+        28: "Aksiyon",
+        35: "Komedi",
+        27: "Korku",
+        878: "Bilim Kurgu",
+        10749: "Romantik",
+        16: "Animasyon"
+    }
+    tur_adi = kategori_isimleri.get(genre_id, "Kategori")
+    
+    filmler = ture_gore_filmleri_getir(genre_id)
+    return render_template('Category.html', tur_adi=tur_adi, filmler=filmler, current_user=user)
+
+@views.route('/curators')
+def curators_page():
+    users = User.query.all()
+    users_with_likes = []
+    for u in users:
+        total_likes = sum([(r.likes or 0) for r in u.reviews])
+        users_with_likes.append((u, total_likes))
+    
+    users_with_likes.sort(key=lambda x: x[1], reverse=True)
+    sorted_users = [x[0] for x in users_with_likes]
+    
+    return render_template('Curators.html', users=sorted_users)
+
+@views.route('/api/translations')
+def get_translations():
+    from src.app.translations import TRANSLATIONS
+    return jsonify(TRANSLATIONS)
+
+@views.route('/api/search')
+def api_search():
+    q = request.args.get('q', '').strip()
+    if len(q) < 2:
+        return jsonify({"results": []})
+    try:
+        results = film_ara(q)
+        return jsonify({"results": results})
+    except Exception as e:
+        return jsonify({"results": [], "hata": str(e)})
 
 @views.route('/logout')
 def logout():
@@ -112,7 +157,7 @@ def register():
                 sifre = session.get('gecici_sifre')
                 
                 hashed_password = generate_password_hash(sifre, method='pbkdf2:sha256')
-                proje_ekibi = ["arda", "kadir", "ömer", "omer", "alper", "burak", "halil"]
+                proje_ekibi = ["arda", "arda burak", "kadir", "ömer", "omer", "alper", "burak", "halil"]
                 kullanici_admin_mi = True if kullanici_adi.lower() in proje_ekibi else False
 
                 yeni_user = kullanici_olustur(kullanici_adi, email, hashed_password, is_admin=kullanici_admin_mi)
@@ -147,6 +192,33 @@ def register():
 
     return render_template("LoginScreen.html", kod_bekleniyor=False)
 
+@views.context_processor
+def inject_user():
+    user = kullanici_getir_email(session.get('email')) if 'email' in session else None
+    return dict(current_user=user)
+
+@views.route('/watchlist')
+def watchlist():
+    user = kullanici_getir_email(session.get('email')) if 'email' in session else None
+    movies = user.saved_movies if user else []
+    return render_template('Watchlist.html', movies=movies)
+
+@views.route('/journal')
+def journal():
+    return render_template('Journal.html')
+
+@views.route('/archive')
+def archive():
+    return render_template('Archive.html')
+
+@views.route('/settings')
+def settings():
+    return render_template('Settings.html')
+
+@views.route('/profile')
+def profile():
+    return render_template('UserProfile.html')
+
 @views.route('/admin')
 def admin_panel():
     user = kullanici_getir_email(session.get('email'))
@@ -163,8 +235,7 @@ def admin_panel():
 
 @views.route('/film/<int:id>')
 def film_detay(id):
-    kullanici = session.get('kullanici', '')
-    user_obj = kullanici_getir_username(kullanici) if kullanici else None
+    user_obj = kullanici_getir_email(session.get('email')) if 'email' in session else None
     is_admin = getattr(user_obj, 'is_admin', False) if user_obj else False
     
     film_data = film_detay_cek(id)
@@ -193,36 +264,45 @@ def film_detay(id):
 @views.route('/api/filmler/<int:film_id>/yorumlar', methods=['GET', 'POST'])
 def api_yorumlar(film_id):
     if request.method == 'GET':
-        try:
-            reviews = Review.query.filter_by(movie_id=film_id).order_by(Review.date_posted.desc()).all()
-            yorumlar_data = []
-            for r in reviews:
-                replies = [{"id": rep.id, "userId": rep.user.username, "metin": rep.comment, "tarih": str(rep.date_posted)} for rep in r.replies]
-                upvotes = Vote.query.filter_by(review_id=r.id, tip=1).count()
-                downvotes = Vote.query.filter_by(review_id=r.id, tip=-1).count()
-                yorumlar_data.append({
-                    "id": r.id,
-                    "filmId": r.movie_id,
-                    "userId": r.author.username,
-                    "metin": r.comment,
-                    "tarih": str(r.date_posted),
-                    "begeniler": r.likes,
-                    "yanitlar": replies,
-                    "upvotes": upvotes,
-                    "downvotes": downvotes,
-                    "rating": r.rating
+        reviews = Review.query.filter_by(movie_id=film_id).order_by(Review.date_posted.desc()).all()
+        yorumlar_data = []
+        for r in reviews:
+            replies_data = []
+            for rep in r.replies:
+                rep_upvotes = ReplyVote.query.filter_by(reply_id=rep.id, tip=1).count()
+                rep_downvotes = ReplyVote.query.filter_by(reply_id=rep.id, tip=-1).count()
+                replies_data.append({
+                    "id": rep.id, 
+                    "userId": rep.user.username, 
+                    "metin": rep.comment, 
+                    "tarih": rep.date_posted,
+                    "upvotes": rep_upvotes,
+                    "downvotes": rep_downvotes
                 })
-            return jsonify({"yorumlar": yorumlar_data})
-        except Exception as e:
-            return jsonify({"hata": str(e), "yorumlar": []}), 500
+            
+            upvotes = Vote.query.filter_by(review_id=r.id, tip=1).count()
+            downvotes = Vote.query.filter_by(review_id=r.id, tip=-1).count()
+            yorumlar_data.append({
+                "id": r.id,
+                "filmId": r.movie_id,
+                "userId": r.author.username,
+                "metin": r.comment,
+                "tarih": r.date_posted,
+                "begeniler": r.likes,
+                "yanitlar": replies_data,
+                "upvotes": upvotes,
+                "downvotes": downvotes,
+                "rating": r.rating
+            })
+        return jsonify({"yorumlar": yorumlar_data})
         
     elif request.method == 'POST':
-        if 'kullanici' not in session:
+        if 'email' not in session:
             return jsonify({"hata": "Giriş yapmalısınız"}), 401
         data = request.json
         metin = data.get("metin")
         puan = data.get("rating")
-        user = kullanici_getir_username(session['kullanici'])
+        user = kullanici_getir_email(session.get('email'))
         if not user:
             session.clear()
             return jsonify({"hata": "Oturumunuz geçersiz, lütfen tekrar giriş yapın."}), 401
@@ -236,14 +316,13 @@ def api_yorumlar(film_id):
             if film_data:
                 yil = 2000
                 turler = film_data.get('turler', [])
-                if isinstance(turler, list):
-                    turler = ', '.join(turler) if turler else 'Bilinmeyen'
+                genre_str = ', '.join(turler) if isinstance(turler, list) else str(turler)
                 movie = Movie(
                     id=film_id,
                     tmdb_id=film_id,
                     title=film_data.get('film_adi', 'Bilinmeyen'),
                     year=yil,
-                    genre=turler,
+                    genre=genre_str,
                     description=film_data.get('ozet', ''),
                     poster_url=film_data.get('afis_yolu')
                 )
@@ -259,7 +338,7 @@ def api_yorumlar(film_id):
             "filmId": film_id,
             "userId": user.username,
             "metin": metin,
-            "tarih": str(yeni_yorum.date_posted),
+            "tarih": yeni_yorum.date_posted,
             "begeniler": 0,
             "yanitlar": [],
             "upvotes": 0,
@@ -269,18 +348,16 @@ def api_yorumlar(film_id):
 
 @views.route('/api/yorumlar/<int:yorum_id>', methods=['POST', 'PUT', 'DELETE'])
 def api_yorum_islem(yorum_id):
-    if 'kullanici' not in session:
+    if 'email' not in session:
         return jsonify({"hata": "Giriş yapmalısınız"}), 401
     
-    user = kullanici_getir_username(session['kullanici'])
+    user = kullanici_getir_email(session.get('email'))
     if not user:
         session.clear()
         return jsonify({"hata": "Oturumunuz geçersiz, lütfen tekrar giriş yapın."}), 401
         
     action = request.args.get('action')
-    yorum = Review.query.get(yorum_id)
-    if not yorum:
-        return jsonify({"hata": "Yorum bulunamadı"}), 404
+    yorum = Review.query.get_or_404(yorum_id)
     
     if request.method == 'DELETE':
         if yorum.user_id != user.id and not user.is_admin:
@@ -340,3 +417,44 @@ def kullaniciyi_sil(id):
         return redirect(url_for('views.admin_panel'))
     else:
         return "<h1>Dur orda! Yetkiniz yok.</h1>", 403
+
+@views.route('/api/watchlist/<int:film_id>', methods=['POST'])
+def api_watchlist_toggle(film_id):
+    if 'email' not in session:
+        return jsonify({"hata": "Giriş yapmalısınız"}), 401
+    user = kullanici_getir_email(session.get('email'))
+    if not user:
+        return jsonify({"hata": "Geçersiz oturum"}), 401
+        
+    movie = Movie.query.get(film_id)
+    if not movie:
+        film_data = film_detay_cek(film_id)
+        if film_data:
+            yil = 2000
+            turler = film_data.get('turler', [])
+            genre_str = ', '.join(turler) if isinstance(turler, list) else str(turler)
+            movie = Movie(
+                id=film_id,
+                tmdb_id=film_id,
+                title=film_data.get('film_adi', 'Bilinmeyen'),
+                year=yil,
+                genre=genre_str,
+                description=film_data.get('ozet', ''),
+                poster_url=film_data.get('afis_yolu')
+            )
+            db.session.add(movie)
+            db.session.commit()
+        else:
+            return jsonify({"hata": "Film bulunamadı"}), 404
+            
+    if movie in user.saved_movies:
+        user.saved_movies.remove(movie)
+        mesaj = "Film listeden çıkarıldı"
+        eklendi = False
+    else:
+        user.saved_movies.append(movie)
+        mesaj = "Film listeye eklendi"
+        eklendi = True
+        
+    db.session.commit()
+    return jsonify({"mesaj": mesaj, "eklendi": eklendi})
